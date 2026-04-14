@@ -14,11 +14,12 @@ const PERIODS = [
 ];
 
 const CATS = [
-  { id: 'all',   icon: '🗂️', label: 'Todos los servicios' },
-  { id: 'packs', icon: '📦', label: 'Packs Base'          },
-  { id: 'ads',   icon: '📣', label: 'Publicidad (Ads)'    },
-  { id: 'seo',   icon: '🔍', label: 'SEO'                 },
-  { id: 'web',   icon: '🌐', label: 'Web y Otros'         },
+  { id: 'all',        icon: '🗂️', label: 'Todos los servicios' },
+  { id: 'packs',      icon: '📦', label: 'Packs Base'          },
+  { id: 'ads',        icon: '📣', label: 'Publicidad (Ads)'    },
+  { id: 'seo',        icon: '🔍', label: 'SEO'                 },
+  { id: 'web',        icon: '🌐', label: 'Web y Otros'         },
+  { id: 'consulting', icon: '🧠', label: 'Consultoría'         },
 ];
 
 const SVC = [
@@ -40,10 +41,14 @@ const SVC = [
   // WEB Y OTROS
   { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 INCLUYE HOME + PAGINA DE CONTACTO + PAGINA DE SERVICIOS + BLOG.', inc:[], price:2490, priceWithSeo:1690, hasSeo:false, oneTime:true },
   { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], price:700, hasSeo:false, oneTime:true },
-  { id:'web2', cat:'web', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
-  { id:'web3', cat:'web', bc:C.lime,   name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
+  { id:'web2', cat:'consulting', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
+  { id:'web3', cat:'consulting', bc:C.lime, name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
   { id:'web4', cat:'web', bc:C.purple, name:'⚙️ CRM Lidera tu Negocio', sub:'', desc:'Tu centro de mando. Gestiona leads, ventas y WhatsApp desde un solo sitio. 🎯', inc:[], crmLink:true, price:729, hasSeo:false, oneTime:false },
   { id:'web5', cat:'web', bc:C.lime,   name:'🔍 Auditoría SEO Profunda', sub:'', desc:'Auditoría profunda técnica + contenidos + Core Web Vitals. Hasta 1500 URLs. 🔍', inc:[], price:1500, hasSeo:false, oneTime:true },
+  // CONSULTORÍA ESTRATÉGICA — visible en catálogo
+  { id:'cons_m', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Mensual',   sub:'1 sesión de 40 min al mes',  inc:['Documento de diagnóstico previo a la sesión.','Sesión de 40 min de estrategia con Sheila.','Plan de acción escrito post-sesión.','Grabación de la sesión incluida.'], price:90,  hasSeo:false, oneTime:false },
+  { id:'cons_q', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Quincenal', sub:'2 sesiones de 40 min al mes', inc:['Documento de diagnóstico previo a cada sesión.','2 sesiones/mes de 40 min con Sheila.','Plan de acción escrito post-sesión.','Grabación de cada sesión incluida.'], price:160, hasSeo:false, oneTime:false },
+  { id:'cons_s', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Semanal',   sub:'4 sesiones de 40 min al mes', inc:['Documento de diagnóstico previo a cada sesión.','4 sesiones/mes de 40 min con Sheila.','Plan de acción escrito post-sesión.','Grabación + hilo de seguimiento entre sesiones.'], price:280, hasSeo:false, oneTime:false },
 ];
 
 // ── WIZARD ───────────────────────────────────────────────────────────────────
@@ -277,10 +282,82 @@ function Wizard({ onClose, onApply }) {
 
 // ── UTILS ────────────────────────────────────────────────────────────────────
 const fmt = n => n.toLocaleString('es-ES', { minimumFractionDigits:2, maximumFractionDigits:2 }) + '€';
-const COL_LABELS = { packs:'1. PACK BASE', ads:'2. PUBLICIDAD (ADS)', seo:'3. POSICIONAMIENTO (SEO)', web:'4. WEB Y OTROS' };
+const COL_LABELS = { packs:'1. PACK BASE', ads:'2. PUBLICIDAD (ADS)', seo:'3. POSICIONAMIENTO (SEO)', web:'4. WEB Y OTROS', consulting:'5. CONSULTORÍA ESTRATÉGICA' };
+
+// ── CONSULTING CARD ───────────────────────────────────────────────────────────
+const CONS_OPTS = [
+  { id:'cons_m', freq:'Mensual',   sessions:'1 sesión al mes',   priceSession:90,  priceMonth:90,  badge:null,             badgeColor:null    },
+  { id:'cons_q', freq:'Quincenal', sessions:'2 sesiones al mes', priceSession:80,  priceMonth:160, badge:'MÁS POPULAR',    badgeColor:C.purple },
+  { id:'cons_s', freq:'Semanal',   sessions:'4 sesiones al mes', priceSession:70,  priceMonth:280, badge:'MÁXIMO IMPACTO', badgeColor:C.lime   },
+];
+
+function ConsultingCard({ selected, onToggle }) {
+  const activeId = CONS_OPTS.find(o => selected[o.id])?.id || null;
+  return (
+    <div style={{ background:'#fff', border:`1px solid ${activeId ? C.purple : C.rule}`, borderTop:`3px solid ${C.purple}`, boxShadow: activeId ? `0 0 0 2px rgba(88,45,129,.12)` : 'none', gridColumn:'1 / -1' }}>
+      {/* Header */}
+      <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.4rem 1.8rem', display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'1rem', flexWrap:'wrap' }}>
+        <div style={{ flex:1 }}>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Servicio exclusivo · Solo con Pack Base</div>
+          <h3 style={{ fontSize:'1.1rem', fontWeight:800, color:'#fff', margin:'0 0 .4rem', letterSpacing:'-.02em' }}>🧠 Consultoría Estratégica con Sheila</h3>
+          <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.6)', margin:0, fontWeight:300, lineHeight:1.6, maxWidth:500 }}>
+            Sesiones de 40 minutos enfocadas al 100% en hacer crecer tu negocio. Esto no es una llamada de seguimiento — es trabajo real, documentado y con entregables.
+          </p>
+        </div>
+        <div style={{ display:'flex', gap:'.5rem', flexWrap:'wrap', alignSelf:'center' }}>
+          {[{icon:'📋',label:'Diagnóstico previo'},{icon:'📝',label:'Plan de acción post-sesión'},{icon:'🎥',label:'Grabación incluida'}].map((tag,i) => (
+            <div key={i} style={{ background:'rgba(255,255,255,.1)', border:'1px solid rgba(255,255,255,.15)', padding:'.25rem .65rem', borderRadius:20, display:'flex', alignItems:'center', gap:'.3rem' }}>
+              <span style={{ fontSize:'.7rem' }}>{tag.icon}</span>
+              <span style={{ fontSize:'.58rem', color:'rgba(255,255,255,.7)', fontWeight:500, whiteSpace:'nowrap' }}>{tag.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Options */}
+      <div style={{ padding:'1.4rem 1.8rem', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'1rem' }}>
+        {CONS_OPTS.map(opt => {
+          const isActive = activeId === opt.id;
+          return (
+            <div key={opt.id} onClick={() => {
+              CONS_OPTS.forEach(o => { if (selected[o.id] && o.id !== opt.id) onToggle(o.id); });
+              onToggle(opt.id);
+            }} style={{ border:`2px solid ${isActive ? C.purple : opt.badgeColor || C.rule}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer', position:'relative', transition:'all .15s', background: isActive ? `rgba(88,45,129,.06)` : opt.badgeColor===C.lime ? `rgba(135,178,41,.04)` : '#fff' }}>
+              {opt.badge && (
+                <div style={{ position:'absolute', top:-10, left:'50%', transform:'translateX(-50%)', background:opt.badgeColor, color:opt.badgeColor===C.lime?C.slate:'#fff', fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .7rem', borderRadius:3, whiteSpace:'nowrap' }}>
+                  {opt.badge}
+                </div>
+              )}
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.5rem' }}>
+                <div>
+                  <div style={{ fontSize:'.85rem', fontWeight:700, color:C.slate }}>{opt.freq}</div>
+                  <div style={{ fontSize:'.65rem', color:C.mid, fontWeight:300 }}>{opt.sessions}</div>
+                </div>
+                <div style={{ width:20, height:20, borderRadius:'50%', border:`2px solid ${isActive ? C.purple : C.rule}`, background:isActive?C.purple:'transparent', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  {isActive && <span style={{ color:'#fff', fontSize:'.6rem', fontWeight:800 }}>✓</span>}
+                </div>
+              </div>
+              <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.5rem', display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:'.4rem' }}>
+                <div style={{ fontSize:'.65rem', color:C.mid }}>{opt.priceSession}€/sesión</div>
+                <div>
+                  <span style={{ fontSize:'1.2rem', fontWeight:800, color:isActive?C.purple:(opt.badgeColor||C.slate), letterSpacing:'-.02em' }}>{opt.priceMonth}€</span>
+                  <span style={{ fontSize:'.55rem', color:C.mid }}>/mes</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ padding:'0 1.8rem 1.2rem', display:'flex', alignItems:'center', gap:'.8rem', flexWrap:'wrap' }}>
+        <div style={{ fontSize:'.62rem', color:C.mid, fontStyle:'italic' }}>Sin IVA · Solo disponible con un Pack Base contratado</div>
+        {activeId && <div style={{ marginLeft:'auto', background:`rgba(88,45,129,.08)`, border:`1px solid rgba(88,45,129,.2)`, padding:'.3rem .8rem', borderRadius:4, fontSize:'.62rem', color:C.purple, fontWeight:600 }}>✓ {CONS_OPTS.find(o=>o.id===activeId)?.freq} seleccionada</div>}
+      </div>
+    </div>
+  );
+}
 
 // ── SERVICE CARD ─────────────────────────────────────────────────────────────
 function ServiceCard({ s, selected, hasSeo, onToggle }) {
+  const [bonusOpen, setBonusOpen] = useState(false);
   const displayPrice = s.id === 'web1' && hasSeo ? s.priceWithSeo : s.price;
   const accent = s.bc || C.lime;
   const emoji  = s.incEmoji || '✅';
@@ -338,10 +415,151 @@ function ServiceCard({ s, selected, hasSeo, onToggle }) {
             {s.crmLink ? 'Ver condiciones' : '¿Qué incluye?'}
           </a>
           {s.hasBonus && (
-            <a href="https://presentacion.losmartesnohayluna.com/tarifas2026" target="_blank" rel="noopener noreferrer" style={{ fontSize:'.6rem', background:`${C.lime}22`, border:`1px solid ${C.lime}55`, color:C.slate, padding:'.3rem .7rem', fontWeight:700, textDecoration:'none', whiteSpace:'nowrap' }}>
+            <button onClick={() => setBonusOpen(true)} style={{ fontSize:'.6rem', background:`${C.lime}22`, border:`1px solid ${C.lime}55`, color:C.slate, padding:'.3rem .7rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>
               🎁 BONUS INCLUIDOS
-            </a>
+            </button>
           )}
+        </div>
+        {bonusOpen && <BonusModal packId={s.id} onClose={() => setBonusOpen(false)} />}
+      </div>
+    </div>
+  );
+}
+
+// ── BONUS MODAL ──────────────────────────────────────────────────────────────
+const BONUS_DATA = {
+  pk4: {
+    title: '💎 Pack Expansión',
+    valoracion: '+1.000€/mes',
+    color: C.purple,
+    ideal: 'Dominar tu zona',
+    soporte: 'Urgencias 72h',
+    sections: [
+      {
+        title: '🎨 Diseño y Creatividad',
+        items: [
+          { label: 'Diseños para redes', value: 'Ilimitados' },
+          { label: 'Flyers y banners', check: true },
+          { label: 'Tarjetas Corporativas', check: true },
+          { label: 'Papelería corporativa', check: true },
+          { label: 'Landing Pages', value: 'Bimensual' },
+        ],
+      },
+      {
+        title: '📊 Consultoría y Estrategia',
+        items: [
+          { label: 'Sesión estratégica', value: 'Mensual' },
+          { label: 'Análisis de métricas', value: 'Mensual' },
+          { label: 'Informe de resultados', value: 'Mensual' },
+          { label: 'Análisis de competencia', value: 'Mensual' },
+        ],
+      },
+    ],
+  },
+  pk5: {
+    title: '👑 Pack Imperio',
+    valoracion: '+2.000€/mes',
+    color: C.pink,
+    ideal: 'Liderar tu sector',
+    soporte: 'Urgencias 32h',
+    sections: [
+      {
+        title: '🎨 Pack Diseño Premium',
+        items: [
+          { label: 'Identidad visual y logotipos', check: true },
+          { label: 'Diseño web (hasta mediana)', check: true },
+          { label: 'Vídeos y motion graphics', check: true },
+          { label: 'Presentaciones PPT', check: true },
+          { label: 'One pagers comerciales', check: true },
+          { label: 'Infografías', check: true },
+          { label: 'Manuales y reportes', check: true },
+          { label: 'Landing Pages', value: 'Mensual' },
+        ],
+      },
+      {
+        title: '📊 Consultoría y Estrategia',
+        items: [
+          { label: 'Sesión estratégica', value: 'Mensual' },
+          { label: 'Análisis de métricas', value: 'Mensual' },
+          { label: 'Informe de resultados', value: 'Mensual' },
+          { label: 'Análisis de competencia', value: 'Mensual' },
+        ],
+      },
+      {
+        title: '🔍 Posicionamiento SEO',
+        items: [
+          { label: 'SEO Local (Radio 2km)', check: true },
+          { label: 'SEO Ciudad (Radio 50km)', check: true },
+          { label: 'SEO Nacional / >300km', check: true },
+          { label: 'Artículos/Landing SEO', value: 'Mensual' },
+          { label: 'Optimización Google My Business', check: true },
+          { label: 'Sistema de reputación online', check: true },
+        ],
+      },
+    ],
+  },
+};
+
+function BonusModal({ packId, onClose }) {
+  const data = BONUS_DATA[packId];
+  if (!data) return null;
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}
+      onClick={e => e.target===e.currentTarget && onClose()}>
+      <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:580, position:'relative', overflow:'hidden', maxHeight:'90vh', display:'flex', flexDirection:'column' }}>
+
+        {/* Header */}
+        <div style={{ background:data.color, padding:'1.4rem 1.6rem', flexShrink:0 }}>
+          <button onClick={onClose} style={{ position:'absolute', top:'1rem', right:'1rem', background:'rgba(255,255,255,.15)', border:'none', borderRadius:'50%', width:28, height:28, color:'#fff', cursor:'pointer', fontFamily:'inherit', fontSize:'1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:'rgba(255,255,255,.5)', marginBottom:'.3rem' }}>Bonus incluido</div>
+          <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#fff', marginBottom:'.3rem' }}>{data.title}</div>
+          <div style={{ display:'flex', gap:'.8rem', alignItems:'center', flexWrap:'wrap' }}>
+            <div style={{ background:'rgba(255,255,255,.15)', padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', color:'rgba(255,255,255,.6)' }}>Valor del bonus: </span>
+              <span style={{ fontSize:'.7rem', fontWeight:800, color:C.lime }}>{data.valoracion}</span>
+            </div>
+            <div style={{ background:'rgba(255,255,255,.15)', padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', color:'rgba(255,255,255,.6)' }}>Soporte: </span>
+              <span style={{ fontSize:'.7rem', fontWeight:700, color:'#fff' }}>{data.soporte}</span>
+            </div>
+            <div style={{ background:C.lime, padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', fontWeight:700, color:C.slate }}>Ideal para: {data.ideal}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div style={{ overflowY:'auto', padding:'1.4rem 1.6rem', display:'flex', flexDirection:'column', gap:'1.2rem' }}>
+          {data.sections.map((sec, si) => (
+            <div key={si}>
+              <div style={{ fontSize:'.65rem', fontWeight:700, color:C.slate, letterSpacing:'.06em', marginBottom:'.6rem', paddingBottom:'.4rem', borderBottom:`2px solid ${C.lime}` }}>
+                {sec.title}
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.25rem .6rem' }}>
+                {sec.items.map((item, ii) => (
+                  <div key={ii} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'.3rem .5rem', background:'#f8f6f2', borderRadius:4, gap:'.4rem' }}>
+                    <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300 }}>{item.label}</span>
+                    {item.check
+                      ? <span style={{ fontSize:'.75rem', flexShrink:0 }}>✅</span>
+                      : <span style={{ fontSize:'.65rem', fontWeight:700, color:data.color, flexShrink:0 }}>{item.value}</span>
+                    }
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ background:`${data.color}11`, border:`1px solid ${data.color}33`, borderRadius:8, padding:'.8rem 1rem', marginTop:'.4rem' }}>
+            <p style={{ fontSize:'.72rem', color:C.slate, margin:0, lineHeight:1.65, fontWeight:300 }}>
+              Todo este bonus está <strong>incluido en el precio del pack</strong>, sin coste adicional. El valor estimado de mercado de estos servicios por separado supera los <strong style={{ color:data.color }}>{data.valoracion}</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ padding:'1rem 1.6rem', borderTop:`1px solid ${C.rule}`, flexShrink:0 }}>
+          <button onClick={onClose} style={{ width:'100%', padding:'.75rem', background:data.color, color:'#fff', border:'none', borderRadius:8, fontSize:'.65rem', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}>
+            Cerrar
+          </button>
         </div>
       </div>
     </div>
@@ -432,8 +650,9 @@ export default function Configurador() {
   const [period, setPeriod]     = useState('m');
   const [multiNeg, setMultiNeg] = useState(false);
   const [cat, setCat]           = useState('all');
-  const [wizardOpen, setWizardOpen]   = useState(false);
-  const [boosterPopup, setBoosterPopup] = useState(false);
+  const [wizardOpen, setWizardOpen]       = useState(false);
+  const [boosterPopup, setBoosterPopup]   = useState(false);
+  const [consultingPopup, setConsultingPopup] = useState(false);
 
   const per = PERIODS.find(p => p.id === period);
 
@@ -441,17 +660,37 @@ export default function Configurador() {
     Object.keys(selected).some(id => SVC.find(s => s.id === id)?.hasSeo),
   [selected]);
 
+  const PACK_IDS = ['pk1','pk2','pk3','pk4','pk5'];
+
   const toggle = id => {
-    // Si añaden pk1 o pk2 y el booster no está ya seleccionado → mostrar popup
-    if ((id === 'pk1' || id === 'pk2') && !selected[id] && !selected['ad4']) {
-      setSelected(p => ({ ...p, [id]: true }));
-      setBoosterPopup(id);
+    const isAdding = !selected[id];
+    // Removing: normal
+    if (!isAdding) {
+      setSelected(p => { const n={...p}; delete n[id]; return n; });
       return;
     }
-    setSelected(p => {
-      if (p[id]) { const n={...p}; delete n[id]; return n; }
-      return { ...p, [id]: true };
-    });
+    // Adding a base pack
+    if (PACK_IDS.includes(id)) {
+      setSelected(p => ({ ...p, [id]: true }));
+      // pk1/pk2: booster first, then consulting
+      if ((id==='pk1'||id==='pk2') && !selected['ad4']) {
+        setBoosterPopup(id);
+      } else {
+        // other packs: consulting directly (only if none selected yet)
+        const hasConsulting = Object.keys(selected).some(k => k.startsWith('cons_'));
+        if (!hasConsulting) setConsultingPopup(true);
+      }
+      return;
+    }
+    setSelected(p => ({ ...p, [id]: true }));
+  };
+
+  const closeBooster = (addBooster) => {
+    if (addBooster) setSelected(p => ({ ...p, ad4: true }));
+    setBoosterPopup(false);
+    // After booster, show consulting if none selected
+    const hasConsulting = Object.keys(selected).some(k => k.startsWith('cons_'));
+    if (!hasConsulting) setConsultingPopup(true);
   };
 
   const applyWizard = ids => {
@@ -473,7 +712,7 @@ export default function Configurador() {
   const tot    = subM + iva;
   const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
   const recTot = (multiNeg ? recSub*.95 : recSub)*1.21;
-  const shown  = cat==='all' ? SVC : SVC.filter(s => s.cat===cat);
+  const shown  = cat==='all' ? SVC.filter(s=>!s.hidden) : SVC.filter(s => s.cat===cat && !s.hidden);
 
   return (
     <div style={{ fontFamily:"'Poppins', sans-serif", background:C.offWhite, minHeight:'100vh', fontSize:14 }}>
@@ -483,8 +722,91 @@ export default function Configurador() {
         ::-webkit-scrollbar { width:4px; height:4px; }
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:rgba(88,45,129,.2); border-radius:2px; }
-        @media print { .no-print { display:none !important; } }
+
+        @media print {
+          .no-print { display:none !important; }
+          .print-only { display:block !important; }
+          body { background: #fff !important; }
+        }
+        @media screen {
+          .print-only { display:none !important; }
+        }
       `}</style>
+
+      {/* ── PRINT-ONLY PROPOSAL ─────────────────────────────────────────── */}
+      <div className="print-only" style={{ fontFamily:"'Poppins', sans-serif", padding:'2.5rem', maxWidth:760, margin:'0 auto', color:C.slate }}>
+        {/* Header */}
+        <div style={{ borderBottom:`3px solid ${C.purple}`, paddingBottom:'1.2rem', marginBottom:'1.8rem', display:'flex', alignItems:'flex-end', justifyContent:'space-between' }}>
+          <div>
+            <div style={{ fontSize:'.6rem', letterSpacing:'.2em', textTransform:'uppercase', color:C.lime, fontWeight:700, marginBottom:'.3rem' }}>Los Martes No Hay Luna</div>
+            <div style={{ fontSize:'1.6rem', fontWeight:800, color:C.purple, letterSpacing:'-.03em', lineHeight:1 }}>Propuesta de Marketing</div>
+          </div>
+          <div style={{ textAlign:'right', fontSize:'.65rem', color:C.mid }}>
+            <div>{new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' })}</div>
+            <div>hola@losmartesnohayluna.com</div>
+            <div>91 999 77 26</div>
+          </div>
+        </div>
+
+        {/* Services */}
+        {items.length === 0 ? (
+          <p style={{ color:C.mid, fontStyle:'italic', fontSize:'.8rem' }}>No hay servicios seleccionados.</p>
+        ) : (
+          <div style={{ display:'flex', flexDirection:'column', gap:'1rem', marginBottom:'2rem' }}>
+            {items.map(item => {
+              const emoji = item.incEmoji || '✅';
+              return (
+                <div key={item.id} style={{ border:`1px solid ${C.rule}`, borderTop:`3px solid ${item.bc || C.lime}`, padding:'1rem 1.2rem', pageBreakInside:'avoid' }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.4rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.9rem', fontWeight:700, color:C.slate }}>{item.name}</div>
+                      {item.sub && <div style={{ fontSize:'.62rem', color:item.bc||C.lime, fontWeight:600 }}>{item.sub}</div>}
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0, marginLeft:'1rem' }}>
+                      <div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>{fmt(item.pp)}</div>
+                      <div style={{ fontSize:'.55rem', color:C.mid }}>{item.oneTime ? 'pago único · sin IVA' : '/mes · sin IVA'}</div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize:'.72rem', color:C.mid, margin:'0 0 .5rem', lineHeight:1.6, fontWeight:300 }}>{item.desc}</p>
+                  {item.incLabel && <div style={{ fontSize:'.62rem', fontWeight:700, color:C.slate, marginBottom:'.3rem' }}>{item.incLabel}</div>}
+                  {item.inc && item.inc.length > 0 && (
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.1rem .8rem' }}>
+                      {item.inc.map((line, i) => (
+                        <div key={i} style={{ display:'flex', gap:'.4rem', alignItems:'flex-start', padding:'.1rem 0' }}>
+                          <span style={{ fontSize:'.7rem', flexShrink:0 }}>{emoji}</span>
+                          <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.45 }}>{line}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Economic summary */}
+        <div style={{ border:`1px solid ${C.rule}`, padding:'1.2rem', marginBottom:'1.5rem' }}>
+          <div style={{ fontSize:'.6rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.8rem' }}>Resumen Económico</div>
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.75rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
+          {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
+          {per.disc > 0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span></div>}
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.75rem', color:C.mid, paddingTop:'.4rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.6rem' }}><span>IVA (21%)</span><span>{fmt(iva)}</span></div>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.8rem 1rem', marginTop:'.4rem' }}>
+            <div>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.1rem' }}>⚡ Activación total · Primer {per.abbr}</div>
+              {recTot > 0 && <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.45)' }}>Cuota {per.label.toLowerCase()} siguiente: {fmt(recTot)}</div>}
+            </div>
+            <div style={{ fontSize:'1.6rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em' }}>{fmt(tot)}</div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.8rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <div style={{ fontSize:'.6rem', color:C.mid }}>Esta propuesta tiene una validez de 30 días desde la fecha de emisión.</div>
+          <div style={{ fontSize:'.6rem', color:C.purple, fontWeight:600 }}>losmartesnohayluna.com</div>
+        </div>
+      </div>
 
       {wizardOpen && <Wizard onClose={() => setWizardOpen(false)} onApply={applyWizard} />}
 
@@ -512,19 +834,95 @@ export default function Configurador() {
 
             <div style={{ display:'flex', flexDirection:'column', gap:'.7rem' }}>
               <button
-                onClick={() => { setSelected(p => ({ ...p, ad4: true })); setBoosterPopup(false); }}
+                onClick={() => closeBooster(true)}
                 style={{ padding:'.85rem', background:C.purple, color:'#fff', border:'none', borderRadius:10, fontSize:'.7rem', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}
               >
                 ✅ Sí, añadir Social Booster
               </button>
               <button
-                onClick={() => setBoosterPopup(false)}
+                onClick={() => closeBooster(false)}
                 style={{ padding:'.7rem', background:'none', border:`1px solid ${C.rule}`, color:C.mid, borderRadius:8, fontSize:'.65rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:500, cursor:'pointer', fontFamily:'inherit' }}
               >
                 No, continuar sin él
               </button>
             </div>
             <p style={{ fontSize:'.6rem', color:C.mid, margin:'.9rem 0 0', fontStyle:'italic' }}>(Inversión publicitaria en Meta NO incluida)</p>
+          </div>
+        </div>
+      )}
+
+      {/* CONSULTING POPUP */}
+      {consultingPopup && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}>
+          <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:520, position:'relative', overflow:'hidden' }}>
+
+            {/* Header */}
+            <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.5rem 1.6rem' }}>
+              <button onClick={() => setConsultingPopup(false)} style={{ position:'absolute', top:'1rem', right:'1rem', background:'rgba(255,255,255,.15)', border:'none', borderRadius:'50%', width:28, height:28, color:'#fff', cursor:'pointer', fontFamily:'inherit', fontSize:'1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Servicio exclusivo</div>
+              <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#fff', marginBottom:'.4rem', lineHeight:1.2 }}>🧠 Consultoría Estratégica con Sheila</div>
+              <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.65)', margin:0, lineHeight:1.6, fontWeight:300 }}>
+                Sesiones de 40 minutos enfocadas al 100% en hacer crecer tu negocio. No es una llamada — es trabajo real.
+              </p>
+            </div>
+
+            <div style={{ padding:'1.4rem 1.6rem' }}>
+              {/* Value props */}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.5rem', marginBottom:'1.2rem' }}>
+                {[
+                  { icon:'📋', text:'Documento de diagnóstico preparado antes de cada sesión' },
+                  { icon:'🎯', text:'Sesión de 40 min 100% enfocada en tu negocio' },
+                  { icon:'📝', text:'Plan de acción escrito con prioridades claras al terminar' },
+                  { icon:'🎥', text:'Grabación de la sesión para repasar cuando quieras' },
+                ].map((v,i) => (
+                  <div key={i} style={{ background:'#f8f6f2', borderRadius:8, padding:'.65rem .8rem', display:'flex', gap:'.5rem', alignItems:'flex-start' }}>
+                    <span style={{ fontSize:'.9rem', flexShrink:0 }}>{v.icon}</span>
+                    <span style={{ fontSize:'.65rem', color:C.slate, lineHeight:1.45, fontWeight:300 }}>{v.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize:'.65rem', fontWeight:700, color:C.mid, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'.7rem' }}>Elige tu frecuencia</div>
+
+              {/* Options */}
+              {[
+                { id:'cons_m', freq:'Mensual',   sessions:'1 sesión/mes',   price:90,  priceMonth:90,  badge:'', color:C.mid },
+                { id:'cons_q', freq:'Quincenal', sessions:'2 sesiones/mes', price:80,  priceMonth:160, badge:'MÁS POPULAR', color:C.purple },
+                { id:'cons_s', freq:'Semanal',   sessions:'4 sesiones/mes', price:70,  priceMonth:280, badge:'MÁXIMO IMPACTO', color:C.lime },
+              ].map(opt => (
+                <div
+                  key={opt.id}
+                  onClick={() => { setSelected(p => ({ ...p, [opt.id]: true })); setConsultingPopup(false); }}
+                  style={{ border:`2px solid ${opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.rule}`, borderRadius:10, padding:'.9rem 1rem', marginBottom:'.6rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', position:'relative', transition:'all .15s', background: opt.badge ? (opt.color===C.lime ? `rgba(135,178,41,.05)` : `rgba(88,45,129,.05)`) : '#fff' }}
+                >
+                  {opt.badge && (
+                    <div style={{ position:'absolute', top:'-10px', right:'12px', background:opt.color===C.lime ? C.lime : C.purple, color:opt.color===C.lime ? C.slate : '#fff', fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .55rem', borderRadius:3 }}>
+                      {opt.badge}
+                    </div>
+                  )}
+                  <div>
+                    <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate, marginBottom:'.15rem' }}>{opt.freq} · {opt.sessions}</div>
+                    <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300 }}>
+                      {opt.price}€/sesión · <strong style={{ color:opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.mid }}>{opt.priceMonth}€/mes</strong>
+                    </div>
+                  </div>
+                  <div style={{ textAlign:'right', flexShrink:0 }}>
+                    <div style={{ fontSize:'1.2rem', fontWeight:800, color: opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.slate }}>{opt.priceMonth}€</div>
+                    <div style={{ fontSize:'.52rem', color:C.mid }}>/mes · sin IVA</div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                onClick={() => setConsultingPopup(false)}
+                style={{ width:'100%', padding:'.65rem', background:'none', border:`1px solid ${C.rule}`, color:C.mid, borderRadius:8, fontSize:'.62rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:500, cursor:'pointer', fontFamily:'inherit', marginTop:'.2rem' }}
+              >
+                No, continuar sin consultoría
+              </button>
+              <p style={{ fontSize:'.6rem', color:C.mid, textAlign:'center', margin:'.8rem 0 0', lineHeight:1.5 }}>
+                Solo disponible como complemento de un Pack Base · Sin compromiso de permanencia adicional
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -575,17 +973,33 @@ export default function Configurador() {
             </div>
           )}
           {cat==='all' ? (
-            ['packs','ads','seo','web'].map(catId => (
+            ['packs','ads','seo','web','consulting'].map(catId => (
               <div key={catId} style={{ padding:'1.5rem', borderBottom:`1px solid ${C.rule}` }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'.6rem', marginBottom:'1rem' }}>
                   <span style={{ display:'inline-block', width:20, height:2, background:C.lime }} />
                   <span style={{ fontSize:'.58rem', letterSpacing:'.2em', textTransform:'uppercase', fontWeight:700, color:C.mid }}>{COL_LABELS[catId]}</span>
                 </div>
-                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
-                  {SVC.filter(s=>s.cat===catId).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
-                </div>
+                {catId === 'consulting' ? (
+                  <div style={{ display:'flex', flexDirection:'column', gap:'.8rem' }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                      {SVC.filter(s=>s.cat==='consulting' && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
+                    </div>
+                    <ConsultingCard selected={selected} onToggle={toggle} />
+                  </div>
+                ) : (
+                  <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                    {SVC.filter(s=>s.cat===catId && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
+                  </div>
+                )}
               </div>
             ))
+          ) : cat === 'consulting' ? (
+            <div style={{ padding:'1.5rem', display:'flex', flexDirection:'column', gap:'.8rem' }}>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                {SVC.filter(s=>s.cat==='consulting' && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
+              </div>
+              <ConsultingCard selected={selected} onToggle={toggle} />
+            </div>
           ) : (
             <div style={{ padding:'1.5rem' }}>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
