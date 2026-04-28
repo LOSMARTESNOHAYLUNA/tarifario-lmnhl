@@ -15,7 +15,6 @@ var ReactDOM = window.ReactDOM;
 var useState = React.useState;
 var useMemo = React.useMemo;
 
-
 const C = {
   purple: '#582D81',
   purpleLt: '#6e3d9a',
@@ -1171,7 +1170,7 @@ function ConsultingCard({
       color: C.mid,
       fontStyle: 'italic'
     }
-  }, "Sin IVA \xB7 Solo disponible con un Pack Base contratado"), activeId && /*#__PURE__*/React.createElement("div", {
+  }, "+ IVA \xB7 Solo disponible con un Pack Base contratado"), activeId && /*#__PURE__*/React.createElement("div", {
     style: {
       marginLeft: 'auto',
       background: `rgba(88,45,129,.08)`,
@@ -2170,7 +2169,7 @@ function BudgetPanel({
       color: 'rgba(255,255,255,.35)',
       marginTop: '.2rem'
     }
-  }, "Sin IVA \xB7 Primer ", per.abbr), recSub > 0 && /*#__PURE__*/React.createElement("div", {
+  }, "+ IVA \xB7 Primer ", per.abbr), recSub > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: '.8rem',
       paddingTop: '.8rem',
@@ -2195,7 +2194,7 @@ function BudgetPanel({
       fontSize: '.55rem',
       color: 'rgba(255,255,255,.25)'
     }
-  }, "Sin IVA")), /*#__PURE__*/React.createElement("button", {
+  }, "+ IVA")), /*#__PURE__*/React.createElement("button", {
     onClick: () => setShowPayInfo(p => !p),
     style: {
       marginTop: '.8rem',
@@ -2559,7 +2558,7 @@ function Configurador() {
         fontSize: '.55rem',
         color: C.mid
       }
-    }, item.oneTime ? 'pago único · sin IVA' : '/mes · sin IVA'))), /*#__PURE__*/React.createElement("p", {
+    }, item.oneTime ? 'pago único + IVA' : '/mes + IVA'))), /*#__PURE__*/React.createElement("p", {
       style: {
         fontSize: '.72rem',
         color: C.mid,
@@ -2616,7 +2615,7 @@ function Configurador() {
       fontWeight: 700,
       marginBottom: '.8rem'
     }
-  }, "Resumen Econ\xF3mico \xB7 Precios sin IVA"), /*#__PURE__*/React.createElement("div", {
+  }, "Resumen Econ\xF3mico \xB7 Precios + IVA no incluido"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2672,13 +2671,13 @@ function Configurador() {
       fontSize: '.58rem',
       color: 'rgba(255,255,255,.4)'
     }
-  }, "Sin IVA"), recSub > 0 && /*#__PURE__*/React.createElement("div", {
+  }, "+ IVA"), recSub > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '.6rem',
       color: 'rgba(255,255,255,.45)',
       marginTop: '.2rem'
     }
-  }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(multiNeg ? recSub * .95 : recSub), " sin IVA")), /*#__PURE__*/React.createElement("div", {
+  }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(multiNeg ? recSub * .95 : recSub), " + IVA")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '1.6rem',
       fontWeight: 800,
@@ -3306,7 +3305,7 @@ function Configurador() {
       fontSize: '.52rem',
       color: C.mid
     }
-  }, "/mes \xB7 sin IVA")))), /*#__PURE__*/React.createElement("button", {
+  }, "/mes + IVA")))), /*#__PURE__*/React.createElement("button", {
     onClick: () => setConsultingPopup(false),
     style: {
       width: '100%',
@@ -3644,7 +3643,6 @@ function Configurador() {
     onToggle: toggle
   }))));
 }
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(React.createElement(Configurador, null));
