@@ -1966,9 +1966,38 @@ function BudgetPanel({
   onToggle
 }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [codeInput, setCodeInput] = useState('');
+  const [discount, setDiscount] = useState(null); // {type:'pct'|'eur', value:number}
+  const [codeError, setCodeError] = useState(false);
   const isEmpty = items.length === 0;
   const recSub = items.filter(i => !i.oneTime).reduce((a, i) => a + i.pp, 0);
   const recSubFinal = multiNeg ? recSub * .95 : recSub;
+  const applyCode = () => {
+    const raw = codeInput.trim().toLowerCase().replace(/\s/g, '');
+    const match = raw.match(/^regalo(\d+)$/);
+    if (!match) {
+      setCodeError(true);
+      return;
+    }
+    const n = parseInt(match[1], 10);
+    if (n <= 100) setDiscount({
+      type: 'pct',
+      value: n
+    });else setDiscount({
+      type: 'eur',
+      value: n
+    });
+    setCodeError(false);
+    setCodeOpen(false);
+    setCodeInput('');
+  };
+  const removeDiscount = () => setDiscount(null);
+
+  // Apply discount to subM
+  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
+  const subAfterDiscount = subM - discountAmt;
+  const ivaFinal = subAfterDiscount * 0.21;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
@@ -2134,7 +2163,33 @@ function BudgetPanel({
       color: C.lime,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Dto. ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "\u2713 aplicado")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "\u2713 aplicado")), discount && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      fontSize: '.68rem',
+      color: C.pink,
+      marginBottom: '.3rem'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 Descuento especial ", discount.type === 'pct' ? `(−${discount.value}%)` : ''), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '.4rem'
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(discountAmt)), /*#__PURE__*/React.createElement("button", {
+    onClick: removeDiscount,
+    style: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      color: C.mid,
+      fontSize: '.7rem',
+      lineHeight: 1,
+      fontFamily: 'inherit'
+    }
+  }, "\xD7"))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2143,20 +2198,80 @@ function BudgetPanel({
       paddingTop: '.4rem',
       borderTop: `1px solid ${C.rule}`
     }
-  }, /*#__PURE__*/React.createElement("span", null, "+ IVA (21%) al facturar"), /*#__PURE__*/React.createElement("span", null, fmt(iva)))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "+ IVA (21%) al facturar"), /*#__PURE__*/React.createElement("span", null, fmt(ivaFinal)))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.purple,
       padding: '1.2rem'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: '.15rem'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
       fontSize: '.55rem',
       letterSpacing: '.16em',
       textTransform: 'uppercase',
-      color: C.lime,
-      marginBottom: '.15rem'
+      color: C.lime
     }
-  }, "\u26A1 Activaci\xF3n total \xB7 Pago hoy"), /*#__PURE__*/React.createElement("div", {
+  }, "\u26A1 Activaci\xF3n total \xB7 Pago hoy"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => {
+      setCodeOpen(o => !o);
+      setCodeError(false);
+    },
+    style: {
+      background: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      fontSize: '.75rem',
+      opacity: .25,
+      lineHeight: 1,
+      padding: '.1rem',
+      fontFamily: 'inherit'
+    },
+    title: ""
+  }, "\uD83C\uDFF7")), codeOpen && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: '.4rem',
+      marginBottom: '.6rem'
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    value: codeInput,
+    onChange: e => {
+      setCodeInput(e.target.value);
+      setCodeError(false);
+    },
+    onKeyDown: e => e.key === 'Enter' && applyCode(),
+    placeholder: "C\xF3digo...",
+    style: {
+      flex: 1,
+      background: 'rgba(255,255,255,.1)',
+      border: `1px solid ${codeError ? C.pink : 'rgba(255,255,255,.2)'}`,
+      color: '#fff',
+      padding: '.35rem .6rem',
+      fontSize: '.68rem',
+      fontFamily: 'inherit',
+      outline: 'none',
+      borderRadius: 4
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    onClick: applyCode,
+    style: {
+      background: C.lime,
+      border: 'none',
+      color: C.slate,
+      padding: '.35rem .7rem',
+      fontSize: '.6rem',
+      fontWeight: 700,
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      borderRadius: 4
+    }
+  }, "OK")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '2rem',
       fontWeight: 800,
@@ -2164,7 +2279,7 @@ function BudgetPanel({
       letterSpacing: '-.03em',
       lineHeight: 1
     }
-  }, fmt(subM)), /*#__PURE__*/React.createElement("div", {
+  }, fmt(subAfterDiscount)), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '.6rem',
       color: 'rgba(255,255,255,.35)',
