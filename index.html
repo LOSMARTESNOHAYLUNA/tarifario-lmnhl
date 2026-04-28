@@ -2768,7 +2768,19 @@ function Configurador() {
       marginBottom: '.3rem',
       fontWeight: 600
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Descuento ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "aplicado")), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Descuento ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "aplicado")), discount && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '.75rem',
+      color: C.pink,
+      marginBottom: '.3rem',
+      fontWeight: 700,
+      padding: '.4rem .6rem',
+      background: 'rgba(231,32,120,.06)',
+      border: `1px solid rgba(231,32,120,.2)`
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 Descuento especial", discount.type === 'pct' ? ` (−${discount.value}%)` : ''), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(discountAmt))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2778,7 +2790,7 @@ function Configurador() {
       borderTop: `1px solid ${C.rule}`,
       marginBottom: '.6rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "+ IVA (21%) al facturar"), /*#__PURE__*/React.createElement("span", null, fmt(iva))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "+ IVA (21%) al facturar"), /*#__PURE__*/React.createElement("span", null, fmt(ivaFinal))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
