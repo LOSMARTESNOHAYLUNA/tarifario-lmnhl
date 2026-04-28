@@ -2567,13 +2567,18 @@ function Configurador() {
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:rgba(88,45,129,.2); border-radius:2px; }
 
-        @media print {
-          .no-print { display:none !important; }
-          .print-only { display:block !important; }
-          body { background: #fff !important; }
-        }
         @media screen {
           .print-only { display:none !important; }
+        }
+
+        @media print {
+          * { visibility: hidden !important; }
+          .print-only { visibility: visible !important; display: block !important; position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; }
+          .print-only * { visibility: visible !important; }
+          body { background: #fff !important; margin: 0 !important; }
+          @page { margin: 1.5cm; }
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
       `), /*#__PURE__*/React.createElement("div", {
     className: "print-only",
@@ -2780,7 +2785,9 @@ function Configurador() {
       alignItems: 'center',
       background: C.purple,
       padding: '1rem 1.2rem',
-      marginTop: '.4rem'
+      marginTop: '.4rem',
+      WebkitPrintColorAdjust: 'exact',
+      printColorAdjust: 'exact'
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
