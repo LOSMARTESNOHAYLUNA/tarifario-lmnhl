@@ -39,8 +39,8 @@ const SVC = [
   { id:'seo2', cat:'seo', bc:C.lime, commitment:12, name:'🌆 SEO Ciudad', sub:'', desc:'Para empresas que quieren liderar en toda su ciudad. 🏙️', inc:['Auditoría Técnica Completa: Revisión de la "salud" de tu web.','On-Page Avanzado: Optimizamos tus páginas principales para Google.','1 Artículo/mes: Contenido estratégico para posicionar servicios.','1 Landing de Servicio+Barrio: Página específica para captar en zonas clave.','Schema Geo: Código técnico para que Google entienda tu ubicación exacta.','Linkbuilding Local: Enlaces desde sitios de tu ciudad para ganar fuerza.','Seguimiento de 30-50+ Keywords.'], price:797, hasSeo:true, oneTime:false },
   { id:'seo3', cat:'seo', bc:C.lime, commitment:12, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50).','Linkbuilding de Autoridad: 1 enlace de alta calidad al mes.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
   // WEB Y OTROS
-  { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨', incLabel:'INCLUYE:', inc:[
-    'Diseño, arquitectura y desarrollo web (HOME + CONTACTO + SERVICIOS + BLOG).',
+  { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
+    'Diseño, arquitectura y desarrollo web: HOME + CONTACTO + 2 páginas personalizadas a elegir + BLOG.',
     'Copys que venden: Mejoramos tus textos para conversión.',
     'SEO ONPAGE y optimización web (imprescindible).',
     'Alta e integración: Google Analytics, Search Console y Maps.',
@@ -608,6 +608,8 @@ function BonusModal({ packId, onClose }) {
 function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const isEmpty = items.length === 0;
+  const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  const recSubFinal = multiNeg ? recSub*.95 : recSub;
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:'.6rem' }}>
       <div style={{ background:C.purple, padding:'1rem 1.2rem', borderTop:`3px solid ${C.lime}` }}>
@@ -643,16 +645,19 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
               <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
               {per.disc>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>✓ aplicado</span></div>}
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, paddingTop:'.4rem', borderTop:`1px solid ${C.rule}` }}><span>IVA (21%)</span><span>{fmt(iva)}</span></div>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.65rem', color:'rgba(88,45,129,.45)', paddingTop:'.4rem', borderTop:`1px solid ${C.rule}` }}>
+                <span>+ IVA (21%) al facturar</span><span>{fmt(iva)}</span>
+              </div>
             </div>
             <div style={{ background:C.purple, padding:'1.2rem' }}>
               <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.lime, marginBottom:'.15rem' }}>⚡ Activación total · Pago hoy</div>
-              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(tot)}</div>
-              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>Primer {per.abbr} · IVA incluido</div>
-              {recTot>0 && (
+              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(subM)}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>Sin IVA · Primer {per.abbr}</div>
+              {recSub>0 && (
                 <div style={{ marginTop:'.8rem', paddingTop:'.8rem', borderTop:'1px solid rgba(255,255,255,.15)' }}>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota {per.label.toLowerCase()} siguiente</div>
-                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recTot)}</div>
+                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recSubFinal)}</div>
+                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>Sin IVA</div>
                 </div>
               )}
               <button onClick={() => setShowPayInfo(p=>!p)} style={{ marginTop:'.8rem', background:'none', border:'1px solid rgba(255,255,255,.2)', color:'rgba(255,255,255,.45)', cursor:'pointer', padding:'.4rem .8rem', fontSize:'.58rem', fontFamily:'inherit', width:'100%' }}>
@@ -855,17 +860,18 @@ export default function Configurador() {
 
         {/* Economic summary */}
         <div style={{ border:`1px solid ${C.rule}`, padding:'1.2rem', marginBottom:'1.5rem' }}>
-          <div style={{ fontSize:'.6rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.8rem' }}>Resumen Económico</div>
+          <div style={{ fontSize:'.6rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.8rem' }}>Resumen Económico · Precios sin IVA</div>
           <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.75rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
           {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
           {per.disc > 0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span></div>}
-          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.75rem', color:C.mid, paddingTop:'.4rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.6rem' }}><span>IVA (21%)</span><span>{fmt(iva)}</span></div>
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:'rgba(88,45,129,.45)', paddingTop:'.4rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.6rem' }}><span>+ IVA (21%) al facturar</span><span>{fmt(iva)}</span></div>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.8rem 1rem', marginTop:'.4rem' }}>
             <div>
               <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.1rem' }}>⚡ Activación total · Primer {per.abbr}</div>
-              {recTot > 0 && <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.45)' }}>Cuota {per.label.toLowerCase()} siguiente: {fmt(recTot)}</div>}
+              <div style={{ fontSize:'.58rem', color:'rgba(255,255,255,.4)' }}>Sin IVA</div>
+              {recSub > 0 && <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.45)', marginTop:'.2rem' }}>Cuota {per.label.toLowerCase()} siguiente: {fmt(multiNeg ? recSub*.95 : recSub)} sin IVA</div>}
             </div>
-            <div style={{ fontSize:'1.6rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em' }}>{fmt(tot)}</div>
+            <div style={{ fontSize:'1.6rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em' }}>{fmt(subM)}</div>
           </div>
         </div>
 
