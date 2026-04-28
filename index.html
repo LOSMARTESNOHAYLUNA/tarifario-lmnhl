@@ -510,6 +510,7 @@ function Wizard({
 
   // ── Overlay ──
   return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       position: 'fixed',
       inset: 0,
@@ -1735,6 +1736,7 @@ function BonusModal({
   const data = BONUS_DATA[packId];
   if (!data) return null;
   return /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       position: 'fixed',
       inset: 0,
@@ -1963,16 +1965,20 @@ function BudgetPanel({
   multiNeg,
   per,
   onClear,
-  onToggle
+  onToggle,
+  discount,
+  setDiscount,
+  subAfterDiscount,
+  ivaFinal
 }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [codeInput, setCodeInput] = useState('');
-  const [discount, setDiscount] = useState(null); // {type:'pct'|'eur', value:number}
   const [codeError, setCodeError] = useState(false);
   const isEmpty = items.length === 0;
   const recSub = items.filter(i => !i.oneTime).reduce((a, i) => a + i.pp, 0);
   const recSubFinal = multiNeg ? recSub * .95 : recSub;
+  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
   const applyCode = () => {
     const raw = codeInput.trim().toLowerCase().replace(/\s/g, '');
     const match = raw.match(/^regalo(\d+)$/);
@@ -1993,11 +1999,6 @@ function BudgetPanel({
     setCodeInput('');
   };
   const removeDiscount = () => setDiscount(null);
-
-  // Apply discount to subM
-  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
-  const subAfterDiscount = subM - discountAmt;
-  const ivaFinal = subAfterDiscount * 0.21;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
@@ -2413,6 +2414,10 @@ function Configurador() {
   const [consultingPopup, setConsultingPopup] = useState(false);
   const [extrasSelected, setExtrasSelected] = useState({});
   const [webPopup, setWebPopup] = useState(false);
+  const [discount, setDiscount] = useState(null);
+  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
+  const subAfterDiscount = subM - discountAmt;
+  const ivaFinal = subAfterDiscount * 0.21;
   const per = PERIODS.find(p => p.id === period);
   const hasSeo = useMemo(() => Object.keys(selected).some(id => SVC.find(s => s.id === id)?.hasSeo), [selected]);
   const PACK_IDS = ['pk1', 'pk2', 'pk3', 'pk4', 'pk5'];
@@ -2718,7 +2723,7 @@ function Configurador() {
     }, line)))));
   })), /*#__PURE__*/React.createElement("div", {
     style: {
-      border: `1px solid ${C.rule}`,
+      border: `2px solid ${C.purple}`,
       padding: '1.2rem',
       marginBottom: '1.5rem'
     }
@@ -2735,32 +2740,35 @@ function Configurador() {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.75rem',
-      color: C.mid,
-      marginBottom: '.3rem'
+      fontSize: '.78rem',
+      color: C.slate,
+      marginBottom: '.3rem',
+      fontWeight: 500
     }
   }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subM))), multiNeg && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.72rem',
+      fontSize: '.75rem',
       color: C.lime,
-      marginBottom: '.3rem'
+      marginBottom: '.3rem',
+      fontWeight: 600
     }
   }, /*#__PURE__*/React.createElement("span", null, "Descuento 2\xBA negocio (\u22125%)"), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(sub * .05))), per.disc > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.72rem',
+      fontSize: '.75rem',
       color: C.lime,
-      marginBottom: '.3rem'
+      marginBottom: '.3rem',
+      fontWeight: 600
     }
   }, /*#__PURE__*/React.createElement("span", null, "Descuento ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "aplicado")), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.72rem',
-      color: 'rgba(88,45,129,.45)',
+      fontSize: '.75rem',
+      color: C.mid,
       paddingTop: '.4rem',
       borderTop: `1px solid ${C.rule}`,
       marginBottom: '.6rem'
@@ -2771,36 +2779,38 @@ function Configurador() {
       justifyContent: 'space-between',
       alignItems: 'center',
       background: C.purple,
-      padding: '.8rem 1rem',
+      padding: '1rem 1.2rem',
       marginTop: '.4rem'
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.55rem',
+      fontSize: '.6rem',
       letterSpacing: '.14em',
       textTransform: 'uppercase',
       color: C.lime,
-      marginBottom: '.1rem'
+      marginBottom: '.2rem',
+      fontWeight: 700
     }
   }, "\u26A1 Activaci\xF3n total \xB7 Primer ", per.abbr), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.58rem',
-      color: 'rgba(255,255,255,.4)'
+      fontSize: '.65rem',
+      color: 'rgba(255,255,255,.65)'
     }
-  }, "+ IVA"), recSub > 0 && /*#__PURE__*/React.createElement("div", {
+  }, "+ IVA (21%): ", fmt(ivaFinal)), recSub > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.6rem',
-      color: 'rgba(255,255,255,.45)',
+      fontSize: '.65rem',
+      color: 'rgba(255,255,255,.65)',
       marginTop: '.2rem'
     }
   }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(multiNeg ? recSub * .95 : recSub), " + IVA")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '1.6rem',
+      fontSize: '1.9rem',
       fontWeight: 800,
       color: '#fff',
-      letterSpacing: '-.03em'
+      letterSpacing: '-.03em',
+      textAlign: 'right'
     }
-  }, fmt(subM)))), /*#__PURE__*/React.createElement("div", {
+  }, fmt(subAfterDiscount)))), /*#__PURE__*/React.createElement("div", {
     style: {
       borderTop: `1px solid ${C.rule}`,
       paddingTop: '.8rem',
@@ -2823,6 +2833,7 @@ function Configurador() {
     onClose: () => setWizardOpen(false),
     onApply: applyWizard
   }), webPopup && /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       position: 'fixed',
       inset: 0,
@@ -3070,6 +3081,7 @@ function Configurador() {
       fontFamily: 'inherit'
     }
   }, "Continuar sin SEO (2.490\u20AC)")))), boosterPopup && /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       position: 'fixed',
       inset: 0,
@@ -3205,6 +3217,7 @@ function Configurador() {
       fontStyle: 'italic'
     }
   }, "(Inversi\xF3n publicitaria en Meta NO incluida)"))), consultingPopup && /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       position: 'fixed',
       inset: 0,
@@ -3586,6 +3599,7 @@ function Configurador() {
       transition: 'all .2s'
     }
   }, c.icon, " ", c.label)))), /*#__PURE__*/React.createElement("div", {
+    className: "no-print",
     style: {
       maxWidth: 1400,
       margin: '0 auto',
@@ -3756,7 +3770,11 @@ function Configurador() {
     multiNeg: multiNeg,
     per: per,
     onClear: () => setSelected({}),
-    onToggle: toggle
+    onToggle: toggle,
+    discount: discount,
+    setDiscount: setDiscount,
+    subAfterDiscount: subAfterDiscount,
+    ivaFinal: ivaFinal
   }))));
 }
 
