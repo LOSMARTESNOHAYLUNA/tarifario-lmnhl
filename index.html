@@ -2415,9 +2415,6 @@ function Configurador() {
   const [extrasSelected, setExtrasSelected] = useState({});
   const [webPopup, setWebPopup] = useState(false);
   const [discount, setDiscount] = useState(null);
-  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
-  const subAfterDiscount = subM - discountAmt;
-  const ivaFinal = subAfterDiscount * 0.21;
   const per = PERIODS.find(p => p.id === period);
   const hasSeo = useMemo(() => Object.keys(selected).some(id => SVC.find(s => s.id === id)?.hasSeo), [selected]);
   const PACK_IDS = ['pk1', 'pk2', 'pk3', 'pk4', 'pk5'];
@@ -2551,6 +2548,9 @@ function Configurador() {
   const iva = subM * .21;
   const tot = subM + iva;
   const recSub = items.filter(i => !i.oneTime).reduce((a, i) => a + i.pp, 0);
+  const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
+  const subAfterDiscount = subM - discountAmt;
+  const ivaFinal = subAfterDiscount * 0.21;
   const recTot = (multiNeg ? recSub * .95 : recSub) * 1.21;
   const shown = cat === 'all' ? SVC.filter(s => !s.hidden) : SVC.filter(s => s.cat === cat && !s.hidden);
   return /*#__PURE__*/React.createElement("div", {
