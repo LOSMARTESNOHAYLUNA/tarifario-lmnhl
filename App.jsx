@@ -46,7 +46,7 @@ const SVC = [
     'Alta e integración: Google Analytics, Search Console y Maps.',
     'Instalación y configuración ley europea de cookies (2025).',
   ], extras:[
-    { id:'web1_lp',  label:'Página (Landing) adicional por servicio/producto', price:250 },
+    { id:'web1_lp', label:'Página adicional por servicio/producto', price:250, qty:true },
     { id:'web1_ia',  label:'Asistente conectado con IA (entrenado para convertir leads y cerrar citas)', price:690 },
   ], price:2490, priceWithSeo:1490, hasSeo:false, oneTime:true },
   { id:'web_mant', cat:'web', bc:C.lime, name:'🔧 Mantenimiento Web', sub:'', desc:'Seguridad, velocidad y soporte técnico para tu página web. 🛠️', inc:[], price:69, hasSeo:false, oneTime:false },
@@ -411,17 +411,36 @@ function ServiceCard({ s, selected, hasSeo, onToggle, extrasSelected, onToggleEx
         {s.extras && s.extras.length > 0 && (
           <div style={{ marginBottom:'.55rem', borderTop:`1px solid ${C.rule}`, paddingTop:'.55rem' }}>
             <div style={{ fontSize:'.6rem', fontWeight:700, color:C.mid, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'.4rem' }}>Extras opcionales</div>
-            {s.extras.map(ex => (
-              <div key={ex.id} onClick={() => onToggleExtra && onToggleExtra(ex.id)} style={{ display:'flex', alignItems:'flex-start', gap:'.6rem', padding:'.35rem 0', cursor:'pointer' }}>
-                <div style={{ width:16, height:16, border:`2px solid ${extrasSelected?.[ex.id] ? C.purple : C.rule}`, borderRadius:3, background:extrasSelected?.[ex.id] ? C.purple : '#fff', flexShrink:0, marginTop:'.1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  {extrasSelected?.[ex.id] && <span style={{ color:'#fff', fontSize:'.55rem', fontWeight:800 }}>✓</span>}
+            {s.extras.map(ex => {
+              const qty = typeof extrasSelected?.[ex.id] === 'number' ? extrasSelected[ex.id] : (extrasSelected?.[ex.id] ? 1 : 0);
+              return ex.qty ? (
+                /* Quantity stepper */
+                <div key={ex.id} style={{ display:'flex', alignItems:'center', gap:'.6rem', padding:'.35rem 0' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:'.3rem', flexShrink:0 }}>
+                    <button onClick={() => onToggleExtra && onToggleExtra(ex.id, qty - 1)} style={{ width:22, height:22, border:`1px solid ${C.rule}`, background:'#fff', borderRadius:4, cursor:'pointer', fontFamily:'inherit', fontSize:'.8rem', color:C.purple, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>−</button>
+                    <span style={{ fontSize:'.8rem', fontWeight:700, color:C.purple, minWidth:16, textAlign:'center' }}>{qty}</span>
+                    <button onClick={() => onToggleExtra && onToggleExtra(ex.id, qty + 1)} style={{ width:22, height:22, border:`1px solid ${C.lime}`, background:C.lime, borderRadius:4, cursor:'pointer', fontFamily:'inherit', fontSize:'.8rem', color:C.slate, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>+</button>
+                  </div>
+                  <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.4, flex:1 }}>{ex.label}</span>
+                  <span style={{ fontSize:'.7rem', fontWeight:700, color:C.purple, flexShrink:0, textAlign:'right' }}>
+                    {qty > 0 ? (() => {
+                      let total = 0;
+                      for (let i = 0; i < qty; i++) { total += ex.price * (1 - Math.min(i * 0.20, 0.80)); }
+                      return <>{fmt(Math.round(total))}{qty > 1 && <span style={{ fontSize:'.55rem', color:C.lime, display:'block' }}>−{Math.min((qty-1)*20,80)}% en última</span>}</>;
+                    })() : `${fmt(ex.price)}/ud.`}
+                  </span>
                 </div>
-                <div style={{ flex:1 }}>
-                  <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.4 }}>{ex.label}</span>
+              ) : (
+                /* Checkbox */
+                <div key={ex.id} onClick={() => onToggleExtra && onToggleExtra(ex.id)} style={{ display:'flex', alignItems:'flex-start', gap:'.6rem', padding:'.35rem 0', cursor:'pointer' }}>
+                  <div style={{ width:16, height:16, border:`2px solid ${qty ? C.purple : C.rule}`, borderRadius:3, background:qty ? C.purple : '#fff', flexShrink:0, marginTop:'.1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {qty > 0 && <span style={{ color:'#fff', fontSize:'.55rem', fontWeight:800 }}>✓</span>}
+                  </div>
+                  <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.4, flex:1 }}>{ex.label}</span>
+                  <span style={{ fontSize:'.7rem', fontWeight:700, color:C.purple, flexShrink:0 }}>+{fmt(ex.price)}</span>
                 </div>
-                <span style={{ fontSize:'.7rem', fontWeight:700, color:C.purple, flexShrink:0 }}>+{fmt(ex.price)}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 
@@ -750,9 +769,13 @@ export default function Configurador() {
     setSelected(next);
   };
 
-  const toggleExtra = id => setExtrasSelected(p => {
+  const toggleExtra = (id, qty) => setExtrasSelected(p => {
+    if (qty !== undefined) {
+      if (qty <= 0) { const n={...p}; delete n[id]; return n; }
+      return { ...p, [id]: qty };
+    }
     if (p[id]) { const n={...p}; delete n[id]; return n; }
-    return { ...p, [id]: true };
+    return { ...p, [id]: 1 };
   });
 
   const items = useMemo(() => {
@@ -770,7 +793,15 @@ export default function Configurador() {
       if (s.extras) {
         s.extras.forEach(ex => {
           if (extrasSelected[ex.id]) {
-            extraItems.push({ id:ex.id, name:ex.label, pp:ex.price, oneTime:true, bc:s.bc, inc:[] });
+            const q = typeof extrasSelected[ex.id] === 'number' ? extrasSelected[ex.id] : 1;
+            const label = q > 1 ? `${ex.label} (×${q})` : ex.label;
+            // 20% discount per additional page from page 2 onwards
+            let total = 0;
+            for (let i = 0; i < q; i++) {
+              const disc = Math.min(i * 0.20, 0.80); // max 80% discount
+              total += ex.price * (1 - disc);
+            }
+            extraItems.push({ id:ex.id, name:label, pp:Math.round(total), oneTime:true, bc:s.bc, inc:[] });
           }
         });
       }
