@@ -1586,7 +1586,7 @@ function ServiceCard({
       gap: '.5rem'
     }
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://presentacion.losmartesnohayluna.com/tarifas2026",
+    href: "https://www.canva.com/design/DAG2-TwvWbk/3duZwjNXixakdzL5Eftjxg/view?utm_content=DAG2-TwvWbk&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc0d9cd1271",
     target: "_blank",
     rel: "noopener noreferrer",
     style: {
@@ -2584,31 +2584,31 @@ function Configurador() {
     className: "print-only",
     style: {
       fontFamily: "'Poppins', sans-serif",
-      padding: '1rem',
+      padding: '1.2rem 1.5rem',
       maxWidth: '100%',
       color: C.slate
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      borderBottom: `2px solid ${C.purple}`,
-      paddingBottom: '.6rem',
-      marginBottom: '1rem',
+      borderBottom: `3px solid ${C.purple}`,
+      paddingBottom: '.8rem',
+      marginBottom: '1.2rem',
       display: 'flex',
       alignItems: 'flex-end',
       justifyContent: 'space-between'
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.5rem',
-      letterSpacing: '.2em',
+      fontSize: '.55rem',
+      letterSpacing: '.22em',
       textTransform: 'uppercase',
       color: C.lime,
       fontWeight: 700,
-      marginBottom: '.2rem'
+      marginBottom: '.3rem'
     }
   }, "Los Martes No Hay Luna"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '1.2rem',
+      fontSize: '1.4rem',
       fontWeight: 800,
       color: C.purple,
       letterSpacing: '-.03em',
@@ -2617,8 +2617,9 @@ function Configurador() {
   }, "Propuesta de Marketing")), /*#__PURE__*/React.createElement("div", {
     style: {
       textAlign: 'right',
-      fontSize: '.55rem',
-      color: C.mid
+      fontSize: '.6rem',
+      color: C.mid,
+      lineHeight: 1.7
     }
   }, /*#__PURE__*/React.createElement("div", null, new Date().toLocaleDateString('es-ES', {
     day: '2-digit',
@@ -2628,14 +2629,14 @@ function Configurador() {
     style: {
       color: C.mid,
       fontStyle: 'italic',
-      fontSize: '.7rem'
+      fontSize: '.75rem'
     }
   }, "No hay servicios seleccionados.") : /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
-      gap: '.5rem',
-      marginBottom: '1rem'
+      gap: '.7rem',
+      marginBottom: '1.2rem'
     }
   }, items.map(item => {
     const emoji = item.incEmoji || '✅';
@@ -2643,8 +2644,8 @@ function Configurador() {
       key: item.id,
       style: {
         border: `1px solid ${C.rule}`,
-        borderTop: `2px solid ${item.bc || C.lime}`,
-        padding: '.6rem .8rem',
+        borderTop: `3px solid ${item.bc || C.lime}`,
+        padding: '.8rem 1rem',
         pageBreakInside: 'avoid'
       }
     }, /*#__PURE__*/React.createElement("div", {
@@ -2652,120 +2653,139 @@ function Configurador() {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        marginBottom: '.2rem'
+        marginBottom: '.3rem'
       }
     }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: '.75rem',
+        fontSize: '.85rem',
         fontWeight: 700,
-        color: C.slate
+        color: C.slate,
+        lineHeight: 1.2
       }
     }, item.name), item.sub && /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: '.52rem',
+        fontSize: '.58rem',
         color: item.bc || C.lime,
-        fontWeight: 600
+        fontWeight: 600,
+        marginTop: '.1rem'
       }
     }, item.sub)), /*#__PURE__*/React.createElement("div", {
       style: {
         textAlign: 'right',
         flexShrink: 0,
-        marginLeft: '1rem'
+        marginLeft: '1.5rem'
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: '.9rem',
+        fontSize: '1rem',
         fontWeight: 800,
         color: C.purple
       }
     }, fmt(item.pp)), /*#__PURE__*/React.createElement("div", {
       style: {
-        fontSize: '.48rem',
+        fontSize: '.5rem',
         color: C.mid
       }
-    }, item.oneTime ? 'pago único + IVA' : '/mes + IVA'))), item.incLabel && /*#__PURE__*/React.createElement("div", {
+    }, item.oneTime ? 'pago único + IVA' : '/mes + IVA'))), item.desc && /*#__PURE__*/React.createElement("p", {
       style: {
-        fontSize: '.52rem',
+        fontSize: '.62rem',
+        color: C.mid,
+        margin: '0 0 .4rem',
+        lineHeight: 1.55,
+        fontWeight: 300
+      }
+    }, item.desc), item.incLabel && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.58rem',
         fontWeight: 700,
         color: C.slate,
-        marginBottom: '.2rem'
+        marginBottom: '.25rem',
+        letterSpacing: '.03em'
       }
     }, item.incLabel), item.inc && item.inc.length > 0 && /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '.05rem .5rem'
+        gap: '.08rem .6rem'
       }
     }, item.inc.map((line, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
       style: {
         display: 'flex',
-        gap: '.3rem',
+        gap: '.35rem',
         alignItems: 'flex-start',
-        padding: '.05rem 0'
+        padding: '.07rem 0'
       }
     }, /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: '.6rem',
-        flexShrink: 0
+        fontSize: '.65rem',
+        flexShrink: 0,
+        lineHeight: 1.4
       }
     }, emoji), /*#__PURE__*/React.createElement("span", {
       style: {
-        fontSize: '.55rem',
+        fontSize: '.6rem',
         color: C.slate,
         fontWeight: 300,
-        lineHeight: 1.35
+        lineHeight: 1.4
       }
-    }, line)))));
+    }, line)))), item.booster && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: '.35rem',
+        fontSize: '.58rem',
+        color: C.lime,
+        fontWeight: 600
+      }
+    }, "\u2605 Opci\xF3n Social Booster disponible como m\xF3dulo extra."));
   })), /*#__PURE__*/React.createElement("div", {
     style: {
       border: `2px solid ${C.purple}`,
-      padding: '.8rem',
+      padding: '.9rem 1rem',
       marginBottom: '.8rem'
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.52rem',
+      fontSize: '.55rem',
       letterSpacing: '.16em',
       textTransform: 'uppercase',
       color: C.mid,
       fontWeight: 700,
-      marginBottom: '.5rem'
+      marginBottom: '.6rem'
     }
   }, "Resumen Econ\xF3mico \xB7 Precios + IVA no incluido"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.68rem',
+      fontSize: '.72rem',
       color: C.slate,
-      marginBottom: '.2rem',
+      marginBottom: '.25rem',
       fontWeight: 500
     }
   }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subM))), multiNeg && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.65rem',
+      fontSize: '.68rem',
       color: C.lime,
-      marginBottom: '.2rem',
+      marginBottom: '.25rem',
       fontWeight: 600
     }
   }, /*#__PURE__*/React.createElement("span", null, "Descuento 2\xBA negocio (\u22125%)"), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(sub * .05))), per.disc > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.65rem',
+      fontSize: '.68rem',
       color: C.lime,
-      marginBottom: '.2rem',
+      marginBottom: '.25rem',
       fontWeight: 600
     }
   }, /*#__PURE__*/React.createElement("span", null, "Descuento ", per.label.toLowerCase(), " (\u2212", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "aplicado")), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.65rem',
+      fontSize: '.68rem',
       color: C.pink,
-      marginBottom: '.2rem',
+      marginBottom: '.25rem',
       fontWeight: 700,
       padding: '.3rem .5rem',
       background: 'rgba(231,32,120,.06)',
@@ -2775,11 +2795,11 @@ function Configurador() {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
-      fontSize: '.65rem',
+      fontSize: '.68rem',
       color: C.mid,
-      paddingTop: '.3rem',
+      paddingTop: '.35rem',
       borderTop: `1px solid ${C.rule}`,
-      marginBottom: '.4rem'
+      marginBottom: '.5rem'
     }
   }, /*#__PURE__*/React.createElement("span", null, "+ IVA (21%) al facturar"), /*#__PURE__*/React.createElement("span", null, fmt(ivaFinal))), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2787,33 +2807,33 @@ function Configurador() {
       justifyContent: 'space-between',
       alignItems: 'center',
       background: C.purple,
-      padding: '.7rem .9rem',
+      padding: '.85rem 1rem',
       WebkitPrintColorAdjust: 'exact',
       printColorAdjust: 'exact'
     }
   }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.52rem',
+      fontSize: '.55rem',
       letterSpacing: '.14em',
       textTransform: 'uppercase',
       color: C.lime,
-      marginBottom: '.15rem',
+      marginBottom: '.2rem',
       fontWeight: 700
     }
   }, "\u26A1 Activaci\xF3n total \xB7 Primer ", per.abbr), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.58rem',
+      fontSize: '.6rem',
       color: 'rgba(255,255,255,.65)'
     }
   }, "+ IVA (21%): ", fmt(ivaFinal)), recSub > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.58rem',
+      fontSize: '.6rem',
       color: 'rgba(255,255,255,.65)',
       marginTop: '.15rem'
     }
   }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(multiNeg ? recSub * .95 : recSub), " + IVA")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '1.6rem',
+      fontSize: '1.7rem',
       fontWeight: 800,
       color: '#fff',
       letterSpacing: '-.03em',
@@ -2829,12 +2849,12 @@ function Configurador() {
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.52rem',
+      fontSize: '.55rem',
       color: C.mid
     }
   }, "Esta propuesta tiene una validez de 30 d\xEDas desde la fecha de emisi\xF3n."), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: '.52rem',
+      fontSize: '.55rem',
       color: C.purple,
       fontWeight: 600
     }
