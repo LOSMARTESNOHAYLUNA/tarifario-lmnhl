@@ -1969,7 +1969,11 @@ function BudgetPanel({
   discount,
   setDiscount,
   subAfterDiscount,
-  ivaFinal
+  ivaFinal,
+  moduloDiscPct,
+  moduloAmt,
+  moduloBonus,
+  subBase
 }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
@@ -2148,7 +2152,16 @@ function BudgetPanel({
       color: C.mid,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subM))), multiNeg && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '.68rem',
+      color: C.lime,
+      marginBottom: '.3rem',
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. combinaci\xF3n ", moduloDiscPct === 5 ? '2' : moduloDiscPct === 10 ? '3' : '4+', " m\xF3dulos (\u2212", moduloDiscPct, "%)"), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(moduloAmt))), multiNeg && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2190,7 +2203,17 @@ function BudgetPanel({
       lineHeight: 1,
       fontFamily: 'inherit'
     }
-  }, "\xD7"))), /*#__PURE__*/React.createElement("div", {
+  }, "\xD7"))), moduloBonus && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: '.62rem',
+      color: C.lime,
+      background: 'rgba(135,178,41,.08)',
+      border: `1px solid rgba(135,178,41,.25)`,
+      padding: '.35rem .6rem',
+      marginBottom: '.3rem',
+      fontWeight: 600
+    }
+  }, "\uD83C\uDF81 ", moduloBonus), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2543,7 +2566,17 @@ function Configurador() {
     });
     return [...svcItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
-  const sub = items.reduce((a, i) => a + i.pp, 0);
+
+  // Module combination discounts
+  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length;
+  const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
+  const moduloBonus = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑' : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨' : null;
+
+  // Apply discounts in order: period (in pp) → modulo → multiNeg → código
+  const subBase = items.reduce((a, i) => a + i.pp, 0);
+  const moduloAmt = subBase * (moduloDiscPct / 100);
+  const subAfterModulo = subBase - moduloAmt;
+  const sub = subAfterModulo;
   const subM = multiNeg ? sub * .95 : sub;
   const iva = subM * .21;
   const tot = subM + iva;
@@ -2761,7 +2794,16 @@ function Configurador() {
       marginBottom: '.25rem',
       fontWeight: 500
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subM))), multiNeg && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '.68rem',
+      color: C.lime,
+      marginBottom: '.25rem',
+      fontWeight: 600
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. combinaci\xF3n ", moduloDiscPct === 5 ? '2' : moduloDiscPct === 10 ? '3' : '4+', " m\xF3dulos (\u2212", moduloDiscPct, "%)"), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(moduloAmt))), multiNeg && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -3803,7 +3845,11 @@ function Configurador() {
     discount: discount,
     setDiscount: setDiscount,
     subAfterDiscount: subAfterDiscount,
-    ivaFinal: ivaFinal
+    ivaFinal: ivaFinal,
+    moduloDiscPct: moduloDiscPct,
+    moduloAmt: moduloAmt,
+    moduloBonus: moduloBonus,
+    subBase: subBase
   }))));
 }
 
