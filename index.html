@@ -1984,20 +1984,41 @@ function BudgetPanel({
   const recSubFinal = multiNeg ? recSub * .95 : recSub;
   const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
   const applyCode = () => {
-    const raw = codeInput.trim().toLowerCase().replace(/\s/g, '');
-    const match = raw.match(/^regalo(\d+)$/);
-    if (!match) {
+    const raw = codeInput.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!raw.startsWith('regalo')) {
       setCodeError(true);
       return;
     }
-    const n = parseInt(match[1], 10);
-    if (n <= 100) setDiscount({
-      type: 'pct',
-      value: n
-    });else setDiscount({
-      type: 'eur',
-      value: n
-    });
+    const val = raw.replace('regalo', '').trim();
+
+    // regalo 30% → porcentaje
+    const matchPct = val.match(/^(\d+)\s*%$/);
+    // regalo 50€ or regalo 50e → euros fijos
+    const matchEur = val.match(/^(\d+)\s*[€e]$/);
+    // regalo [nombre servicio] → descuento del precio del servicio
+    const matchSvc = SVC.find(s => s.name.toLowerCase().replace(/[^a-z0-9 ]/g, '').includes(val.replace(/[^a-z0-9 ]/g, '')) || val.replace(/[^a-z0-9 ]/g, '').includes(s.name.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(' ').slice(1).join(' ').substring(0, 8)));
+    if (matchPct) {
+      setDiscount({
+        type: 'pct',
+        value: parseInt(matchPct[1], 10),
+        label: `−${matchPct[1]}%`
+      });
+    } else if (matchEur) {
+      setDiscount({
+        type: 'eur',
+        value: parseInt(matchEur[1], 10),
+        label: `−${matchEur[1]}€`
+      });
+    } else if (matchSvc) {
+      setDiscount({
+        type: 'eur',
+        value: matchSvc.price,
+        label: `${matchSvc.name} gratis 🎁`
+      });
+    } else {
+      setCodeError(true);
+      return;
+    }
     setCodeError(false);
     setCodeOpen(false);
     setCodeInput('');
@@ -2186,7 +2207,7 @@ function BudgetPanel({
       color: C.pink,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 Descuento especial ", discount.type === 'pct' ? `(−${discount.value}%)` : ''), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 ", discount.label || 'Descuento especial'), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -2833,7 +2854,7 @@ function Configurador() {
       background: 'rgba(231,32,120,.06)',
       border: `1px solid rgba(231,32,120,.2)`
     }
-  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 Descuento especial", discount.type === 'pct' ? ` (−${discount.value}%)` : ''), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(discountAmt))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83C\uDF81 ", discount.label || 'Descuento especial'), /*#__PURE__*/React.createElement("span", null, "\u2212", fmt(discountAmt))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
