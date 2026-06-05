@@ -2278,45 +2278,105 @@ function BudgetPanel({
       fontFamily: 'inherit'
     },
     title: ""
-  }, "\uD83C\uDFF7")), codeOpen && /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: 'flex',
-      gap: '.4rem',
-      marginBottom: '.6rem'
-    }
-  }, /*#__PURE__*/React.createElement("input", {
-    value: codeInput,
-    onChange: e => {
-      setCodeInput(e.target.value);
-      setCodeError(false);
-    },
-    onKeyDown: e => e.key === 'Enter' && applyCode(),
-    placeholder: "C\xF3digo...",
-    style: {
-      flex: 1,
-      background: 'rgba(255,255,255,.1)',
-      border: `1px solid ${codeError ? C.pink : 'rgba(255,255,255,.2)'}`,
-      color: '#fff',
-      padding: '.35rem .6rem',
-      fontSize: '.68rem',
-      fontFamily: 'inherit',
-      outline: 'none',
-      borderRadius: 4
-    }
-  }), /*#__PURE__*/React.createElement("button", {
-    onClick: applyCode,
-    style: {
-      background: C.lime,
-      border: 'none',
-      color: C.slate,
-      padding: '.35rem .7rem',
-      fontSize: '.6rem',
-      fontWeight: 700,
-      cursor: 'pointer',
-      fontFamily: 'inherit',
-      borderRadius: 4
-    }
-  }, "OK")), /*#__PURE__*/React.createElement("div", {
+  }, "\uD83C\uDFF7")), codeOpen && (() => {
+    const raw = codeInput.trim().toLowerCase();
+    const showSuggestions = raw === 'regalo' || raw.startsWith('regalo ');
+    const suggestions = showSuggestions ? [...SVC.filter(s => !s.hidden && s.price > 0).map(s => ({
+      label: `${s.name.replace(/^[^\w]+/, '')} — ${fmt(s.price)} gratis`,
+      code: `regalo ${s.name.replace(/^[^\w\s]+\s*/, '').toLowerCase()}`
+    })), {
+      label: '20% de descuento',
+      code: 'regalo20%'
+    }, {
+      label: '30% de descuento',
+      code: 'regalo30%'
+    }, {
+      label: '40% de descuento',
+      code: 'regalo40%'
+    }] : [];
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: '.6rem',
+        position: 'relative'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: '.4rem'
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      value: codeInput,
+      onChange: e => {
+        setCodeInput(e.target.value);
+        setCodeError(false);
+      },
+      onKeyDown: e => e.key === 'Enter' && applyCode(),
+      placeholder: "regalo...",
+      style: {
+        flex: 1,
+        background: 'rgba(255,255,255,.1)',
+        border: `1px solid ${codeError ? C.pink : 'rgba(255,255,255,.2)'}`,
+        color: '#fff',
+        padding: '.35rem .6rem',
+        fontSize: '.68rem',
+        fontFamily: 'inherit',
+        outline: 'none',
+        borderRadius: 4
+      }
+    }), /*#__PURE__*/React.createElement("button", {
+      onClick: applyCode,
+      style: {
+        background: C.lime,
+        border: 'none',
+        color: C.slate,
+        padding: '.35rem .7rem',
+        fontSize: '.6rem',
+        fontWeight: 700,
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+        borderRadius: 4
+      }
+    }, "OK")), showSuggestions && suggestions.length > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        right: 0,
+        background: '#fff',
+        border: `1px solid ${C.rule}`,
+        borderRadius: 6,
+        marginTop: '.2rem',
+        zIndex: 300,
+        maxHeight: 220,
+        overflowY: 'auto',
+        boxShadow: '0 4px 16px rgba(0,0,0,.15)'
+      }
+    }, suggestions.map((s, i) => /*#__PURE__*/React.createElement("div", {
+      key: i,
+      onClick: () => {
+        setCodeInput(s.code);
+        setCodeError(false);
+      },
+      style: {
+        padding: '.5rem .8rem',
+        fontSize: '.68rem',
+        color: C.slate,
+        cursor: 'pointer',
+        borderBottom: `1px solid ${C.rule}`,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '.5rem'
+      },
+      onMouseEnter: e => e.currentTarget.style.background = C.light,
+      onMouseLeave: e => e.currentTarget.style.background = '#fff'
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: C.lime,
+        fontWeight: 700,
+        flexShrink: 0
+      }
+    }, "\uD83C\uDF81"), /*#__PURE__*/React.createElement("span", null, s.label)))));
+  })(), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '2rem',
       fontWeight: 800,
