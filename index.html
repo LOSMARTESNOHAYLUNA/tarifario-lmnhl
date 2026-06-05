@@ -2013,7 +2013,8 @@ function BudgetPanel({
       setDiscount({
         type: 'eur',
         value: matchSvc.price,
-        label: `${matchSvc.name} gratis 🎁`
+        label: `${matchSvc.name.replace(/^[^\w\s]+\s*/, '')} gratis 🎁`,
+        svcId: matchSvc.id
       });
     } else {
       setCodeError(true);
@@ -2648,8 +2649,10 @@ function Configurador() {
     return [...svcItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
 
-  // Module combination discounts
-  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length;
+  // Module combination discounts — gifted services don't count as paid modules
+  const giftedSvc = discount?.svcId ? SVC.find(s => s.id === discount.svcId) : null;
+  const giftedIsRecurring = giftedSvc && !giftedSvc.oneTime;
+  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length - (giftedIsRecurring ? 1 : 0);
   const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
   const moduloBonus = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑' : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨' : null;
 
