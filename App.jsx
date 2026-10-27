@@ -37,8 +37,30 @@ const SVC = [
   // SEO
   { id:'seo1', cat:'seo', bc:C.lime, commitment:12, name:'🗺️ SEO Local', sub:'(Radio 2km)', desc:'Ideal para negocios físicos que quieren dominar su barrio. 📍', inc:['Keyword Research Local: Buscamos cómo te encuentran tus vecinos.','Optimización GBP: Gestión total de tu ficha de Google Maps.','Gestión de Reseñas: Estrategia para mejorar tu reputación.','1 Contenido Geolocalizado/mes: Artículos que atraen tráfico de tu zona.','Informe Mensual: Seguimiento de 10-20 palabras clave.'], price:497, hasSeo:true, oneTime:false },
   { id:'seo2', cat:'seo', bc:C.lime, commitment:12, name:'🌆 SEO Ciudad', sub:'', desc:'Para empresas que quieren liderar en toda su ciudad. 🏙️', inc:['Auditoría Técnica Completa: Revisión de la "salud" de tu web.','On-Page Avanzado: Optimizamos tus páginas principales para Google.','1 Artículo/mes: Contenido estratégico para posicionar servicios.','1 Landing de Servicio+Barrio: Página específica para captar en zonas clave.','Schema Geo: Código técnico para que Google entienda tu ubicación exacta.','Linkbuilding Local: Enlaces desde sitios de tu ciudad para ganar fuerza.','Seguimiento de 30-50+ Keywords.'], price:797, hasSeo:true, oneTime:false },
-  { id:'seo3', cat:'seo', bc:C.lime, commitment:12, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50).','Linkbuilding de Autoridad: 1 enlace de alta calidad al mes.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
+  { id:'seo3', cat:'seo', bc:C.lime, commitment:12, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50). ✅ Incluido.','Estudio de Linkbuilding de Autoridad: Análisis y planificación de enlaces de alta calidad. La ejecución y coste de los enlaces se presupuesta aparte según el perfil de enlazado necesario.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
+  { id:'gbp_tune', cat:'seo', bc:C.purple, badge:'INTERVENCIÓN PUNTUAL 🔧', name:'📍 Puesta a Punto Ficha de Google', sub:'(Auditoría + Solución · Sin cuota mensual)', desc:'Para fichas de Google que ya existen pero no rinden: traspasos, duplicados, cambios de nombre, datos contradictorios o fotos de la etapa anterior. Diagnóstico y puesta en marcha de las soluciones en una sola intervención. 🎯', incLabel:'INCLUYE:', inc:[
+    'Diagnóstico completo de la ficha con acceso de administrador: duplicados, verificación, categorías y datos.',
+    'Gestión con el soporte de Google para fichas duplicadas, cambio de titularidad o nueva verificación.',
+    'Optimización de la ficha: categorías, servicios con precios, descripción, horarios y botón de reservas.',
+    'Fotos: retirada de las del anterior propietario, logo, portada y subida de fotos actuales.',
+    'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.',
+    'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.',
+    'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.',
+  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si en los 30 días siguientes contratas SEO Local, este importe se descuenta del primer mes.', price:497, hasSeo:false, oneTime:true },
   // WEB Y OTROS
+  { id:'promo_web', cat:'web', bc:C.lime, badge:'PRECIO CERRADO · 600€ 🏪', name:'🏪 Web Corporativa para PYMEs', sub:'(Tu web profesional. Lista en 14 días.)', desc:'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯', incLabel:'INCLUYE:', inc:[
+    '3 páginas: home, servicios y contacto.',
+    'Diseño personalizado a medida. Sin plantillas genéricas.',
+    'Adaptada a móvil y tablet.',
+    'WhatsApp + formulario de contacto integrados.',
+    'SEO local básico configurado.',
+    'Páginas legales: aviso legal, privacidad y cookies.',
+    'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.',
+    'ZIP con todos los archivos · Son tuyos.',
+    '30 días de soporte post-entrega.',
+  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 20% de descuento en SEO y campañas durante los primeros 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
+  { id:'promo_hosting', cat:'web', hidden:true, bc:C.lime, name:'🌐 Dominio + Hosting · Web PYMEs', sub:'Mantenimiento técnico incluido · Sin permanencia', desc:'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.', inc:[], price:29, hasSeo:false, oneTime:false },
+  { id:'promo_install', cat:'web', hidden:true, bc:C.lime, name:'🔧 Instalación en hosting propio', sub:'Web PYMEs · Pago único', desc:'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.', inc:[], price:150, hasSeo:false, oneTime:true },
   { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
     'Diseño, arquitectura y desarrollo web: HOME + CONTACTO + 2 páginas personalizadas a elegir + BLOG.',
     'Copys que venden: Mejoramos tus textos para conversión.',
@@ -49,7 +71,12 @@ const SVC = [
     { id:'web1_lp', label:'Página adicional por servicio/producto', price:250, qty:true },
     { id:'web1_ia',  label:'Asistente conectado con IA (entrenado para convertir leads y cerrar citas)', price:690 },
   ], price:2490, priceWithSeo:1490, hasSeo:false, oneTime:true },
-  { id:'web_mant', cat:'web', bc:C.lime, name:'🔧 Mantenimiento Web', sub:'', desc:'Seguridad, velocidad y soporte técnico para tu página web. 🛠️', inc:[], price:69, hasSeo:false, oneTime:false },
+  { id:'web_mant', cat:'web', bc:C.lime, name:'🔧 Mantenimiento Web', sub:'', desc:'Seguridad, velocidad y soporte técnico para tu página web. 🛠️', incLabel:'INCLUYE:', inc:[
+    'Cambios y actualizaciones de contenido mensuales.',
+    'Optimización técnica continua: velocidad, rendimiento y SEO técnico.',
+    'Configuración técnica: hasta 1 hora mensual de trabajo incluida.',
+    'Seguridad: actualizaciones, copias de seguridad y monitorización.',
+  ], price:69, hasSeo:false, oneTime:false },
   { id:'web_micro', cat:'web', bc:C.lime, name:'🌐 Microsite', sub:'', desc:'Un microsite es una web pequeña e independiente, diseñada con un objetivo concreto: presentar un servicio, una marca o una campaña sin la complejidad de una web completa. Perfecto para negocios que necesitan presencia digital rápida, profesional y enfocada.', incLabel:'INCLUYE:', inc:[
     'Página de inicio (Home) diseñada para captar la atención.',
     'Página de Contacto con formulario integrado.',
@@ -153,7 +180,7 @@ function Wizard({ onClose, onApply }) {
 
   // ── Overlay ──
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+    <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
       onClick={e => e.target === e.currentTarget && onClose()}>
 
       <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:560, padding:'2rem', position:'relative', maxHeight:'90vh', overflowY:'auto' }}>
@@ -363,7 +390,7 @@ function ConsultingCard({ selected, onToggle }) {
         })}
       </div>
       <div style={{ padding:'0 1.8rem 1.2rem', display:'flex', alignItems:'center', gap:'.8rem', flexWrap:'wrap' }}>
-        <div style={{ fontSize:'.62rem', color:C.mid, fontStyle:'italic' }}>Sin IVA · Solo disponible con un Pack Base contratado</div>
+        <div style={{ fontSize:'.62rem', color:C.mid, fontStyle:'italic' }}>+ IVA · Solo disponible con un Pack Base contratado</div>
         {activeId && <div style={{ marginLeft:'auto', background:`rgba(88,45,129,.08)`, border:`1px solid rgba(88,45,129,.2)`, padding:'.3rem .8rem', borderRadius:4, fontSize:'.62rem', color:C.purple, fontWeight:600 }}>✓ {CONS_OPTS.find(o=>o.id===activeId)?.freq} seleccionada</div>}
       </div>
     </div>
@@ -468,8 +495,8 @@ function ServiceCard({ s, selected, hasSeo, onToggle, extrasSelected, onToggleEx
           )}
         </div>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:'.65rem', gap:'.5rem' }}>
-          <a href="https://presentacion.losmartesnohayluna.com/tarifas2026" target="_blank" rel="noopener noreferrer" style={{ fontSize:'.65rem', color:C.purple, fontWeight:600, textDecoration:'none' }}>
-            {s.crmLink ? 'Ver condiciones' : '¿Qué incluye?'}
+          <a href={s.link || "https://presentacion.losmartesnohayluna.com/tarifas2026"} target="_blank" rel="noopener noreferrer" style={{ fontSize:'.65rem', color:C.purple, fontWeight:600, textDecoration:'none' }}>
+            {s.crmLink ? 'Ver condiciones' : s.link ? 'Ver la promo' : '¿Qué incluye?'}
           </a>
           {s.hasBonus && (
             <button onClick={() => setBonusOpen(true)} style={{ fontSize:'.6rem', background:`${C.lime}22`, border:`1px solid ${C.lime}55`, color:C.slate, padding:'.3rem .7rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>
@@ -561,7 +588,7 @@ function BonusModal({ packId, onClose }) {
   const data = BONUS_DATA[packId];
   if (!data) return null;
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}
+    <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}
       onClick={e => e.target===e.currentTarget && onClose()}>
       <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:580, position:'relative', overflow:'hidden', maxHeight:'90vh', display:'flex', flexDirection:'column' }}>
 
@@ -624,11 +651,48 @@ function BonusModal({ packId, onClose }) {
 }
 
 // ── BUDGET PANEL ──────────────────────────────────────────────────────────────
-function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle }) {
+function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
+  const [codeOpen, setCodeOpen]       = useState(false);
+  const [codeInput, setCodeInput]     = useState('');
+  const [codeError, setCodeError]     = useState(false);
+
   const isEmpty = items.length === 0;
   const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
   const recSubFinal = multiNeg ? recSub*.95 : recSub;
+
+  const discountAmt = discount
+    ? discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)
+    : 0;
+
+  const applyCode = () => {
+    const raw = codeInput.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!raw.startsWith('regalo')) { setCodeError(true); return; }
+    const val = raw.replace('regalo', '').trim();
+
+    // regalo 30% → porcentaje
+    const matchPct = val.match(/^(\d+)\s*%$/);
+    // regalo 50€ or regalo 50e → euros fijos
+    const matchEur = val.match(/^(\d+)\s*[€e]$/);
+    // regalo [nombre servicio] → descuento del precio del servicio
+    const matchSvc = SVC.find(s =>
+      s.name.toLowerCase().replace(/[^a-z0-9 ]/g,'').includes(val.replace(/[^a-z0-9 ]/g,'')) ||
+      val.replace(/[^a-z0-9 ]/g,'').includes(s.name.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(' ').slice(1).join(' ').substring(0,8))
+    );
+
+    if (matchPct) {
+      setDiscount({ type:'pct', value: parseInt(matchPct[1], 10), label:`−${matchPct[1]}%` });
+    } else if (matchEur) {
+      setDiscount({ type:'eur', value: parseInt(matchEur[1], 10), label:`−${matchEur[1]}€` });
+    } else if (matchSvc) {
+      setDiscount({ type:'eur', value: matchSvc.price, label:`${matchSvc.name.replace(/^[^\w\s]+\s*/,'')} gratis 🎁`, svcId: matchSvc.id });
+    } else {
+      setCodeError(true); return;
+    }
+    setCodeError(false); setCodeOpen(false); setCodeInput('');
+  };
+
+  const removeDiscount = () => setDiscount(null);
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:'.6rem' }}>
       <div style={{ background:C.purple, padding:'1rem 1.2rem', borderTop:`3px solid ${C.lime}` }}>
@@ -653,7 +717,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                   <div style={{ fontSize:'.58rem', color:C.mid }}>{item.oneTime ? 'Pago único' : per.label}</div>
                 </div>
                 <div style={{ display:'flex', alignItems:'center', gap:'.4rem', flexShrink:0 }}>
-                  <div style={{ fontSize:'.82rem', fontWeight:700, color:C.purple }}>{fmt(item.pp)}</div>
+                  <div style={{ fontSize:'.82rem', fontWeight:700, color:C.purple }}>{item.pp===0 ? 'Incluido' : fmt(item.pp)}</div>
                   <button onClick={() => onToggle(item.id)} style={{ width:18, height:18, borderRadius:'50%', border:'none', background:`rgba(231,32,120,.12)`, color:C.pink, cursor:'pointer', fontSize:'.8rem', fontFamily:'inherit', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>×</button>
                 </div>
               </div>
@@ -661,22 +725,90 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
           </div>
           <div style={{ background:'#fff', border:`1px solid ${C.rule}` }}>
             <div style={{ padding:'1rem 1.2rem' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subBase)}</span></div>
+              {moduloDiscPct > 0 && (
+                <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem', fontWeight:600 }}>
+                  <span>Dto. combinación {moduloDiscPct === 5 ? '2' : moduloDiscPct === 10 ? '3' : '4+'} módulos (−{moduloDiscPct}%)</span>
+                  <span>−{fmt(moduloAmt)}</span>
+                </div>
+              )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
               {per.disc>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>✓ aplicado</span></div>}
+              {discount && (
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
+                  <span>🎁 {discount.label || 'Descuento especial'}</span>
+                  <div style={{ display:'flex', alignItems:'center', gap:'.4rem' }}>
+                    <span>−{fmt(discountAmt)}</span>
+                    <button onClick={removeDiscount} style={{ background:'none', border:'none', cursor:'pointer', color:C.mid, fontSize:'.7rem', lineHeight:1, fontFamily:'inherit' }}>×</button>
+                  </div>
+                </div>
+              )}
+              {moduloBonus && (
+                <div style={{ fontSize:'.62rem', color:C.lime, background:'rgba(135,178,41,.08)', border:`1px solid rgba(135,178,41,.25)`, padding:'.35rem .6rem', marginBottom:'.3rem', fontWeight:600 }}>
+                  🎁 {moduloBonus}
+                </div>
+              )}
               <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.65rem', color:'rgba(88,45,129,.45)', paddingTop:'.4rem', borderTop:`1px solid ${C.rule}` }}>
-                <span>+ IVA (21%) al facturar</span><span>{fmt(iva)}</span>
+                <span>+ IVA (21%) al facturar</span><span>{fmt(ivaFinal)}</span>
               </div>
             </div>
             <div style={{ background:C.purple, padding:'1.2rem' }}>
-              <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.lime, marginBottom:'.15rem' }}>⚡ Activación total · Pago hoy</div>
-              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(subM)}</div>
-              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>Sin IVA · Primer {per.abbr}</div>
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'.15rem' }}>
+                <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.lime }}>⚡ Activación total · Pago hoy</div>
+                {/* Subtle gift icon — only visible to those who know */}
+                <button onClick={() => { setCodeOpen(o=>!o); setCodeError(false); }} style={{ background:'none', border:'none', cursor:'pointer', fontSize:'.75rem', opacity:.25, lineHeight:1, padding:'.1rem', fontFamily:'inherit' }} title="">🏷</button>
+              </div>
+              {/* Code input */}
+              {codeOpen && (() => {
+                const raw = codeInput.trim().toLowerCase();
+                const showSuggestions = raw === 'regalo' || raw.startsWith('regalo ');
+                const suggestions = showSuggestions ? [
+                  ...SVC.filter(s => !s.hidden && s.price > 0).map(s => ({
+                    label: `${s.name.replace(/^[^\w]+/, '')} — ${fmt(s.price)} gratis`,
+                    code: `regalo ${s.name.replace(/^[^\w\s]+\s*/, '').toLowerCase()}`,
+                  })),
+                  { label: '20% de descuento', code: 'regalo20%' },
+                  { label: '30% de descuento', code: 'regalo30%' },
+                  { label: '40% de descuento', code: 'regalo40%' },
+                ] : [];
+                return (
+                  <div style={{ marginBottom:'.6rem', position:'relative' }}>
+                    <div style={{ display:'flex', gap:'.4rem' }}>
+                      <input
+                        value={codeInput}
+                        onChange={e => { setCodeInput(e.target.value); setCodeError(false); }}
+                        onKeyDown={e => e.key==='Enter' && applyCode()}
+                        placeholder="regalo..."
+                        style={{ flex:1, background:'rgba(255,255,255,.1)', border:`1px solid ${codeError ? C.pink : 'rgba(255,255,255,.2)'}`, color:'#fff', padding:'.35rem .6rem', fontSize:'.68rem', fontFamily:'inherit', outline:'none', borderRadius:4 }}
+                      />
+                      <button onClick={applyCode} style={{ background:C.lime, border:'none', color:C.slate, padding:'.35rem .7rem', fontSize:'.6rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit', borderRadius:4 }}>OK</button>
+                    </div>
+                    {showSuggestions && suggestions.length > 0 && (
+                      <div style={{ position:'absolute', top:'100%', left:0, right:0, background:'#fff', border:`1px solid ${C.rule}`, borderRadius:6, marginTop:'.2rem', zIndex:300, maxHeight:220, overflowY:'auto', boxShadow:'0 4px 16px rgba(0,0,0,.15)' }}>
+                        {suggestions.map((s, i) => (
+                          <div
+                            key={i}
+                            onClick={() => { setCodeInput(s.code); setCodeError(false); }}
+                            style={{ padding:'.5rem .8rem', fontSize:'.68rem', color:C.slate, cursor:'pointer', borderBottom:`1px solid ${C.rule}`, display:'flex', alignItems:'center', gap:'.5rem' }}
+                            onMouseEnter={e => e.currentTarget.style.background=C.light}
+                            onMouseLeave={e => e.currentTarget.style.background='#fff'}
+                          >
+                            <span style={{ color:C.lime, fontWeight:700, flexShrink:0 }}>🎁</span>
+                            <span>{s.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(subAfterDiscount)}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>+ IVA · Primer {per.abbr}</div>
               {recSub>0 && (
                 <div style={{ marginTop:'.8rem', paddingTop:'.8rem', borderTop:'1px solid rgba(255,255,255,.15)' }}>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota {per.label.toLowerCase()} siguiente</div>
                   <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recSubFinal)}</div>
-                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>Sin IVA</div>
+                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>+ IVA</div>
                 </div>
               )}
               <button onClick={() => setShowPayInfo(p=>!p)} style={{ marginTop:'.8rem', background:'none', border:'1px solid rgba(255,255,255,.2)', color:'rgba(255,255,255,.45)', cursor:'pointer', padding:'.4rem .8rem', fontSize:'.58rem', fontFamily:'inherit', width:'100%' }}>
@@ -717,6 +849,8 @@ export default function Configurador() {
   const [consultingPopup, setConsultingPopup] = useState(false);
   const [extrasSelected, setExtrasSelected]   = useState({});
   const [webPopup, setWebPopup]               = useState(false);
+  const [hostingPopup, setHostingPopup]       = useState(false);
+  const [discount, setDiscount]               = useState(null);
 
   const per = PERIODS.find(p => p.id === period);
 
@@ -730,7 +864,12 @@ export default function Configurador() {
     const isAdding = !selected[id];
     // Removing: normal
     if (!isAdding) {
-      setSelected(p => { const n={...p}; delete n[id]; return n; });
+      setSelected(p => { const n={...p}; delete n[id]; if (id==='promo_web') { delete n.promo_hosting; delete n.promo_install; } return n; });
+      return;
+    }
+    if (id === 'promo_web') {
+      setSelected(p => ({ ...p, [id]: true }));
+      setHostingPopup(true);
       return;
     }
     // Adding web pack without SEO → show SEO upsell popup
@@ -807,14 +946,32 @@ export default function Configurador() {
       }
     });
 
-    return [...svcItems, ...extraItems];
+    const hasPackOrAds = ['pk1','pk2','pk3','pk4','pk5','ad1','ad2','ad3','seo1','seo2','seo3'].some(k => selected[k]);
+    const finalItems = svcItems.map(i => (i.id==='promo_hosting' && hasPackOrAds) ? { ...i, pp:0, name:i.name+' · Incluido 🎁' } : i);
+    return [...finalItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
 
-  const sub    = items.reduce((a,i) => a + i.pp, 0);
-  const subM   = multiNeg ? sub*.95 : sub;
-  const iva    = subM*.21;
-  const tot    = subM + iva;
-  const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  // Module combination discounts — gifted services don't count as paid modules
+  const giftedSvc = discount?.svcId ? SVC.find(s => s.id === discount.svcId) : null;
+  const giftedIsRecurring = giftedSvc && !giftedSvc.oneTime;
+  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length - (giftedIsRecurring ? 1 : 0);
+  const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
+  const moduloBonus   = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑'
+                      : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨'
+                      : null;
+
+  // Apply discounts in order: period (in pp) → modulo → multiNeg → código
+  const subBase        = items.reduce((a,i) => a + i.pp, 0);
+  const moduloAmt      = subBase * (moduloDiscPct / 100);
+  const subAfterModulo = subBase - moduloAmt;
+  const sub            = subAfterModulo;
+  const subM           = multiNeg ? sub * .95 : sub;
+  const iva            = subM * .21;
+  const tot            = subM + iva;
+  const recSub         = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  const discountAmt      = discount ? (discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)) : 0;
+  const subAfterDiscount = subM - discountAmt;
+  const ivaFinal         = subAfterDiscount * 0.21;
   const recTot = (multiNeg ? recSub*.95 : recSub)*1.21;
   const shown  = cat==='all' ? SVC.filter(s=>!s.hidden) : SVC.filter(s => s.cat===cat && !s.hidden);
 
@@ -827,25 +984,31 @@ export default function Configurador() {
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:rgba(88,45,129,.2); border-radius:2px; }
 
-        @media print {
-          .no-print { display:none !important; }
-          .print-only { display:block !important; }
-          body { background: #fff !important; }
-        }
         @media screen {
           .print-only { display:none !important; }
+        }
+
+        @media print {
+          * { visibility: hidden !important; }
+          .print-only { visibility: visible !important; display: block !important; position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; }
+          .print-only * { visibility: visible !important; }
+          body { background: #fff !important; margin: 0 !important; }
+          @page { margin: 0.5cm; size: A4; }
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
         }
       `}</style>
 
       {/* ── PRINT-ONLY PROPOSAL ─────────────────────────────────────────── */}
-      <div className="print-only" style={{ fontFamily:"'Poppins', sans-serif", padding:'2.5rem', maxWidth:760, margin:'0 auto', color:C.slate }}>
+      <div className="print-only" style={{ fontFamily:"'Poppins', sans-serif", padding:'1.2rem 1.5rem', maxWidth:'100%', color:C.slate }}>
+
         {/* Header */}
-        <div style={{ borderBottom:`3px solid ${C.purple}`, paddingBottom:'1.2rem', marginBottom:'1.8rem', display:'flex', alignItems:'flex-end', justifyContent:'space-between' }}>
+        <div style={{ borderBottom:`3px solid ${C.purple}`, paddingBottom:'.8rem', marginBottom:'1.2rem', display:'flex', alignItems:'flex-end', justifyContent:'space-between' }}>
           <div>
-            <div style={{ fontSize:'.6rem', letterSpacing:'.2em', textTransform:'uppercase', color:C.lime, fontWeight:700, marginBottom:'.3rem' }}>Los Martes No Hay Luna</div>
-            <div style={{ fontSize:'1.6rem', fontWeight:800, color:C.purple, letterSpacing:'-.03em', lineHeight:1 }}>Propuesta de Marketing</div>
+            <div style={{ fontSize:'.55rem', letterSpacing:'.22em', textTransform:'uppercase', color:C.lime, fontWeight:700, marginBottom:'.3rem' }}>Los Martes No Hay Luna</div>
+            <div style={{ fontSize:'1.4rem', fontWeight:800, color:C.purple, letterSpacing:'-.03em', lineHeight:1 }}>Propuesta de Marketing</div>
           </div>
-          <div style={{ textAlign:'right', fontSize:'.65rem', color:C.mid }}>
+          <div style={{ textAlign:'right', fontSize:'.6rem', color:C.mid, lineHeight:1.7 }}>
             <div>{new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' })}</div>
             <div>hola@losmartesnohayluna.com</div>
             <div>91 999 77 26</div>
@@ -854,33 +1017,47 @@ export default function Configurador() {
 
         {/* Services */}
         {items.length === 0 ? (
-          <p style={{ color:C.mid, fontStyle:'italic', fontSize:'.8rem' }}>No hay servicios seleccionados.</p>
+          <p style={{ color:C.mid, fontStyle:'italic', fontSize:'.75rem' }}>No hay servicios seleccionados.</p>
         ) : (
-          <div style={{ display:'flex', flexDirection:'column', gap:'1rem', marginBottom:'2rem' }}>
+          <div style={{ display:'flex', flexDirection:'column', gap:'.7rem', marginBottom:'1.2rem' }}>
             {items.map(item => {
               const emoji = item.incEmoji || '✅';
               return (
-                <div key={item.id} style={{ border:`1px solid ${C.rule}`, borderTop:`3px solid ${item.bc || C.lime}`, padding:'1rem 1.2rem', pageBreakInside:'avoid' }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.4rem' }}>
+                <div key={item.id} style={{ border:`1px solid ${C.rule}`, borderTop:`3px solid ${item.bc || C.lime}`, padding:'.8rem 1rem', pageBreakInside:'avoid' }}>
+                  {/* Name + price */}
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.3rem' }}>
                     <div>
-                      <div style={{ fontSize:'.9rem', fontWeight:700, color:C.slate }}>{item.name}</div>
-                      {item.sub && <div style={{ fontSize:'.62rem', color:item.bc||C.lime, fontWeight:600 }}>{item.sub}</div>}
+                      <div style={{ fontSize:'.85rem', fontWeight:700, color:C.slate, lineHeight:1.2 }}>{item.name}</div>
+                      {item.sub && <div style={{ fontSize:'.58rem', color:item.bc||C.lime, fontWeight:600, marginTop:'.1rem' }}>{item.sub}</div>}
                     </div>
-                    <div style={{ textAlign:'right', flexShrink:0, marginLeft:'1rem' }}>
-                      <div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>{fmt(item.pp)}</div>
-                      <div style={{ fontSize:'.55rem', color:C.mid }}>{item.oneTime ? 'pago único · sin IVA' : '/mes · sin IVA'}</div>
+                    <div style={{ textAlign:'right', flexShrink:0, marginLeft:'1.5rem' }}>
+                      <div style={{ fontSize:'1rem', fontWeight:800, color:C.purple }}>{item.pp===0 ? 'Incluido' : fmt(item.pp)}</div>
+                      <div style={{ fontSize:'.5rem', color:C.mid }}>{item.oneTime ? 'pago único + IVA' : '/mes + IVA'}</div>
                     </div>
                   </div>
-                  <p style={{ fontSize:'.72rem', color:C.mid, margin:'0 0 .5rem', lineHeight:1.6, fontWeight:300 }}>{item.desc}</p>
-                  {item.incLabel && <div style={{ fontSize:'.62rem', fontWeight:700, color:C.slate, marginBottom:'.3rem' }}>{item.incLabel}</div>}
+                  {/* Description */}
+                  {item.desc && (
+                    <p style={{ fontSize:'.62rem', color:C.mid, margin:'0 0 .4rem', lineHeight:1.55, fontWeight:300 }}>{item.desc}</p>
+                  )}
+                  {/* Inc label */}
+                  {item.incLabel && (
+                    <div style={{ fontSize:'.58rem', fontWeight:700, color:C.slate, marginBottom:'.25rem', letterSpacing:'.03em' }}>{item.incLabel}</div>
+                  )}
+                  {/* Inc items */}
                   {item.inc && item.inc.length > 0 && (
-                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.1rem .8rem' }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.08rem .6rem' }}>
                       {item.inc.map((line, i) => (
-                        <div key={i} style={{ display:'flex', gap:'.4rem', alignItems:'flex-start', padding:'.1rem 0' }}>
-                          <span style={{ fontSize:'.7rem', flexShrink:0 }}>{emoji}</span>
-                          <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.45 }}>{line}</span>
+                        <div key={i} style={{ display:'flex', gap:'.35rem', alignItems:'flex-start', padding:'.07rem 0' }}>
+                          <span style={{ fontSize:'.65rem', flexShrink:0, lineHeight:1.4 }}>{emoji}</span>
+                          <span style={{ fontSize:'.6rem', color:C.slate, fontWeight:300, lineHeight:1.4 }}>{line}</span>
                         </div>
                       ))}
+                    </div>
+                  )}
+                  {/* Booster note */}
+                  {item.booster && (
+                    <div style={{ marginTop:'.35rem', fontSize:'.58rem', color:C.lime, fontWeight:600 }}>
+                      ★ Opción Social Booster disponible como módulo extra.
                     </div>
                   )}
                 </div>
@@ -890,34 +1067,115 @@ export default function Configurador() {
         )}
 
         {/* Economic summary */}
-        <div style={{ border:`1px solid ${C.rule}`, padding:'1.2rem', marginBottom:'1.5rem' }}>
-          <div style={{ fontSize:'.6rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.8rem' }}>Resumen Económico · Precios sin IVA</div>
-          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.75rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
-          {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
-          {per.disc > 0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.lime, marginBottom:'.3rem' }}><span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span></div>}
-          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:'rgba(88,45,129,.45)', paddingTop:'.4rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.6rem' }}><span>+ IVA (21%) al facturar</span><span>{fmt(iva)}</span></div>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.8rem 1rem', marginTop:'.4rem' }}>
-            <div>
-              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.1rem' }}>⚡ Activación total · Primer {per.abbr}</div>
-              <div style={{ fontSize:'.58rem', color:'rgba(255,255,255,.4)' }}>Sin IVA</div>
-              {recSub > 0 && <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.45)', marginTop:'.2rem' }}>Cuota {per.label.toLowerCase()} siguiente: {fmt(multiNeg ? recSub*.95 : recSub)} sin IVA</div>}
+        <div style={{ border:`2px solid ${C.purple}`, padding:'.9rem 1rem', marginBottom:'.8rem' }}>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.6rem' }}>Resumen Económico · Precios + IVA no incluido</div>
+
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.slate, marginBottom:'.25rem', fontWeight:500 }}>
+            <span>Base imponible</span><span>{fmt(subBase)}</span>
+          </div>
+          {moduloDiscPct > 0 && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Dto. combinación {moduloDiscPct===5?'2':moduloDiscPct===10?'3':'4+'} módulos (−{moduloDiscPct}%)</span>
+              <span>−{fmt(moduloAmt)}</span>
             </div>
-            <div style={{ fontSize:'1.6rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em' }}>{fmt(subM)}</div>
+          )}
+          {multiNeg && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span>
+            </div>
+          )}
+          {per.disc > 0 && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span>
+            </div>
+          )}
+          {discount && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.pink, marginBottom:'.25rem', fontWeight:700, padding:'.3rem .5rem', background:'rgba(231,32,120,.06)', border:`1px solid rgba(231,32,120,.2)` }}>
+              <span>🎁 {discount.label || 'Descuento especial'}</span>
+              <span>−{fmt(discountAmt)}</span>
+            </div>
+          )}
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.mid, paddingTop:'.35rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.5rem' }}>
+            <span>+ IVA (21%) al facturar</span><span>{fmt(ivaFinal)}</span>
+          </div>
+
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.85rem 1rem', WebkitPrintColorAdjust:'exact', printColorAdjust:'exact' }}>
+            <div>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.2rem', fontWeight:700 }}>⚡ Activación total · Primer {per.abbr}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)' }}>+ IVA (21%): {fmt(ivaFinal)}</div>
+              {recSub > 0 && (
+                <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)', marginTop:'.15rem' }}>
+                  Cuota {per.label.toLowerCase()} siguiente: {fmt(multiNeg ? recSub*.95 : recSub)} + IVA
+                </div>
+              )}
+            </div>
+            <div style={{ fontSize:'1.7rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', textAlign:'right' }}>
+              {fmt(subAfterDiscount)}
+            </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.8rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-          <div style={{ fontSize:'.6rem', color:C.mid }}>Esta propuesta tiene una validez de 30 días desde la fecha de emisión.</div>
-          <div style={{ fontSize:'.6rem', color:C.purple, fontWeight:600 }}>losmartesnohayluna.com</div>
+        <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.5rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <div style={{ fontSize:'.55rem', color:C.mid }}>Esta propuesta tiene una validez de 30 días desde la fecha de emisión.</div>
+          <div style={{ fontSize:'.55rem', color:C.purple, fontWeight:600 }}>losmartesnohayluna.com</div>
         </div>
       </div>
 
       {wizardOpen && <Wizard onClose={() => setWizardOpen(false)} onApply={applyWizard} />}
 
+      {/* HOSTING CHOICE POPUP (Web PYMEs) */}
+      {hostingPopup && (() => {
+        const hasPackOrAds = ['pk1','pk2','pk3','pk4','pk5','ad1','ad2','ad3','seo1','seo2','seo3'].some(k => selected[k]);
+        const pick = (choice) => { setSelected(p => ({ ...p, [choice]: true })); setHostingPopup(false); };
+        return (
+          <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:500, position:'relative', overflow:'hidden' }}>
+              <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.4rem 1.6rem' }}>
+                <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Un último paso</div>
+                <div style={{ fontSize:'1.15rem', fontWeight:800, color:'#fff', lineHeight:1.2, marginBottom:'.4rem' }}>¿Dónde va a vivir tu web?</div>
+                <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.65)', margin:0, fontWeight:300, lineHeight:1.6 }}>Toda web necesita un dominio y un hosting. Elige cómo quieres resolverlo.</p>
+              </div>
+              <div style={{ padding:'1.3rem 1.6rem', display:'flex', flexDirection:'column', gap:'.7rem' }}>
+                <div onClick={() => pick('promo_hosting')} style={{ border:`2px solid ${C.lime}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer', background:'rgba(135,178,41,.05)', position:'relative' }}>
+                  <div style={{ position:'absolute', top:-10, right:12, background:C.lime, color:C.slate, fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .6rem', borderRadius:3 }}>Recomendado</div>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'1rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate }}>🌐 Dominio + Hosting con nosotros</div>
+                      <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300, lineHeight:1.5, marginTop:'.2rem' }}>Dominio, alojamiento, SSL, actualizaciones y copias de seguridad. Sin permanencia.</div>
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0 }}>
+                      {hasPackOrAds
+                        ? <><div style={{ fontSize:'.7rem', color:C.mid, textDecoration:'line-through' }}>29€/mes</div><div style={{ fontSize:'1.1rem', fontWeight:800, color:C.lime }}>GRATIS</div></>
+                        : <><div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>29€<span style={{ fontSize:'.6rem', color:C.mid, fontWeight:400 }}>/mes</span></div></>}
+                    </div>
+                  </div>
+                  <div style={{ marginTop:'.6rem', fontSize:'.62rem', color: hasPackOrAds ? C.lime : C.purple, fontWeight:600 }}>
+                    {hasPackOrAds ? '🎁 Incluido gratis con tu Pack Base, SEO o campaña de publicidad.' : '🎁 Gratis si contratas un Pack Base, un pack de SEO o una campaña de publicidad.'}
+                  </div>
+                </div>
+                <div onClick={() => pick('promo_install')} style={{ border:`1.5px solid ${C.rule}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer' }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'1rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate }}>🔧 Ya tengo hosting propio</div>
+                      <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300, lineHeight:1.5, marginTop:'.2rem' }}>Instalamos el ZIP de tu web en tu servidor y la dejamos publicada.</div>
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0 }}>
+                      <div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>150€</div>
+                      <div style={{ fontSize:'.52rem', color:C.mid }}>pago único</div>
+                    </div>
+                  </div>
+                </div>
+                <p style={{ fontSize:'.6rem', color:C.mid, textAlign:'center', margin:'.3rem 0 0', lineHeight:1.5 }}>Precios + IVA · Puedes cambiar esta opción desde el presupuesto.</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {/* WEB → SEO UPSELL POPUP */}
       {webPopup && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
           <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:480, position:'relative', overflow:'hidden' }}>
 
             {/* Header */}
@@ -980,7 +1238,7 @@ export default function Configurador() {
 
       {/* SOCIAL BOOSTER POPUP */}
       {boosterPopup && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
           <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:480, padding:'2.2rem', position:'relative', textAlign:'center' }}>
             <button onClick={() => setBoosterPopup(false)} style={{ position:'absolute', top:'1rem', right:'1rem', background:'none', border:'none', fontSize:'1.1rem', color:C.mid, cursor:'pointer', fontFamily:'inherit' }}>×</button>
 
@@ -1021,7 +1279,7 @@ export default function Configurador() {
 
       {/* CONSULTING POPUP */}
       {consultingPopup && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}>
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}>
           <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:520, position:'relative', overflow:'hidden' }}>
 
             {/* Header */}
@@ -1076,7 +1334,7 @@ export default function Configurador() {
                   </div>
                   <div style={{ textAlign:'right', flexShrink:0 }}>
                     <div style={{ fontSize:'1.2rem', fontWeight:800, color: opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.slate }}>{opt.priceMonth}€</div>
-                    <div style={{ fontSize:'.52rem', color:C.mid }}>/mes · sin IVA</div>
+                    <div style={{ fontSize:'.52rem', color:C.mid }}>/mes + IVA</div>
                   </div>
                 </div>
               ))}
@@ -1132,7 +1390,7 @@ export default function Configurador() {
       </div>
 
       {/* MAIN */}
-      <div style={{ maxWidth:1400, margin:'0 auto', display:'grid', gridTemplateColumns:'1fr 340px', alignItems:'start' }}>
+      <div className="no-print" style={{ maxWidth:1400, margin:'0 auto', display:'grid', gridTemplateColumns:'1fr 340px', alignItems:'start' }}>
         <div style={{ borderRight:`1px solid ${C.rule}`, minHeight:'calc(100vh - 112px)' }}>
           {hasSeo && (
             <div style={{ margin:'1.2rem 1.5rem 0', padding:'.75rem 1.1rem', background:'rgba(135,178,41,.12)', border:`1px solid rgba(135,178,41,.35)`, display:'flex', alignItems:'center', gap:'.8rem' }}>
@@ -1177,7 +1435,7 @@ export default function Configurador() {
           )}
         </div>
         <div className="no-print" style={{ padding:'1.5rem', position:'sticky', top:42, maxHeight:'calc(100vh - 42px)', overflowY:'auto' }}>
-          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} />
+          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} />
         </div>
       </div>
     </div>

@@ -14,11 +14,12 @@ const PERIODS = [
 ];
 
 const CATS = [
-  { id: 'all',   icon: '🗂️', label: 'Todos los servicios' },
-  { id: 'packs', icon: '📦', label: 'Packs Base'          },
-  { id: 'ads',   icon: '📣', label: 'Publicidad (Ads)'    },
-  { id: 'seo',   icon: '🔍', label: 'SEO'                 },
-  { id: 'web',   icon: '🌐', label: 'Web y Otros'         },
+  { id: 'all',        icon: '🗂️', label: 'Todos los servicios' },
+  { id: 'packs',      icon: '📦', label: 'Packs Base'          },
+  { id: 'ads',        icon: '📣', label: 'Publicidad (Ads)'    },
+  { id: 'seo',        icon: '🔍', label: 'SEO'                 },
+  { id: 'web',        icon: '🌐', label: 'Web y Otros'         },
+  { id: 'consulting', icon: '🧠', label: 'Consultoría'         },
 ];
 
 const SVC = [
@@ -34,16 +35,62 @@ const SVC = [
   { id:'ad3', cat:'ads', bc:C.lime, name:'💼 Campañas LINKEDIN ADS', sub:'', desc:'El canal por excelencia para venta B2B y servicios corporativos. 🤝', inc:[], price:447, hasSeo:false, oneTime:false },
   { id:'ad4', cat:'ads', badge:'IMPRESCINDIBLE 🚀', badge2:'SÚPER TOP 🚀', bc:C.lime, name:'🚀 Social Booster', sub:'(Acelerador)', desc:'Es la herramienta definitiva para que tu cuenta no esté estancada. 📈 Creamos una estrategia publicitaria de "Perfil de Tráfico" para:', inc:['Atraer seguidores reales interesados en tu sector.','Aumentar las visitas diarias a tu perfil e historias.','Multiplicar el alcance de tus publicaciones orgánicas.'], note:'(Inversión publicitaria en Meta NO incluida)', price:97, hasSeo:false, oneTime:false },
   // SEO
-  { id:'seo1', cat:'seo', bc:C.lime, name:'🗺️ SEO Local', sub:'(Radio 2km)', desc:'Ideal para negocios físicos que quieren dominar su barrio. 📍', inc:['Keyword Research Local: Buscamos cómo te encuentran tus vecinos.','Optimización GBP: Gestión total de tu ficha de Google Maps.','Gestión de Reseñas: Estrategia para mejorar tu reputación.','1 Contenido Geolocalizado/mes: Artículos que atraen tráfico de tu zona.','Informe Mensual: Seguimiento de 10-20 palabras clave.'], price:497, hasSeo:true, oneTime:false },
-  { id:'seo2', cat:'seo', bc:C.lime, name:'🌆 SEO Ciudad', sub:'', desc:'Para empresas que quieren liderar en toda su ciudad. 🏙️', inc:['Auditoría Técnica Completa: Revisión de la "salud" de tu web.','On-Page Avanzado: Optimizamos tus páginas principales para Google.','1 Artículo/mes: Contenido estratégico para posicionar servicios.','1 Landing de Servicio+Barrio: Página específica para captar en zonas clave.','Schema Geo: Código técnico para que Google entienda tu ubicación exacta.','Linkbuilding Local: Enlaces desde sitios de tu ciudad para ganar fuerza.','Seguimiento de 30-50+ Keywords.'], price:797, hasSeo:true, oneTime:false },
-  { id:'seo3', cat:'seo', bc:C.lime, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50).','Linkbuilding de Autoridad: 1 enlace de alta calidad al mes.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
+  { id:'seo1', cat:'seo', bc:C.lime, commitment:12, name:'🗺️ SEO Local', sub:'(Radio 2km)', desc:'Ideal para negocios físicos que quieren dominar su barrio. 📍', inc:['Keyword Research Local: Buscamos cómo te encuentran tus vecinos.','Optimización GBP: Gestión total de tu ficha de Google Maps.','Gestión de Reseñas: Estrategia para mejorar tu reputación.','1 Contenido Geolocalizado/mes: Artículos que atraen tráfico de tu zona.','Informe Mensual: Seguimiento de 10-20 palabras clave.'], price:497, hasSeo:true, oneTime:false },
+  { id:'seo2', cat:'seo', bc:C.lime, commitment:12, name:'🌆 SEO Ciudad', sub:'', desc:'Para empresas que quieren liderar en toda su ciudad. 🏙️', inc:['Auditoría Técnica Completa: Revisión de la "salud" de tu web.','On-Page Avanzado: Optimizamos tus páginas principales para Google.','1 Artículo/mes: Contenido estratégico para posicionar servicios.','1 Landing de Servicio+Barrio: Página específica para captar en zonas clave.','Schema Geo: Código técnico para que Google entienda tu ubicación exacta.','Linkbuilding Local: Enlaces desde sitios de tu ciudad para ganar fuerza.','Seguimiento de 30-50+ Keywords.'], price:797, hasSeo:true, oneTime:false },
+  { id:'seo3', cat:'seo', bc:C.lime, commitment:12, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50). ✅ Incluido.','Estudio de Linkbuilding de Autoridad: Análisis y planificación de enlaces de alta calidad. La ejecución y coste de los enlaces se presupuesta aparte según el perfil de enlazado necesario.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
+  { id:'gbp_tune', cat:'seo', bc:C.purple, badge:'INTERVENCIÓN PUNTUAL 🔧', name:'📍 Puesta a Punto Ficha de Google', sub:'(Auditoría + Solución · Sin cuota mensual)', desc:'Para fichas de Google que ya existen pero no rinden: traspasos, duplicados, cambios de nombre, datos contradictorios o fotos de la etapa anterior. Diagnóstico y puesta en marcha de las soluciones en una sola intervención. 🎯', incLabel:'INCLUYE:', inc:[
+    'Diagnóstico completo de la ficha con acceso de administrador: duplicados, verificación, categorías y datos.',
+    'Gestión con el soporte de Google para fichas duplicadas, cambio de titularidad o nueva verificación.',
+    'Optimización de la ficha: categorías, servicios con precios, descripción, horarios y botón de reservas.',
+    'Fotos: retirada de las del anterior propietario, logo, portada y subida de fotos actuales.',
+    'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.',
+    'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.',
+    'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.',
+  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si en los 30 días siguientes contratas SEO Local, este importe se descuenta del primer mes.', price:497, hasSeo:false, oneTime:true },
   // WEB Y OTROS
-  { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 INCLUYE HOME + PAGINA DE CONTACTO + PAGINA DE SERVICIOS + BLOG.', inc:[], price:2490, priceWithSeo:1690, hasSeo:false, oneTime:true },
+  { id:'promo_web', cat:'web', bc:C.lime, badge:'PRECIO CERRADO · 600€ 🏪', name:'🏪 Web Corporativa para PYMEs', sub:'(Tu web profesional. Lista en 14 días.)', desc:'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯', incLabel:'INCLUYE:', inc:[
+    '3 páginas: home, servicios y contacto.',
+    'Diseño personalizado a medida. Sin plantillas genéricas.',
+    'Adaptada a móvil y tablet.',
+    'WhatsApp + formulario de contacto integrados.',
+    'SEO local básico configurado.',
+    'Páginas legales: aviso legal, privacidad y cookies.',
+    'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.',
+    'ZIP con todos los archivos · Son tuyos.',
+    '30 días de soporte post-entrega.',
+  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 20% de descuento en SEO y campañas durante los primeros 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
+  { id:'promo_hosting', cat:'web', hidden:true, bc:C.lime, name:'🌐 Dominio + Hosting · Web PYMEs', sub:'Mantenimiento técnico incluido · Sin permanencia', desc:'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.', inc:[], price:29, hasSeo:false, oneTime:false },
+  { id:'promo_install', cat:'web', hidden:true, bc:C.lime, name:'🔧 Instalación en hosting propio', sub:'Web PYMEs · Pago único', desc:'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.', inc:[], price:150, hasSeo:false, oneTime:true },
+  { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
+    'Diseño, arquitectura y desarrollo web: HOME + CONTACTO + 2 páginas personalizadas a elegir + BLOG.',
+    'Copys que venden: Mejoramos tus textos para conversión.',
+    'SEO ONPAGE y optimización web (imprescindible).',
+    'Alta e integración: Google Analytics, Search Console y Maps.',
+    'Instalación y configuración ley europea de cookies (2025).',
+  ], extras:[
+    { id:'web1_lp', label:'Página adicional por servicio/producto', price:250, qty:true },
+    { id:'web1_ia',  label:'Asistente conectado con IA (entrenado para convertir leads y cerrar citas)', price:690 },
+  ], price:2490, priceWithSeo:1490, hasSeo:false, oneTime:true },
+  { id:'web_mant', cat:'web', bc:C.lime, name:'🔧 Mantenimiento Web', sub:'', desc:'Seguridad, velocidad y soporte técnico para tu página web. 🛠️', incLabel:'INCLUYE:', inc:[
+    'Cambios y actualizaciones de contenido mensuales.',
+    'Optimización técnica continua: velocidad, rendimiento y SEO técnico.',
+    'Configuración técnica: hasta 1 hora mensual de trabajo incluida.',
+    'Seguridad: actualizaciones, copias de seguridad y monitorización.',
+  ], price:69, hasSeo:false, oneTime:false },
+  { id:'web_micro', cat:'web', bc:C.lime, name:'🌐 Microsite', sub:'', desc:'Un microsite es una web pequeña e independiente, diseñada con un objetivo concreto: presentar un servicio, una marca o una campaña sin la complejidad de una web completa. Perfecto para negocios que necesitan presencia digital rápida, profesional y enfocada.', incLabel:'INCLUYE:', inc:[
+    'Página de inicio (Home) diseñada para captar la atención.',
+    'Página de Contacto con formulario integrado.',
+    'Una página adicional a elegir: galería, zona privada, servicios u otra según necesidad.',
+  ], price:1190, hasSeo:false, oneTime:true },
   { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], price:700, hasSeo:false, oneTime:true },
-  { id:'web2', cat:'web', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
-  { id:'web3', cat:'web', bc:C.lime,   name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
+  { id:'web2', cat:'consulting', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
+  { id:'web3', cat:'consulting', bc:C.lime, name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
   { id:'web4', cat:'web', bc:C.purple, name:'⚙️ CRM Lidera tu Negocio', sub:'', desc:'Tu centro de mando. Gestiona leads, ventas y WhatsApp desde un solo sitio. 🎯', inc:[], crmLink:true, price:729, hasSeo:false, oneTime:false },
   { id:'web5', cat:'web', bc:C.lime,   name:'🔍 Auditoría SEO Profunda', sub:'', desc:'Auditoría profunda técnica + contenidos + Core Web Vitals. Hasta 1500 URLs. 🔍', inc:[], price:1500, hasSeo:false, oneTime:true },
+  // CONSULTORÍA ESTRATÉGICA — visible en catálogo
+  { id:'cons_m', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Mensual',   sub:'1 sesión de 40 min al mes',  inc:['Documento de diagnóstico previo a la sesión.','Sesión de 40 min de estrategia con Sheila.','Plan de acción escrito post-sesión.','Grabación de la sesión incluida.'], price:90,  hasSeo:false, oneTime:false },
+  { id:'cons_q', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Quincenal', sub:'2 sesiones de 40 min al mes', inc:['Documento de diagnóstico previo a cada sesión.','2 sesiones/mes de 40 min con Sheila.','Plan de acción escrito post-sesión.','Grabación de cada sesión incluida.'], price:160, hasSeo:false, oneTime:false },
+  { id:'cons_s', cat:'consulting', hidden:true, bc:C.purple, name:'🧠 Consultoría Estratégica · Semanal',   sub:'4 sesiones de 40 min al mes', inc:['Documento de diagnóstico previo a cada sesión.','4 sesiones/mes de 40 min con Sheila.','Plan de acción escrito post-sesión.','Grabación + hilo de seguimiento entre sesiones.'], price:280, hasSeo:false, oneTime:false },
 ];
 
 // ── WIZARD ───────────────────────────────────────────────────────────────────
@@ -133,7 +180,7 @@ function Wizard({ onClose, onApply }) {
 
   // ── Overlay ──
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
+    <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}
       onClick={e => e.target === e.currentTarget && onClose()}>
 
       <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:560, padding:'2rem', position:'relative', maxHeight:'90vh', overflowY:'auto' }}>
@@ -277,10 +324,82 @@ function Wizard({ onClose, onApply }) {
 
 // ── UTILS ────────────────────────────────────────────────────────────────────
 const fmt = n => n.toLocaleString('es-ES', { minimumFractionDigits:2, maximumFractionDigits:2 }) + '€';
-const COL_LABELS = { packs:'1. PACK BASE', ads:'2. PUBLICIDAD (ADS)', seo:'3. POSICIONAMIENTO (SEO)', web:'4. WEB Y OTROS' };
+const COL_LABELS = { packs:'1. PACK BASE', ads:'2. PUBLICIDAD (ADS)', seo:'3. POSICIONAMIENTO (SEO)', web:'4. WEB Y OTROS', consulting:'5. CONSULTORÍA ESTRATÉGICA' };
+
+// ── CONSULTING CARD ───────────────────────────────────────────────────────────
+const CONS_OPTS = [
+  { id:'cons_m', freq:'Mensual',   sessions:'1 sesión al mes',   priceSession:90,  priceMonth:90,  badge:null,             badgeColor:null    },
+  { id:'cons_q', freq:'Quincenal', sessions:'2 sesiones al mes', priceSession:80,  priceMonth:160, badge:'MÁS POPULAR',    badgeColor:C.purple },
+  { id:'cons_s', freq:'Semanal',   sessions:'4 sesiones al mes', priceSession:70,  priceMonth:280, badge:'MÁXIMO IMPACTO', badgeColor:C.lime   },
+];
+
+function ConsultingCard({ selected, onToggle }) {
+  const activeId = CONS_OPTS.find(o => selected[o.id])?.id || null;
+  return (
+    <div style={{ background:'#fff', border:`1px solid ${activeId ? C.purple : C.rule}`, borderTop:`3px solid ${C.purple}`, boxShadow: activeId ? `0 0 0 2px rgba(88,45,129,.12)` : 'none', gridColumn:'1 / -1' }}>
+      {/* Header */}
+      <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.4rem 1.8rem', display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:'1rem', flexWrap:'wrap' }}>
+        <div style={{ flex:1 }}>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Servicio exclusivo · Solo con Pack Base</div>
+          <h3 style={{ fontSize:'1.1rem', fontWeight:800, color:'#fff', margin:'0 0 .4rem', letterSpacing:'-.02em' }}>🧠 Consultoría Estratégica con Sheila</h3>
+          <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.6)', margin:0, fontWeight:300, lineHeight:1.6, maxWidth:500 }}>
+            Sesiones de 40 minutos enfocadas al 100% en hacer crecer tu negocio. Esto no es una llamada de seguimiento — es trabajo real, documentado y con entregables.
+          </p>
+        </div>
+        <div style={{ display:'flex', gap:'.5rem', flexWrap:'wrap', alignSelf:'center' }}>
+          {[{icon:'📋',label:'Diagnóstico previo'},{icon:'📝',label:'Plan de acción post-sesión'},{icon:'🎥',label:'Grabación incluida'}].map((tag,i) => (
+            <div key={i} style={{ background:'rgba(255,255,255,.1)', border:'1px solid rgba(255,255,255,.15)', padding:'.25rem .65rem', borderRadius:20, display:'flex', alignItems:'center', gap:'.3rem' }}>
+              <span style={{ fontSize:'.7rem' }}>{tag.icon}</span>
+              <span style={{ fontSize:'.58rem', color:'rgba(255,255,255,.7)', fontWeight:500, whiteSpace:'nowrap' }}>{tag.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Options */}
+      <div style={{ padding:'1.4rem 1.8rem', display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))', gap:'1rem' }}>
+        {CONS_OPTS.map(opt => {
+          const isActive = activeId === opt.id;
+          return (
+            <div key={opt.id} onClick={() => {
+              CONS_OPTS.forEach(o => { if (selected[o.id] && o.id !== opt.id) onToggle(o.id); });
+              onToggle(opt.id);
+            }} style={{ border:`2px solid ${isActive ? C.purple : opt.badgeColor || C.rule}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer', position:'relative', transition:'all .15s', background: isActive ? `rgba(88,45,129,.06)` : opt.badgeColor===C.lime ? `rgba(135,178,41,.04)` : '#fff' }}>
+              {opt.badge && (
+                <div style={{ position:'absolute', top:-10, left:'50%', transform:'translateX(-50%)', background:opt.badgeColor, color:opt.badgeColor===C.lime?C.slate:'#fff', fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .7rem', borderRadius:3, whiteSpace:'nowrap' }}>
+                  {opt.badge}
+                </div>
+              )}
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.5rem' }}>
+                <div>
+                  <div style={{ fontSize:'.85rem', fontWeight:700, color:C.slate }}>{opt.freq}</div>
+                  <div style={{ fontSize:'.65rem', color:C.mid, fontWeight:300 }}>{opt.sessions}</div>
+                </div>
+                <div style={{ width:20, height:20, borderRadius:'50%', border:`2px solid ${isActive ? C.purple : C.rule}`, background:isActive?C.purple:'transparent', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  {isActive && <span style={{ color:'#fff', fontSize:'.6rem', fontWeight:800 }}>✓</span>}
+                </div>
+              </div>
+              <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.5rem', display:'flex', alignItems:'baseline', justifyContent:'space-between', gap:'.4rem' }}>
+                <div style={{ fontSize:'.65rem', color:C.mid }}>{opt.priceSession}€/sesión</div>
+                <div>
+                  <span style={{ fontSize:'1.2rem', fontWeight:800, color:isActive?C.purple:(opt.badgeColor||C.slate), letterSpacing:'-.02em' }}>{opt.priceMonth}€</span>
+                  <span style={{ fontSize:'.55rem', color:C.mid }}>/mes</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <div style={{ padding:'0 1.8rem 1.2rem', display:'flex', alignItems:'center', gap:'.8rem', flexWrap:'wrap' }}>
+        <div style={{ fontSize:'.62rem', color:C.mid, fontStyle:'italic' }}>+ IVA · Solo disponible con un Pack Base contratado</div>
+        {activeId && <div style={{ marginLeft:'auto', background:`rgba(88,45,129,.08)`, border:`1px solid rgba(88,45,129,.2)`, padding:'.3rem .8rem', borderRadius:4, fontSize:'.62rem', color:C.purple, fontWeight:600 }}>✓ {CONS_OPTS.find(o=>o.id===activeId)?.freq} seleccionada</div>}
+      </div>
+    </div>
+  );
+}
 
 // ── SERVICE CARD ─────────────────────────────────────────────────────────────
-function ServiceCard({ s, selected, hasSeo, onToggle }) {
+function ServiceCard({ s, selected, hasSeo, onToggle, extrasSelected, onToggleExtra }) {
+  const [bonusOpen, setBonusOpen] = useState(false);
   const displayPrice = s.id === 'web1' && hasSeo ? s.priceWithSeo : s.price;
   const accent = s.bc || C.lime;
   const emoji  = s.incEmoji || '✅';
@@ -315,8 +434,44 @@ function ServiceCard({ s, selected, hasSeo, onToggle }) {
             ))}
           </div>
         )}
-        {s.booster && (
-          <div style={{ marginBottom:'.55rem' }}>
+        {/* Extras opcionales */}
+        {s.extras && s.extras.length > 0 && (
+          <div style={{ marginBottom:'.55rem', borderTop:`1px solid ${C.rule}`, paddingTop:'.55rem' }}>
+            <div style={{ fontSize:'.6rem', fontWeight:700, color:C.mid, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'.4rem' }}>Extras opcionales</div>
+            {s.extras.map(ex => {
+              const qty = typeof extrasSelected?.[ex.id] === 'number' ? extrasSelected[ex.id] : (extrasSelected?.[ex.id] ? 1 : 0);
+              return ex.qty ? (
+                /* Quantity stepper */
+                <div key={ex.id} style={{ display:'flex', alignItems:'center', gap:'.6rem', padding:'.35rem 0' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:'.3rem', flexShrink:0 }}>
+                    <button onClick={() => onToggleExtra && onToggleExtra(ex.id, qty - 1)} style={{ width:22, height:22, border:`1px solid ${C.rule}`, background:'#fff', borderRadius:4, cursor:'pointer', fontFamily:'inherit', fontSize:'.8rem', color:C.purple, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>−</button>
+                    <span style={{ fontSize:'.8rem', fontWeight:700, color:C.purple, minWidth:16, textAlign:'center' }}>{qty}</span>
+                    <button onClick={() => onToggleExtra && onToggleExtra(ex.id, qty + 1)} style={{ width:22, height:22, border:`1px solid ${C.lime}`, background:C.lime, borderRadius:4, cursor:'pointer', fontFamily:'inherit', fontSize:'.8rem', color:C.slate, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>+</button>
+                  </div>
+                  <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.4, flex:1 }}>{ex.label}</span>
+                  <span style={{ fontSize:'.7rem', fontWeight:700, color:C.purple, flexShrink:0, textAlign:'right' }}>
+                    {qty > 0 ? (() => {
+                      let total = 0;
+                      for (let i = 0; i < qty; i++) { total += ex.price * (1 - Math.min(i * 0.20, 0.80)); }
+                      return <>{fmt(Math.round(total))}{qty > 1 && <span style={{ fontSize:'.55rem', color:C.lime, display:'block' }}>−{Math.min((qty-1)*20,80)}% en última</span>}</>;
+                    })() : `${fmt(ex.price)}/ud.`}
+                  </span>
+                </div>
+              ) : (
+                /* Checkbox */
+                <div key={ex.id} onClick={() => onToggleExtra && onToggleExtra(ex.id)} style={{ display:'flex', alignItems:'flex-start', gap:'.6rem', padding:'.35rem 0', cursor:'pointer' }}>
+                  <div style={{ width:16, height:16, border:`2px solid ${qty ? C.purple : C.rule}`, borderRadius:3, background:qty ? C.purple : '#fff', flexShrink:0, marginTop:'.1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {qty > 0 && <span style={{ color:'#fff', fontSize:'.55rem', fontWeight:800 }}>✓</span>}
+                  </div>
+                  <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300, lineHeight:1.4, flex:1 }}>{ex.label}</span>
+                  <span style={{ fontSize:'.7rem', fontWeight:700, color:C.purple, flexShrink:0 }}>+{fmt(ex.price)}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {s.booster && (          <div style={{ marginBottom:'.55rem' }}>
             <div style={{ fontSize:'.68rem', fontWeight:700, color:C.lime, marginBottom:'.18rem', lineHeight:1.4 }}>★ 🚀 OPCIÓN SOCIAL BOOSTER <span style={{ fontWeight:400 }}>(Disponible en módulos extra)</span></div>
             <div style={{ fontSize:'.72rem', color:C.mid, fontWeight:300, lineHeight:1.55 }}>{s.booster}</div>
           </div>
@@ -332,16 +487,163 @@ function ServiceCard({ s, selected, hasSeo, onToggle }) {
               <div style={{ fontSize:'.55rem', color:C.mid }}>(IVA no incluido)</div>
             </div>
           </div>
+          {s.commitment && (
+            <div style={{ marginTop:'.5rem', display:'flex', alignItems:'center', gap:'.4rem', background:`rgba(231,32,120,.06)`, border:`1px solid rgba(231,32,120,.2)`, padding:'.3rem .65rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.7rem' }}>📋</span>
+              <span style={{ fontSize:'.62rem', color:C.pink, fontWeight:600 }}>Compromiso mínimo: {s.commitment} meses</span>
+            </div>
+          )}
         </div>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginTop:'.65rem', gap:'.5rem' }}>
-          <a href="https://presentacion.losmartesnohayluna.com/tarifas2026" target="_blank" rel="noopener noreferrer" style={{ fontSize:'.65rem', color:C.purple, fontWeight:600, textDecoration:'none' }}>
-            {s.crmLink ? 'Ver condiciones' : '¿Qué incluye?'}
+          <a href={s.link || "https://presentacion.losmartesnohayluna.com/tarifas2026"} target="_blank" rel="noopener noreferrer" style={{ fontSize:'.65rem', color:C.purple, fontWeight:600, textDecoration:'none' }}>
+            {s.crmLink ? 'Ver condiciones' : s.link ? 'Ver la promo' : '¿Qué incluye?'}
           </a>
           {s.hasBonus && (
-            <a href="https://presentacion.losmartesnohayluna.com/tarifas2026" target="_blank" rel="noopener noreferrer" style={{ fontSize:'.6rem', background:`${C.lime}22`, border:`1px solid ${C.lime}55`, color:C.slate, padding:'.3rem .7rem', fontWeight:700, textDecoration:'none', whiteSpace:'nowrap' }}>
+            <button onClick={() => setBonusOpen(true)} style={{ fontSize:'.6rem', background:`${C.lime}22`, border:`1px solid ${C.lime}55`, color:C.slate, padding:'.3rem .7rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit', whiteSpace:'nowrap' }}>
               🎁 BONUS INCLUIDOS
-            </a>
+            </button>
           )}
+        </div>
+        {bonusOpen && <BonusModal packId={s.id} onClose={() => setBonusOpen(false)} />}
+      </div>
+    </div>
+  );
+}
+
+// ── BONUS MODAL ──────────────────────────────────────────────────────────────
+const BONUS_DATA = {
+  pk4: {
+    title: '💎 Pack Expansión',
+    valoracion: '+1.000€/mes',
+    color: C.purple,
+    ideal: 'Dominar tu zona',
+    soporte: 'Urgencias 72h',
+    sections: [
+      {
+        title: '🎨 Diseño y Creatividad',
+        items: [
+          { label: 'Diseños para redes', value: 'Ilimitados' },
+          { label: 'Flyers y banners', check: true },
+          { label: 'Tarjetas Corporativas', check: true },
+          { label: 'Papelería corporativa', check: true },
+          { label: 'Landing Pages', value: 'Bimensual' },
+        ],
+      },
+      {
+        title: '📊 Consultoría y Estrategia',
+        items: [
+          { label: 'Sesión estratégica', value: 'Mensual' },
+          { label: 'Análisis de métricas', value: 'Mensual' },
+          { label: 'Informe de resultados', value: 'Mensual' },
+          { label: 'Análisis de competencia', value: 'Mensual' },
+        ],
+      },
+    ],
+  },
+  pk5: {
+    title: '👑 Pack Imperio',
+    valoracion: '+2.000€/mes',
+    color: C.pink,
+    ideal: 'Liderar tu sector',
+    soporte: 'Urgencias 32h',
+    sections: [
+      {
+        title: '🎨 Pack Diseño Premium',
+        items: [
+          { label: 'Identidad visual y logotipos', check: true },
+          { label: 'Diseño web (hasta mediana)', check: true },
+          { label: 'Vídeos y motion graphics', check: true },
+          { label: 'Presentaciones PPT', check: true },
+          { label: 'One pagers comerciales', check: true },
+          { label: 'Infografías', check: true },
+          { label: 'Manuales y reportes', check: true },
+          { label: 'Landing Pages', value: 'Mensual' },
+        ],
+      },
+      {
+        title: '📊 Consultoría y Estrategia',
+        items: [
+          { label: 'Sesión estratégica', value: 'Mensual' },
+          { label: 'Análisis de métricas', value: 'Mensual' },
+          { label: 'Informe de resultados', value: 'Mensual' },
+          { label: 'Análisis de competencia', value: 'Mensual' },
+        ],
+      },
+      {
+        title: '🔍 Posicionamiento SEO',
+        items: [
+          { label: 'SEO Local (Radio 2km)', check: true },
+          { label: 'SEO Ciudad (Radio 50km)', check: true },
+          { label: 'SEO Nacional / >300km', check: true },
+          { label: 'Artículos/Landing SEO', value: 'Mensual' },
+          { label: 'Optimización Google My Business', check: true },
+          { label: 'Sistema de reputación online', check: true },
+        ],
+      },
+    ],
+  },
+};
+
+function BonusModal({ packId, onClose }) {
+  const data = BONUS_DATA[packId];
+  if (!data) return null;
+  return (
+    <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}
+      onClick={e => e.target===e.currentTarget && onClose()}>
+      <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:580, position:'relative', overflow:'hidden', maxHeight:'90vh', display:'flex', flexDirection:'column' }}>
+
+        {/* Header */}
+        <div style={{ background:data.color, padding:'1.4rem 1.6rem', flexShrink:0 }}>
+          <button onClick={onClose} style={{ position:'absolute', top:'1rem', right:'1rem', background:'rgba(255,255,255,.15)', border:'none', borderRadius:'50%', width:28, height:28, color:'#fff', cursor:'pointer', fontFamily:'inherit', fontSize:'1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:'rgba(255,255,255,.5)', marginBottom:'.3rem' }}>Bonus incluido</div>
+          <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#fff', marginBottom:'.3rem' }}>{data.title}</div>
+          <div style={{ display:'flex', gap:'.8rem', alignItems:'center', flexWrap:'wrap' }}>
+            <div style={{ background:'rgba(255,255,255,.15)', padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', color:'rgba(255,255,255,.6)' }}>Valor del bonus: </span>
+              <span style={{ fontSize:'.7rem', fontWeight:800, color:C.lime }}>{data.valoracion}</span>
+            </div>
+            <div style={{ background:'rgba(255,255,255,.15)', padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', color:'rgba(255,255,255,.6)' }}>Soporte: </span>
+              <span style={{ fontSize:'.7rem', fontWeight:700, color:'#fff' }}>{data.soporte}</span>
+            </div>
+            <div style={{ background:C.lime, padding:'.25rem .7rem', borderRadius:4 }}>
+              <span style={{ fontSize:'.6rem', fontWeight:700, color:C.slate }}>Ideal para: {data.ideal}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div style={{ overflowY:'auto', padding:'1.4rem 1.6rem', display:'flex', flexDirection:'column', gap:'1.2rem' }}>
+          {data.sections.map((sec, si) => (
+            <div key={si}>
+              <div style={{ fontSize:'.65rem', fontWeight:700, color:C.slate, letterSpacing:'.06em', marginBottom:'.6rem', paddingBottom:'.4rem', borderBottom:`2px solid ${C.lime}` }}>
+                {sec.title}
+              </div>
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.25rem .6rem' }}>
+                {sec.items.map((item, ii) => (
+                  <div key={ii} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'.3rem .5rem', background:'#f8f6f2', borderRadius:4, gap:'.4rem' }}>
+                    <span style={{ fontSize:'.68rem', color:C.slate, fontWeight:300 }}>{item.label}</span>
+                    {item.check
+                      ? <span style={{ fontSize:'.75rem', flexShrink:0 }}>✅</span>
+                      : <span style={{ fontSize:'.65rem', fontWeight:700, color:data.color, flexShrink:0 }}>{item.value}</span>
+                    }
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div style={{ background:`${data.color}11`, border:`1px solid ${data.color}33`, borderRadius:8, padding:'.8rem 1rem', marginTop:'.4rem' }}>
+            <p style={{ fontSize:'.72rem', color:C.slate, margin:0, lineHeight:1.65, fontWeight:300 }}>
+              Todo este bonus está <strong>incluido en el precio del pack</strong>, sin coste adicional. El valor estimado de mercado de estos servicios por separado supera los <strong style={{ color:data.color }}>{data.valoracion}</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div style={{ padding:'1rem 1.6rem', borderTop:`1px solid ${C.rule}`, flexShrink:0 }}>
+          <button onClick={onClose} style={{ width:'100%', padding:'.75rem', background:data.color, color:'#fff', border:'none', borderRadius:8, fontSize:'.65rem', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}>
+            Cerrar
+          </button>
         </div>
       </div>
     </div>
@@ -349,9 +651,48 @@ function ServiceCard({ s, selected, hasSeo, onToggle }) {
 }
 
 // ── BUDGET PANEL ──────────────────────────────────────────────────────────────
-function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle }) {
+function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
+  const [codeOpen, setCodeOpen]       = useState(false);
+  const [codeInput, setCodeInput]     = useState('');
+  const [codeError, setCodeError]     = useState(false);
+
   const isEmpty = items.length === 0;
+  const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  const recSubFinal = multiNeg ? recSub*.95 : recSub;
+
+  const discountAmt = discount
+    ? discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)
+    : 0;
+
+  const applyCode = () => {
+    const raw = codeInput.trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!raw.startsWith('regalo')) { setCodeError(true); return; }
+    const val = raw.replace('regalo', '').trim();
+
+    // regalo 30% → porcentaje
+    const matchPct = val.match(/^(\d+)\s*%$/);
+    // regalo 50€ or regalo 50e → euros fijos
+    const matchEur = val.match(/^(\d+)\s*[€e]$/);
+    // regalo [nombre servicio] → descuento del precio del servicio
+    const matchSvc = SVC.find(s =>
+      s.name.toLowerCase().replace(/[^a-z0-9 ]/g,'').includes(val.replace(/[^a-z0-9 ]/g,'')) ||
+      val.replace(/[^a-z0-9 ]/g,'').includes(s.name.toLowerCase().replace(/[^a-z0-9 ]/g,'').split(' ').slice(1).join(' ').substring(0,8))
+    );
+
+    if (matchPct) {
+      setDiscount({ type:'pct', value: parseInt(matchPct[1], 10), label:`−${matchPct[1]}%` });
+    } else if (matchEur) {
+      setDiscount({ type:'eur', value: parseInt(matchEur[1], 10), label:`−${matchEur[1]}€` });
+    } else if (matchSvc) {
+      setDiscount({ type:'eur', value: matchSvc.price, label:`${matchSvc.name.replace(/^[^\w\s]+\s*/,'')} gratis 🎁`, svcId: matchSvc.id });
+    } else {
+      setCodeError(true); return;
+    }
+    setCodeError(false); setCodeOpen(false); setCodeInput('');
+  };
+
+  const removeDiscount = () => setDiscount(null);
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:'.6rem' }}>
       <div style={{ background:C.purple, padding:'1rem 1.2rem', borderTop:`3px solid ${C.lime}` }}>
@@ -376,7 +717,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                   <div style={{ fontSize:'.58rem', color:C.mid }}>{item.oneTime ? 'Pago único' : per.label}</div>
                 </div>
                 <div style={{ display:'flex', alignItems:'center', gap:'.4rem', flexShrink:0 }}>
-                  <div style={{ fontSize:'.82rem', fontWeight:700, color:C.purple }}>{fmt(item.pp)}</div>
+                  <div style={{ fontSize:'.82rem', fontWeight:700, color:C.purple }}>{item.pp===0 ? 'Incluido' : fmt(item.pp)}</div>
                   <button onClick={() => onToggle(item.id)} style={{ width:18, height:18, borderRadius:'50%', border:'none', background:`rgba(231,32,120,.12)`, color:C.pink, cursor:'pointer', fontSize:'.8rem', fontFamily:'inherit', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>×</button>
                 </div>
               </div>
@@ -384,19 +725,90 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
           </div>
           <div style={{ background:'#fff', border:`1px solid ${C.rule}` }}>
             <div style={{ padding:'1rem 1.2rem' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subM)}</span></div>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subBase)}</span></div>
+              {moduloDiscPct > 0 && (
+                <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem', fontWeight:600 }}>
+                  <span>Dto. combinación {moduloDiscPct === 5 ? '2' : moduloDiscPct === 10 ? '3' : '4+'} módulos (−{moduloDiscPct}%)</span>
+                  <span>−{fmt(moduloAmt)}</span>
+                </div>
+              )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
               {per.disc>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>✓ aplicado</span></div>}
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, paddingTop:'.4rem', borderTop:`1px solid ${C.rule}` }}><span>IVA (21%)</span><span>{fmt(iva)}</span></div>
+              {discount && (
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
+                  <span>🎁 {discount.label || 'Descuento especial'}</span>
+                  <div style={{ display:'flex', alignItems:'center', gap:'.4rem' }}>
+                    <span>−{fmt(discountAmt)}</span>
+                    <button onClick={removeDiscount} style={{ background:'none', border:'none', cursor:'pointer', color:C.mid, fontSize:'.7rem', lineHeight:1, fontFamily:'inherit' }}>×</button>
+                  </div>
+                </div>
+              )}
+              {moduloBonus && (
+                <div style={{ fontSize:'.62rem', color:C.lime, background:'rgba(135,178,41,.08)', border:`1px solid rgba(135,178,41,.25)`, padding:'.35rem .6rem', marginBottom:'.3rem', fontWeight:600 }}>
+                  🎁 {moduloBonus}
+                </div>
+              )}
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.65rem', color:'rgba(88,45,129,.45)', paddingTop:'.4rem', borderTop:`1px solid ${C.rule}` }}>
+                <span>+ IVA (21%) al facturar</span><span>{fmt(ivaFinal)}</span>
+              </div>
             </div>
             <div style={{ background:C.purple, padding:'1.2rem' }}>
-              <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.lime, marginBottom:'.15rem' }}>⚡ Activación total · Pago hoy</div>
-              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(tot)}</div>
-              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>Primer {per.abbr} · IVA incluido</div>
-              {recTot>0 && (
+              <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'.15rem' }}>
+                <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.lime }}>⚡ Activación total · Pago hoy</div>
+                {/* Subtle gift icon — only visible to those who know */}
+                <button onClick={() => { setCodeOpen(o=>!o); setCodeError(false); }} style={{ background:'none', border:'none', cursor:'pointer', fontSize:'.75rem', opacity:.25, lineHeight:1, padding:'.1rem', fontFamily:'inherit' }} title="">🏷</button>
+              </div>
+              {/* Code input */}
+              {codeOpen && (() => {
+                const raw = codeInput.trim().toLowerCase();
+                const showSuggestions = raw === 'regalo' || raw.startsWith('regalo ');
+                const suggestions = showSuggestions ? [
+                  ...SVC.filter(s => !s.hidden && s.price > 0).map(s => ({
+                    label: `${s.name.replace(/^[^\w]+/, '')} — ${fmt(s.price)} gratis`,
+                    code: `regalo ${s.name.replace(/^[^\w\s]+\s*/, '').toLowerCase()}`,
+                  })),
+                  { label: '20% de descuento', code: 'regalo20%' },
+                  { label: '30% de descuento', code: 'regalo30%' },
+                  { label: '40% de descuento', code: 'regalo40%' },
+                ] : [];
+                return (
+                  <div style={{ marginBottom:'.6rem', position:'relative' }}>
+                    <div style={{ display:'flex', gap:'.4rem' }}>
+                      <input
+                        value={codeInput}
+                        onChange={e => { setCodeInput(e.target.value); setCodeError(false); }}
+                        onKeyDown={e => e.key==='Enter' && applyCode()}
+                        placeholder="regalo..."
+                        style={{ flex:1, background:'rgba(255,255,255,.1)', border:`1px solid ${codeError ? C.pink : 'rgba(255,255,255,.2)'}`, color:'#fff', padding:'.35rem .6rem', fontSize:'.68rem', fontFamily:'inherit', outline:'none', borderRadius:4 }}
+                      />
+                      <button onClick={applyCode} style={{ background:C.lime, border:'none', color:C.slate, padding:'.35rem .7rem', fontSize:'.6rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit', borderRadius:4 }}>OK</button>
+                    </div>
+                    {showSuggestions && suggestions.length > 0 && (
+                      <div style={{ position:'absolute', top:'100%', left:0, right:0, background:'#fff', border:`1px solid ${C.rule}`, borderRadius:6, marginTop:'.2rem', zIndex:300, maxHeight:220, overflowY:'auto', boxShadow:'0 4px 16px rgba(0,0,0,.15)' }}>
+                        {suggestions.map((s, i) => (
+                          <div
+                            key={i}
+                            onClick={() => { setCodeInput(s.code); setCodeError(false); }}
+                            style={{ padding:'.5rem .8rem', fontSize:'.68rem', color:C.slate, cursor:'pointer', borderBottom:`1px solid ${C.rule}`, display:'flex', alignItems:'center', gap:'.5rem' }}
+                            onMouseEnter={e => e.currentTarget.style.background=C.light}
+                            onMouseLeave={e => e.currentTarget.style.background='#fff'}
+                          >
+                            <span style={{ color:C.lime, fontWeight:700, flexShrink:0 }}>🎁</span>
+                            <span>{s.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+              <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(subAfterDiscount)}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>+ IVA · Primer {per.abbr}</div>
+              {recSub>0 && (
                 <div style={{ marginTop:'.8rem', paddingTop:'.8rem', borderTop:'1px solid rgba(255,255,255,.15)' }}>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota {per.label.toLowerCase()} siguiente</div>
-                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recTot)}</div>
+                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recSubFinal)}</div>
+                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>+ IVA</div>
                 </div>
               )}
               <button onClick={() => setShowPayInfo(p=>!p)} style={{ marginTop:'.8rem', background:'none', border:'1px solid rgba(255,255,255,.2)', color:'rgba(255,255,255,.45)', cursor:'pointer', padding:'.4rem .8rem', fontSize:'.58rem', fontFamily:'inherit', width:'100%' }}>
@@ -432,8 +844,13 @@ export default function Configurador() {
   const [period, setPeriod]     = useState('m');
   const [multiNeg, setMultiNeg] = useState(false);
   const [cat, setCat]           = useState('all');
-  const [wizardOpen, setWizardOpen]   = useState(false);
-  const [boosterPopup, setBoosterPopup] = useState(false);
+  const [wizardOpen, setWizardOpen]           = useState(false);
+  const [boosterPopup, setBoosterPopup]       = useState(false);
+  const [consultingPopup, setConsultingPopup] = useState(false);
+  const [extrasSelected, setExtrasSelected]   = useState({});
+  const [webPopup, setWebPopup]               = useState(false);
+  const [hostingPopup, setHostingPopup]       = useState(false);
+  const [discount, setDiscount]               = useState(null);
 
   const per = PERIODS.find(p => p.id === period);
 
@@ -441,17 +858,48 @@ export default function Configurador() {
     Object.keys(selected).some(id => SVC.find(s => s.id === id)?.hasSeo),
   [selected]);
 
+  const PACK_IDS = ['pk1','pk2','pk3','pk4','pk5'];
+
   const toggle = id => {
-    // Si añaden pk1 o pk2 y el booster no está ya seleccionado → mostrar popup
-    if ((id === 'pk1' || id === 'pk2') && !selected[id] && !selected['ad4']) {
-      setSelected(p => ({ ...p, [id]: true }));
-      setBoosterPopup(id);
+    const isAdding = !selected[id];
+    // Removing: normal
+    if (!isAdding) {
+      setSelected(p => { const n={...p}; delete n[id]; if (id==='promo_web') { delete n.promo_hosting; delete n.promo_install; } return n; });
       return;
     }
-    setSelected(p => {
-      if (p[id]) { const n={...p}; delete n[id]; return n; }
-      return { ...p, [id]: true };
-    });
+    if (id === 'promo_web') {
+      setSelected(p => ({ ...p, [id]: true }));
+      setHostingPopup(true);
+      return;
+    }
+    // Adding web pack without SEO → show SEO upsell popup
+    if (id === 'web1' && !hasSeo) {
+      setSelected(p => ({ ...p, [id]: true }));
+      setWebPopup(true);
+      return;
+    }
+    // Adding a base pack
+    if (PACK_IDS.includes(id)) {
+      setSelected(p => ({ ...p, [id]: true }));
+      // pk1/pk2: booster first, then consulting
+      if ((id==='pk1'||id==='pk2') && !selected['ad4']) {
+        setBoosterPopup(id);
+      } else {
+        // other packs: consulting directly (only if none selected yet)
+        const hasConsulting = Object.keys(selected).some(k => k.startsWith('cons_'));
+        if (!hasConsulting) setConsultingPopup(true);
+      }
+      return;
+    }
+    setSelected(p => ({ ...p, [id]: true }));
+  };
+
+  const closeBooster = (addBooster) => {
+    if (addBooster) setSelected(p => ({ ...p, ad4: true }));
+    setBoosterPopup(false);
+    // After booster, show consulting if none selected
+    const hasConsulting = Object.keys(selected).some(k => k.startsWith('cons_'));
+    if (!hasConsulting) setConsultingPopup(true);
   };
 
   const applyWizard = ids => {
@@ -460,20 +908,72 @@ export default function Configurador() {
     setSelected(next);
   };
 
-  const items = useMemo(() => Object.keys(selected).map(id => {
-    const s  = SVC.find(x => x.id === id);
-    const bp = s.id==='web1' && hasSeo ? s.priceWithSeo : s.price;
-    const pp = s.oneTime ? bp : bp * per.mult * (1 - per.disc);
-    return { ...s, bp, pp };
-  }), [selected, period, hasSeo, per]);
+  const toggleExtra = (id, qty) => setExtrasSelected(p => {
+    if (qty !== undefined) {
+      if (qty <= 0) { const n={...p}; delete n[id]; return n; }
+      return { ...p, [id]: qty };
+    }
+    if (p[id]) { const n={...p}; delete n[id]; return n; }
+    return { ...p, [id]: 1 };
+  });
 
-  const sub    = items.reduce((a,i) => a + i.pp, 0);
-  const subM   = multiNeg ? sub*.95 : sub;
-  const iva    = subM*.21;
-  const tot    = subM + iva;
-  const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  const items = useMemo(() => {
+    const svcItems = Object.keys(selected).map(id => {
+      const s  = SVC.find(x => x.id === id);
+      if (!s) return null;
+      const bp = s.id==='web1' && hasSeo ? s.priceWithSeo : s.price;
+      const pp = s.oneTime ? bp : bp * per.mult * (1 - per.disc);
+      return { ...s, bp, pp };
+    }).filter(Boolean);
+
+    // Add selected extras as line items
+    const extraItems = [];
+    SVC.forEach(s => {
+      if (s.extras) {
+        s.extras.forEach(ex => {
+          if (extrasSelected[ex.id]) {
+            const q = typeof extrasSelected[ex.id] === 'number' ? extrasSelected[ex.id] : 1;
+            const label = q > 1 ? `${ex.label} (×${q})` : ex.label;
+            // 20% discount per additional page from page 2 onwards
+            let total = 0;
+            for (let i = 0; i < q; i++) {
+              const disc = Math.min(i * 0.20, 0.80); // max 80% discount
+              total += ex.price * (1 - disc);
+            }
+            extraItems.push({ id:ex.id, name:label, pp:Math.round(total), oneTime:true, bc:s.bc, inc:[] });
+          }
+        });
+      }
+    });
+
+    const hasPackOrAds = ['pk1','pk2','pk3','pk4','pk5','ad1','ad2','ad3','seo1','seo2','seo3'].some(k => selected[k]);
+    const finalItems = svcItems.map(i => (i.id==='promo_hosting' && hasPackOrAds) ? { ...i, pp:0, name:i.name+' · Incluido 🎁' } : i);
+    return [...finalItems, ...extraItems];
+  }, [selected, extrasSelected, period, hasSeo, per]);
+
+  // Module combination discounts — gifted services don't count as paid modules
+  const giftedSvc = discount?.svcId ? SVC.find(s => s.id === discount.svcId) : null;
+  const giftedIsRecurring = giftedSvc && !giftedSvc.oneTime;
+  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length - (giftedIsRecurring ? 1 : 0);
+  const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
+  const moduloBonus   = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑'
+                      : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨'
+                      : null;
+
+  // Apply discounts in order: period (in pp) → modulo → multiNeg → código
+  const subBase        = items.reduce((a,i) => a + i.pp, 0);
+  const moduloAmt      = subBase * (moduloDiscPct / 100);
+  const subAfterModulo = subBase - moduloAmt;
+  const sub            = subAfterModulo;
+  const subM           = multiNeg ? sub * .95 : sub;
+  const iva            = subM * .21;
+  const tot            = subM + iva;
+  const recSub         = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
+  const discountAmt      = discount ? (discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)) : 0;
+  const subAfterDiscount = subM - discountAmt;
+  const ivaFinal         = subAfterDiscount * 0.21;
   const recTot = (multiNeg ? recSub*.95 : recSub)*1.21;
-  const shown  = cat==='all' ? SVC : SVC.filter(s => s.cat===cat);
+  const shown  = cat==='all' ? SVC.filter(s=>!s.hidden) : SVC.filter(s => s.cat===cat && !s.hidden);
 
   return (
     <div style={{ fontFamily:"'Poppins', sans-serif", background:C.offWhite, minHeight:'100vh', fontSize:14 }}>
@@ -483,14 +983,262 @@ export default function Configurador() {
         ::-webkit-scrollbar { width:4px; height:4px; }
         ::-webkit-scrollbar-track { background:transparent; }
         ::-webkit-scrollbar-thumb { background:rgba(88,45,129,.2); border-radius:2px; }
-        @media print { .no-print { display:none !important; } }
+
+        @media screen {
+          .print-only { display:none !important; }
+        }
+
+        @media print {
+          * { visibility: hidden !important; }
+          .print-only { visibility: visible !important; display: block !important; position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; }
+          .print-only * { visibility: visible !important; }
+          body { background: #fff !important; margin: 0 !important; }
+          @page { margin: 0.5cm; size: A4; }
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
       `}</style>
+
+      {/* ── PRINT-ONLY PROPOSAL ─────────────────────────────────────────── */}
+      <div className="print-only" style={{ fontFamily:"'Poppins', sans-serif", padding:'1.2rem 1.5rem', maxWidth:'100%', color:C.slate }}>
+
+        {/* Header */}
+        <div style={{ borderBottom:`3px solid ${C.purple}`, paddingBottom:'.8rem', marginBottom:'1.2rem', display:'flex', alignItems:'flex-end', justifyContent:'space-between' }}>
+          <div>
+            <div style={{ fontSize:'.55rem', letterSpacing:'.22em', textTransform:'uppercase', color:C.lime, fontWeight:700, marginBottom:'.3rem' }}>Los Martes No Hay Luna</div>
+            <div style={{ fontSize:'1.4rem', fontWeight:800, color:C.purple, letterSpacing:'-.03em', lineHeight:1 }}>Propuesta de Marketing</div>
+          </div>
+          <div style={{ textAlign:'right', fontSize:'.6rem', color:C.mid, lineHeight:1.7 }}>
+            <div>{new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' })}</div>
+            <div>hola@losmartesnohayluna.com</div>
+            <div>91 999 77 26</div>
+          </div>
+        </div>
+
+        {/* Services */}
+        {items.length === 0 ? (
+          <p style={{ color:C.mid, fontStyle:'italic', fontSize:'.75rem' }}>No hay servicios seleccionados.</p>
+        ) : (
+          <div style={{ display:'flex', flexDirection:'column', gap:'.7rem', marginBottom:'1.2rem' }}>
+            {items.map(item => {
+              const emoji = item.incEmoji || '✅';
+              return (
+                <div key={item.id} style={{ border:`1px solid ${C.rule}`, borderTop:`3px solid ${item.bc || C.lime}`, padding:'.8rem 1rem', pageBreakInside:'avoid' }}>
+                  {/* Name + price */}
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'.3rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.85rem', fontWeight:700, color:C.slate, lineHeight:1.2 }}>{item.name}</div>
+                      {item.sub && <div style={{ fontSize:'.58rem', color:item.bc||C.lime, fontWeight:600, marginTop:'.1rem' }}>{item.sub}</div>}
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0, marginLeft:'1.5rem' }}>
+                      <div style={{ fontSize:'1rem', fontWeight:800, color:C.purple }}>{item.pp===0 ? 'Incluido' : fmt(item.pp)}</div>
+                      <div style={{ fontSize:'.5rem', color:C.mid }}>{item.oneTime ? 'pago único + IVA' : '/mes + IVA'}</div>
+                    </div>
+                  </div>
+                  {/* Description */}
+                  {item.desc && (
+                    <p style={{ fontSize:'.62rem', color:C.mid, margin:'0 0 .4rem', lineHeight:1.55, fontWeight:300 }}>{item.desc}</p>
+                  )}
+                  {/* Inc label */}
+                  {item.incLabel && (
+                    <div style={{ fontSize:'.58rem', fontWeight:700, color:C.slate, marginBottom:'.25rem', letterSpacing:'.03em' }}>{item.incLabel}</div>
+                  )}
+                  {/* Inc items */}
+                  {item.inc && item.inc.length > 0 && (
+                    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.08rem .6rem' }}>
+                      {item.inc.map((line, i) => (
+                        <div key={i} style={{ display:'flex', gap:'.35rem', alignItems:'flex-start', padding:'.07rem 0' }}>
+                          <span style={{ fontSize:'.65rem', flexShrink:0, lineHeight:1.4 }}>{emoji}</span>
+                          <span style={{ fontSize:'.6rem', color:C.slate, fontWeight:300, lineHeight:1.4 }}>{line}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Booster note */}
+                  {item.booster && (
+                    <div style={{ marginTop:'.35rem', fontSize:'.58rem', color:C.lime, fontWeight:600 }}>
+                      ★ Opción Social Booster disponible como módulo extra.
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Economic summary */}
+        <div style={{ border:`2px solid ${C.purple}`, padding:'.9rem 1rem', marginBottom:'.8rem' }}>
+          <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.6rem' }}>Resumen Económico · Precios + IVA no incluido</div>
+
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.slate, marginBottom:'.25rem', fontWeight:500 }}>
+            <span>Base imponible</span><span>{fmt(subBase)}</span>
+          </div>
+          {moduloDiscPct > 0 && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Dto. combinación {moduloDiscPct===5?'2':moduloDiscPct===10?'3':'4+'} módulos (−{moduloDiscPct}%)</span>
+              <span>−{fmt(moduloAmt)}</span>
+            </div>
+          )}
+          {multiNeg && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span>
+            </div>
+          )}
+          {per.disc > 0 && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
+              <span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span>
+            </div>
+          )}
+          {discount && (
+            <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.pink, marginBottom:'.25rem', fontWeight:700, padding:'.3rem .5rem', background:'rgba(231,32,120,.06)', border:`1px solid rgba(231,32,120,.2)` }}>
+              <span>🎁 {discount.label || 'Descuento especial'}</span>
+              <span>−{fmt(discountAmt)}</span>
+            </div>
+          )}
+          <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.mid, paddingTop:'.35rem', borderTop:`1px solid ${C.rule}`, marginBottom:'.5rem' }}>
+            <span>+ IVA (21%) al facturar</span><span>{fmt(ivaFinal)}</span>
+          </div>
+
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.85rem 1rem', WebkitPrintColorAdjust:'exact', printColorAdjust:'exact' }}>
+            <div>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.2rem', fontWeight:700 }}>⚡ Activación total · Primer {per.abbr}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)' }}>+ IVA (21%): {fmt(ivaFinal)}</div>
+              {recSub > 0 && (
+                <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)', marginTop:'.15rem' }}>
+                  Cuota {per.label.toLowerCase()} siguiente: {fmt(multiNeg ? recSub*.95 : recSub)} + IVA
+                </div>
+              )}
+            </div>
+            <div style={{ fontSize:'1.7rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', textAlign:'right' }}>
+              {fmt(subAfterDiscount)}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{ borderTop:`1px solid ${C.rule}`, paddingTop:'.5rem', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <div style={{ fontSize:'.55rem', color:C.mid }}>Esta propuesta tiene una validez de 30 días desde la fecha de emisión.</div>
+          <div style={{ fontSize:'.55rem', color:C.purple, fontWeight:600 }}>losmartesnohayluna.com</div>
+        </div>
+      </div>
 
       {wizardOpen && <Wizard onClose={() => setWizardOpen(false)} onApply={applyWizard} />}
 
+      {/* HOSTING CHOICE POPUP (Web PYMEs) */}
+      {hostingPopup && (() => {
+        const hasPackOrAds = ['pk1','pk2','pk3','pk4','pk5','ad1','ad2','ad3','seo1','seo2','seo3'].some(k => selected[k]);
+        const pick = (choice) => { setSelected(p => ({ ...p, [choice]: true })); setHostingPopup(false); };
+        return (
+          <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+            <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:500, position:'relative', overflow:'hidden' }}>
+              <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.4rem 1.6rem' }}>
+                <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Un último paso</div>
+                <div style={{ fontSize:'1.15rem', fontWeight:800, color:'#fff', lineHeight:1.2, marginBottom:'.4rem' }}>¿Dónde va a vivir tu web?</div>
+                <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.65)', margin:0, fontWeight:300, lineHeight:1.6 }}>Toda web necesita un dominio y un hosting. Elige cómo quieres resolverlo.</p>
+              </div>
+              <div style={{ padding:'1.3rem 1.6rem', display:'flex', flexDirection:'column', gap:'.7rem' }}>
+                <div onClick={() => pick('promo_hosting')} style={{ border:`2px solid ${C.lime}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer', background:'rgba(135,178,41,.05)', position:'relative' }}>
+                  <div style={{ position:'absolute', top:-10, right:12, background:C.lime, color:C.slate, fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .6rem', borderRadius:3 }}>Recomendado</div>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'1rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate }}>🌐 Dominio + Hosting con nosotros</div>
+                      <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300, lineHeight:1.5, marginTop:'.2rem' }}>Dominio, alojamiento, SSL, actualizaciones y copias de seguridad. Sin permanencia.</div>
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0 }}>
+                      {hasPackOrAds
+                        ? <><div style={{ fontSize:'.7rem', color:C.mid, textDecoration:'line-through' }}>29€/mes</div><div style={{ fontSize:'1.1rem', fontWeight:800, color:C.lime }}>GRATIS</div></>
+                        : <><div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>29€<span style={{ fontSize:'.6rem', color:C.mid, fontWeight:400 }}>/mes</span></div></>}
+                    </div>
+                  </div>
+                  <div style={{ marginTop:'.6rem', fontSize:'.62rem', color: hasPackOrAds ? C.lime : C.purple, fontWeight:600 }}>
+                    {hasPackOrAds ? '🎁 Incluido gratis con tu Pack Base, SEO o campaña de publicidad.' : '🎁 Gratis si contratas un Pack Base, un pack de SEO o una campaña de publicidad.'}
+                  </div>
+                </div>
+                <div onClick={() => pick('promo_install')} style={{ border:`1.5px solid ${C.rule}`, borderRadius:12, padding:'1rem 1.1rem', cursor:'pointer' }}>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:'1rem' }}>
+                    <div>
+                      <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate }}>🔧 Ya tengo hosting propio</div>
+                      <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300, lineHeight:1.5, marginTop:'.2rem' }}>Instalamos el ZIP de tu web en tu servidor y la dejamos publicada.</div>
+                    </div>
+                    <div style={{ textAlign:'right', flexShrink:0 }}>
+                      <div style={{ fontSize:'1.1rem', fontWeight:800, color:C.purple }}>150€</div>
+                      <div style={{ fontSize:'.52rem', color:C.mid }}>pago único</div>
+                    </div>
+                  </div>
+                </div>
+                <p style={{ fontSize:'.6rem', color:C.mid, textAlign:'center', margin:'.3rem 0 0', lineHeight:1.5 }}>Precios + IVA · Puedes cambiar esta opción desde el presupuesto.</p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* WEB → SEO UPSELL POPUP */}
+      {webPopup && (
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+          <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:480, position:'relative', overflow:'hidden' }}>
+
+            {/* Header */}
+            <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.4rem 1.6rem' }}>
+              <button onClick={() => setWebPopup(false)} style={{ position:'absolute', top:'1rem', right:'1rem', background:'rgba(255,255,255,.15)', border:'none', borderRadius:'50%', width:28, height:28, color:'#fff', cursor:'pointer', fontFamily:'inherit', fontSize:'1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>💡 Oferta especial</div>
+              <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#fff', lineHeight:1.2, marginBottom:'.4rem' }}>Tu web se queda en <span style={{ color:C.lime }}>1.490€</span> si contratas SEO</div>
+              <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.6)', margin:0, fontWeight:300, lineHeight:1.6 }}>
+                Combina tu nueva web con cualquiera de nuestros packs de SEO y ahórrate <strong style={{ color:'#fff' }}>1.000€</strong> en el diseño.
+              </p>
+            </div>
+
+            <div style={{ padding:'1.4rem 1.6rem' }}>
+              {/* Price comparison */}
+              <div style={{ display:'flex', gap:'1rem', marginBottom:'1.4rem' }}>
+                <div style={{ flex:1, background:'#f8f6f2', borderRadius:10, padding:'.9rem', textAlign:'center' }}>
+                  <div style={{ fontSize:'.6rem', color:C.mid, textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.3rem' }}>Sin SEO</div>
+                  <div style={{ fontSize:'1.4rem', fontWeight:800, color:C.mid, textDecoration:'line-through' }}>2.490€</div>
+                </div>
+                <div style={{ display:'flex', alignItems:'center', fontSize:'1.2rem', color:C.mid }}>→</div>
+                <div style={{ flex:1, background:`rgba(135,178,41,.1)`, border:`2px solid ${C.lime}`, borderRadius:10, padding:'.9rem', textAlign:'center' }}>
+                  <div style={{ fontSize:'.6rem', color:C.lime, textTransform:'uppercase', letterSpacing:'.1em', fontWeight:700, marginBottom:'.3rem' }}>Con SEO</div>
+                  <div style={{ fontSize:'1.4rem', fontWeight:800, color:C.purple }}>1.490€</div>
+                  <div style={{ fontSize:'.55rem', color:C.lime, fontWeight:700 }}>Ahorras 1.000€</div>
+                </div>
+              </div>
+
+              {/* SEO options */}
+              <div style={{ fontSize:'.65rem', fontWeight:700, color:C.mid, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'.6rem' }}>Elige tu pack de SEO</div>
+              <div style={{ display:'flex', flexDirection:'column', gap:'.5rem', marginBottom:'1rem' }}>
+                {[
+                  { id:'seo1', name:'🗺️ SEO Local', sub:'Radio 2km', price:'497€/mes' },
+                  { id:'seo2', name:'🌆 SEO Ciudad', sub:'Toda la ciudad', price:'797€/mes' },
+                  { id:'seo3', name:'🏳️ SEO Nacional', sub:'Toda España', price:'1.297€/mes' },
+                ].map(opt => (
+                  <div key={opt.id} onClick={() => { setSelected(p => ({ ...p, [opt.id]: true })); setWebPopup(false); }}
+                    style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'.75rem 1rem', border:`1.5px solid ${C.rule}`, borderRadius:10, cursor:'pointer', transition:'all .15s' }}
+                    onMouseEnter={e => e.currentTarget.style.borderColor=C.purple}
+                    onMouseLeave={e => e.currentTarget.style.borderColor=C.rule}
+                  >
+                    <div>
+                      <div style={{ fontSize:'.8rem', fontWeight:700, color:C.slate }}>{opt.name}</div>
+                      <div style={{ fontSize:'.65rem', color:C.mid, fontWeight:300 }}>{opt.sub} · <span style={{ color:C.pink, fontWeight:600 }}>12 meses mín.</span></div>
+                    </div>
+                    <div style={{ textAlign:'right' }}>
+                      <div style={{ fontSize:'.78rem', fontWeight:700, color:C.purple }}>{opt.price}</div>
+                      <div style={{ fontSize:'.55rem', color:C.lime, fontWeight:600 }}>Web → 1.490€</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <button onClick={() => setWebPopup(false)} style={{ width:'100%', padding:'.65rem', background:'none', border:`1px solid ${C.rule}`, color:C.mid, borderRadius:8, fontSize:'.62rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:500, cursor:'pointer', fontFamily:'inherit' }}>
+                Continuar sin SEO (2.490€)
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* SOCIAL BOOSTER POPUP */}
       {boosterPopup && (
-        <div style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.88)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem' }}>
           <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:480, padding:'2.2rem', position:'relative', textAlign:'center' }}>
             <button onClick={() => setBoosterPopup(false)} style={{ position:'absolute', top:'1rem', right:'1rem', background:'none', border:'none', fontSize:'1.1rem', color:C.mid, cursor:'pointer', fontFamily:'inherit' }}>×</button>
 
@@ -512,19 +1260,95 @@ export default function Configurador() {
 
             <div style={{ display:'flex', flexDirection:'column', gap:'.7rem' }}>
               <button
-                onClick={() => { setSelected(p => ({ ...p, ad4: true })); setBoosterPopup(false); }}
+                onClick={() => closeBooster(true)}
                 style={{ padding:'.85rem', background:C.purple, color:'#fff', border:'none', borderRadius:10, fontSize:'.7rem', letterSpacing:'.12em', textTransform:'uppercase', fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}
               >
                 ✅ Sí, añadir Social Booster
               </button>
               <button
-                onClick={() => setBoosterPopup(false)}
+                onClick={() => closeBooster(false)}
                 style={{ padding:'.7rem', background:'none', border:`1px solid ${C.rule}`, color:C.mid, borderRadius:8, fontSize:'.65rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:500, cursor:'pointer', fontFamily:'inherit' }}
               >
                 No, continuar sin él
               </button>
             </div>
             <p style={{ fontSize:'.6rem', color:C.mid, margin:'.9rem 0 0', fontStyle:'italic' }}>(Inversión publicitaria en Meta NO incluida)</p>
+          </div>
+        </div>
+      )}
+
+      {/* CONSULTING POPUP */}
+      {consultingPopup && (
+        <div className="no-print" style={{ position:'fixed', inset:0, background:'rgba(58,28,87,.92)', zIndex:200, display:'flex', alignItems:'center', justifyContent:'center', padding:'1rem', overflowY:'auto' }}>
+          <div style={{ background:'#fff', borderRadius:20, width:'100%', maxWidth:520, position:'relative', overflow:'hidden' }}>
+
+            {/* Header */}
+            <div style={{ background:`linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`, padding:'1.5rem 1.6rem' }}>
+              <button onClick={() => setConsultingPopup(false)} style={{ position:'absolute', top:'1rem', right:'1rem', background:'rgba(255,255,255,.15)', border:'none', borderRadius:'50%', width:28, height:28, color:'#fff', cursor:'pointer', fontFamily:'inherit', fontSize:'1rem', display:'flex', alignItems:'center', justifyContent:'center' }}>×</button>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.18em', textTransform:'uppercase', color:C.lime, marginBottom:'.3rem' }}>Servicio exclusivo</div>
+              <div style={{ fontSize:'1.2rem', fontWeight:800, color:'#fff', marginBottom:'.4rem', lineHeight:1.2 }}>🧠 Consultoría Estratégica con Sheila</div>
+              <p style={{ fontSize:'.75rem', color:'rgba(255,255,255,.65)', margin:0, lineHeight:1.6, fontWeight:300 }}>
+                Sesiones de 40 minutos enfocadas al 100% en hacer crecer tu negocio. No es una llamada — es trabajo real.
+              </p>
+            </div>
+
+            <div style={{ padding:'1.4rem 1.6rem' }}>
+              {/* Value props */}
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.5rem', marginBottom:'1.2rem' }}>
+                {[
+                  { icon:'📋', text:'Documento de diagnóstico preparado antes de cada sesión' },
+                  { icon:'🎯', text:'Sesión de 40 min 100% enfocada en tu negocio' },
+                  { icon:'📝', text:'Plan de acción escrito con prioridades claras al terminar' },
+                  { icon:'🎥', text:'Grabación de la sesión para repasar cuando quieras' },
+                ].map((v,i) => (
+                  <div key={i} style={{ background:'#f8f6f2', borderRadius:8, padding:'.65rem .8rem', display:'flex', gap:'.5rem', alignItems:'flex-start' }}>
+                    <span style={{ fontSize:'.9rem', flexShrink:0 }}>{v.icon}</span>
+                    <span style={{ fontSize:'.65rem', color:C.slate, lineHeight:1.45, fontWeight:300 }}>{v.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ fontSize:'.65rem', fontWeight:700, color:C.mid, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:'.7rem' }}>Elige tu frecuencia</div>
+
+              {/* Options */}
+              {[
+                { id:'cons_m', freq:'Mensual',   sessions:'1 sesión/mes',   price:90,  priceMonth:90,  badge:'', color:C.mid },
+                { id:'cons_q', freq:'Quincenal', sessions:'2 sesiones/mes', price:80,  priceMonth:160, badge:'MÁS POPULAR', color:C.purple },
+                { id:'cons_s', freq:'Semanal',   sessions:'4 sesiones/mes', price:70,  priceMonth:280, badge:'MÁXIMO IMPACTO', color:C.lime },
+              ].map(opt => (
+                <div
+                  key={opt.id}
+                  onClick={() => { setSelected(p => ({ ...p, [opt.id]: true })); setConsultingPopup(false); }}
+                  style={{ border:`2px solid ${opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.rule}`, borderRadius:10, padding:'.9rem 1rem', marginBottom:'.6rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'space-between', gap:'1rem', position:'relative', transition:'all .15s', background: opt.badge ? (opt.color===C.lime ? `rgba(135,178,41,.05)` : `rgba(88,45,129,.05)`) : '#fff' }}
+                >
+                  {opt.badge && (
+                    <div style={{ position:'absolute', top:'-10px', right:'12px', background:opt.color===C.lime ? C.lime : C.purple, color:opt.color===C.lime ? C.slate : '#fff', fontSize:'.48rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:700, padding:'.18rem .55rem', borderRadius:3 }}>
+                      {opt.badge}
+                    </div>
+                  )}
+                  <div>
+                    <div style={{ fontSize:'.82rem', fontWeight:700, color:C.slate, marginBottom:'.15rem' }}>{opt.freq} · {opt.sessions}</div>
+                    <div style={{ fontSize:'.68rem', color:C.mid, fontWeight:300 }}>
+                      {opt.price}€/sesión · <strong style={{ color:opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.mid }}>{opt.priceMonth}€/mes</strong>
+                    </div>
+                  </div>
+                  <div style={{ textAlign:'right', flexShrink:0 }}>
+                    <div style={{ fontSize:'1.2rem', fontWeight:800, color: opt.badge ? (opt.color===C.lime ? C.lime : C.purple) : C.slate }}>{opt.priceMonth}€</div>
+                    <div style={{ fontSize:'.52rem', color:C.mid }}>/mes + IVA</div>
+                  </div>
+                </div>
+              ))}
+
+              <button
+                onClick={() => setConsultingPopup(false)}
+                style={{ width:'100%', padding:'.65rem', background:'none', border:`1px solid ${C.rule}`, color:C.mid, borderRadius:8, fontSize:'.62rem', letterSpacing:'.1em', textTransform:'uppercase', fontWeight:500, cursor:'pointer', fontFamily:'inherit', marginTop:'.2rem' }}
+              >
+                No, continuar sin consultoría
+              </button>
+              <p style={{ fontSize:'.6rem', color:C.mid, textAlign:'center', margin:'.8rem 0 0', lineHeight:1.5 }}>
+                Solo disponible como complemento de un Pack Base · Sin compromiso de permanencia adicional
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -566,36 +1390,52 @@ export default function Configurador() {
       </div>
 
       {/* MAIN */}
-      <div style={{ maxWidth:1400, margin:'0 auto', display:'grid', gridTemplateColumns:'1fr 340px', alignItems:'start' }}>
+      <div className="no-print" style={{ maxWidth:1400, margin:'0 auto', display:'grid', gridTemplateColumns:'1fr 340px', alignItems:'start' }}>
         <div style={{ borderRight:`1px solid ${C.rule}`, minHeight:'calc(100vh - 112px)' }}>
           {hasSeo && (
             <div style={{ margin:'1.2rem 1.5rem 0', padding:'.75rem 1.1rem', background:'rgba(135,178,41,.12)', border:`1px solid rgba(135,178,41,.35)`, display:'flex', alignItems:'center', gap:'.8rem' }}>
               <span style={{ fontSize:'1.1rem', flexShrink:0 }}>🎉</span>
-              <div style={{ fontSize:'.72rem', color:C.slate }}><strong>¡Oferta activada!</strong> Tienes SEO en tu plan. El <strong>Pack Diseño Web</strong> baja de <s style={{ color:C.mid }}>2.490€</s> a <strong style={{ color:C.lime }}>1.690€</strong> <span style={{ color:C.mid }}>(ahorras 800€)</span>.</div>
+              <div style={{ fontSize:'.72rem', color:C.slate }}><strong>¡Oferta activada!</strong> Tienes SEO en tu plan. El <strong>Pack Diseño Web</strong> baja de <s style={{ color:C.mid }}>2.490€</s> a <strong style={{ color:C.lime }}>1.490€</strong> <span style={{ color:C.mid }}>(ahorras 1.000€)</span>.</div>
             </div>
           )}
           {cat==='all' ? (
-            ['packs','ads','seo','web'].map(catId => (
+            ['packs','ads','seo','web','consulting'].map(catId => (
               <div key={catId} style={{ padding:'1.5rem', borderBottom:`1px solid ${C.rule}` }}>
                 <div style={{ display:'flex', alignItems:'center', gap:'.6rem', marginBottom:'1rem' }}>
                   <span style={{ display:'inline-block', width:20, height:2, background:C.lime }} />
                   <span style={{ fontSize:'.58rem', letterSpacing:'.2em', textTransform:'uppercase', fontWeight:700, color:C.mid }}>{COL_LABELS[catId]}</span>
                 </div>
-                <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
-                  {SVC.filter(s=>s.cat===catId).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
-                </div>
+                {catId === 'consulting' ? (
+                  <div style={{ display:'flex', flexDirection:'column', gap:'.8rem' }}>
+                    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                      {SVC.filter(s=>s.cat==='consulting' && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} extrasSelected={extrasSelected} onToggleExtra={toggleExtra} />)}
+                    </div>
+                    <ConsultingCard selected={selected} onToggle={toggle} />
+                  </div>
+                ) : (
+                  <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                    {SVC.filter(s=>s.cat===catId && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} extrasSelected={extrasSelected} onToggleExtra={toggleExtra} />)}
+                  </div>
+                )}
               </div>
             ))
+          ) : cat === 'consulting' ? (
+            <div style={{ padding:'1.5rem', display:'flex', flexDirection:'column', gap:'.8rem' }}>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
+                {SVC.filter(s=>s.cat==='consulting' && !s.hidden).map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} extrasSelected={extrasSelected} onToggleExtra={toggleExtra} />)}
+              </div>
+              <ConsultingCard selected={selected} onToggle={toggle} />
+            </div>
           ) : (
             <div style={{ padding:'1.5rem' }}>
               <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(268px, 1fr))', gap:'.8rem' }}>
-                {shown.map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} />)}
+                {shown.map(s => <ServiceCard key={s.id} s={s} selected={!!selected[s.id]} hasSeo={hasSeo} onToggle={toggle} extrasSelected={extrasSelected} onToggleExtra={toggleExtra} />)}
               </div>
             </div>
           )}
         </div>
         <div className="no-print" style={{ padding:'1.5rem', position:'sticky', top:42, maxHeight:'calc(100vh - 42px)', overflowY:'auto' }}>
-          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} />
+          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} />
         </div>
       </div>
     </div>

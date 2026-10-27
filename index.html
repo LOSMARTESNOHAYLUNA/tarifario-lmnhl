@@ -235,9 +235,62 @@ const SVC = [
   price: 1297,
   hasSeo: true,
   oneTime: false
+}, {
+  id: 'gbp_tune',
+  cat: 'seo',
+  bc: C.purple,
+  badge: 'INTERVENCIÓN PUNTUAL 🔧',
+  name: '📍 Puesta a Punto Ficha de Google',
+  sub: '(Auditoría + Solución · Sin cuota mensual)',
+  desc: 'Para fichas de Google que ya existen pero no rinden: traspasos, duplicados, cambios de nombre, datos contradictorios o fotos de la etapa anterior. Diagnóstico y puesta en marcha de las soluciones en una sola intervención. 🎯',
+  incLabel: 'INCLUYE:',
+  inc: ['Diagnóstico completo de la ficha con acceso de administrador: duplicados, verificación, categorías y datos.', 'Gestión con el soporte de Google para fichas duplicadas, cambio de titularidad o nueva verificación.', 'Optimización de la ficha: categorías, servicios con precios, descripción, horarios y botón de reservas.', 'Fotos: retirada de las del anterior propietario, logo, portada y subida de fotos actuales.', 'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.', 'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.', 'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.'],
+  note: 'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si en los 30 días siguientes contratas SEO Local, este importe se descuenta del primer mes.',
+  price: 497,
+  hasSeo: false,
+  oneTime: true
 },
 // WEB Y OTROS
 {
+  id: 'promo_web',
+  cat: 'web',
+  bc: C.lime,
+  badge: 'PRECIO CERRADO · 600€ 🏪',
+  name: '🏪 Web Corporativa para PYMEs',
+  sub: '(Tu web profesional. Lista en 14 días.)',
+  desc: 'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯',
+  incLabel: 'INCLUYE:',
+  inc: ['3 páginas: home, servicios y contacto.', 'Diseño personalizado a medida. Sin plantillas genéricas.', 'Adaptada a móvil y tablet.', 'WhatsApp + formulario de contacto integrados.', 'SEO local básico configurado.', 'Páginas legales: aviso legal, privacidad y cookies.', 'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.', 'ZIP con todos los archivos · Son tuyos.', '30 días de soporte post-entrega.'],
+  note: 'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 20% de descuento en SEO y campañas durante los primeros 12 meses.',
+  link: 'https://losmartesnohayluna.com/promo-web/',
+  price: 600,
+  hasSeo: false,
+  oneTime: true
+}, {
+  id: 'promo_hosting',
+  cat: 'web',
+  hidden: true,
+  bc: C.lime,
+  name: '🌐 Dominio + Hosting · Web PYMEs',
+  sub: 'Mantenimiento técnico incluido · Sin permanencia',
+  desc: 'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.',
+  inc: [],
+  price: 29,
+  hasSeo: false,
+  oneTime: false
+}, {
+  id: 'promo_install',
+  cat: 'web',
+  hidden: true,
+  bc: C.lime,
+  name: '🔧 Instalación en hosting propio',
+  sub: 'Web PYMEs · Pago único',
+  desc: 'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.',
+  inc: [],
+  price: 150,
+  hasSeo: false,
+  oneTime: true
+}, {
   id: 'web1',
   cat: 'web',
   bc: C.purple,
@@ -1586,7 +1639,7 @@ function ServiceCard({
       gap: '.5rem'
     }
   }, /*#__PURE__*/React.createElement("a", {
-    href: "https://presentacion.losmartesnohayluna.com/tarifas2026",
+    href: s.link || "https://presentacion.losmartesnohayluna.com/tarifas2026",
     target: "_blank",
     rel: "noopener noreferrer",
     style: {
@@ -1595,7 +1648,7 @@ function ServiceCard({
       fontWeight: 600,
       textDecoration: 'none'
     }
-  }, s.crmLink ? 'Ver condiciones' : '¿Qué incluye?'), s.hasBonus && /*#__PURE__*/React.createElement("button", {
+  }, s.crmLink ? 'Ver condiciones' : s.link ? 'Ver la promo' : '¿Qué incluye?'), s.hasBonus && /*#__PURE__*/React.createElement("button", {
     onClick: () => setBonusOpen(true),
     style: {
       fontSize: '.6rem',
@@ -2140,7 +2193,7 @@ function BudgetPanel({
       fontWeight: 700,
       color: C.purple
     }
-  }, fmt(item.pp)), /*#__PURE__*/React.createElement("button", {
+  }, item.pp === 0 ? 'Incluido' : fmt(item.pp)), /*#__PURE__*/React.createElement("button", {
     onClick: () => onToggle(item.id),
     style: {
       width: 18,
@@ -2519,6 +2572,7 @@ function Configurador() {
   const [consultingPopup, setConsultingPopup] = useState(false);
   const [extrasSelected, setExtrasSelected] = useState({});
   const [webPopup, setWebPopup] = useState(false);
+  const [hostingPopup, setHostingPopup] = useState(false);
   const [discount, setDiscount] = useState(null);
   const per = PERIODS.find(p => p.id === period);
   const hasSeo = useMemo(() => Object.keys(selected).some(id => SVC.find(s => s.id === id)?.hasSeo), [selected]);
@@ -2532,8 +2586,20 @@ function Configurador() {
           ...p
         };
         delete n[id];
+        if (id === 'promo_web') {
+          delete n.promo_hosting;
+          delete n.promo_install;
+        }
         return n;
       });
+      return;
+    }
+    if (id === 'promo_web') {
+      setSelected(p => ({
+        ...p,
+        [id]: true
+      }));
+      setHostingPopup(true);
       return;
     }
     // Adding web pack without SEO → show SEO upsell popup
@@ -2646,7 +2712,13 @@ function Configurador() {
         });
       }
     });
-    return [...svcItems, ...extraItems];
+    const hasPackOrAds = ['pk1', 'pk2', 'pk3', 'pk4', 'pk5', 'ad1', 'ad2', 'ad3', 'seo1', 'seo2', 'seo3'].some(k => selected[k]);
+    const finalItems = svcItems.map(i => i.id === 'promo_hosting' && hasPackOrAds ? {
+      ...i,
+      pp: 0,
+      name: i.name + ' · Incluido 🎁'
+    } : i);
+    return [...finalItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
 
   // Module combination discounts — gifted services don't count as paid modules
@@ -2798,7 +2870,7 @@ function Configurador() {
         fontWeight: 800,
         color: C.purple
       }
-    }, fmt(item.pp)), /*#__PURE__*/React.createElement("div", {
+    }, item.pp === 0 ? 'Incluido' : fmt(item.pp)), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: '.5rem',
         color: C.mid
@@ -2987,7 +3059,208 @@ function Configurador() {
   }, "losmartesnohayluna.com"))), wizardOpen && /*#__PURE__*/React.createElement(Wizard, {
     onClose: () => setWizardOpen(false),
     onApply: applyWizard
-  }), webPopup && /*#__PURE__*/React.createElement("div", {
+  }), hostingPopup && (() => {
+    const hasPackOrAds = ['pk1', 'pk2', 'pk3', 'pk4', 'pk5', 'ad1', 'ad2', 'ad3', 'seo1', 'seo2', 'seo3'].some(k => selected[k]);
+    const pick = choice => {
+      setSelected(p => ({
+        ...p,
+        [choice]: true
+      }));
+      setHostingPopup(false);
+    };
+    return /*#__PURE__*/React.createElement("div", {
+      className: "no-print",
+      style: {
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(58,28,87,.92)',
+        zIndex: 200,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: '#fff',
+        borderRadius: 20,
+        width: '100%',
+        maxWidth: 500,
+        position: 'relative',
+        overflow: 'hidden'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: `linear-gradient(135deg, ${C.purpleDk}, ${C.purple})`,
+        padding: '1.4rem 1.6rem'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.55rem',
+        letterSpacing: '.18em',
+        textTransform: 'uppercase',
+        color: C.lime,
+        marginBottom: '.3rem'
+      }
+    }, "Un último paso"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '1.15rem',
+        fontWeight: 800,
+        color: '#fff',
+        lineHeight: 1.2,
+        marginBottom: '.4rem'
+      }
+    }, "¿Dónde va a vivir tu web?"), /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: '.75rem',
+        color: 'rgba(255,255,255,.65)',
+        margin: 0,
+        fontWeight: 300,
+        lineHeight: 1.6
+      }
+    }, "Toda web necesita un dominio y un hosting. Elige cómo quieres resolverlo.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        padding: '1.3rem 1.6rem',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '.7rem'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      onClick: () => pick('promo_hosting'),
+      style: {
+        border: `2px solid ${C.lime}`,
+        borderRadius: 12,
+        padding: '1rem 1.1rem',
+        cursor: 'pointer',
+        background: 'rgba(135,178,41,.05)',
+        position: 'relative'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: 'absolute',
+        top: -10,
+        right: 12,
+        background: C.lime,
+        color: C.slate,
+        fontSize: '.48rem',
+        letterSpacing: '.1em',
+        textTransform: 'uppercase',
+        fontWeight: 700,
+        padding: '.18rem .6rem',
+        borderRadius: 3
+      }
+    }, "Recomendado"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.82rem',
+        fontWeight: 700,
+        color: C.slate
+      }
+    }, "🌐 Dominio + Hosting con nosotros"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.68rem',
+        color: C.mid,
+        fontWeight: 300,
+        lineHeight: 1.5,
+        marginTop: '.2rem'
+      }
+    }, "Dominio, alojamiento, SSL, actualizaciones y copias de seguridad. Sin permanencia.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: 'right',
+        flexShrink: 0
+      }
+    }, hasPackOrAds ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.7rem',
+        color: C.mid,
+        textDecoration: 'line-through'
+      }
+    }, "29€/mes"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '1.1rem',
+        fontWeight: 800,
+        color: C.lime
+      }
+    }, "GRATIS")) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '1.1rem',
+        fontWeight: 800,
+        color: C.purple
+      }
+    }, "29€", /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: '.6rem',
+        color: C.mid,
+        fontWeight: 400
+      }
+    }, "/mes"))))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: '.6rem',
+        fontSize: '.62rem',
+        color: hasPackOrAds ? C.lime : C.purple,
+        fontWeight: 600
+      }
+    }, hasPackOrAds ? '🎁 Incluido gratis con tu Pack Base, SEO o campaña de publicidad.' : '🎁 Gratis si contratas un Pack Base, un pack de SEO o una campaña de publicidad.')), /*#__PURE__*/React.createElement("div", {
+      onClick: () => pick('promo_install'),
+      style: {
+        border: `1.5px solid ${C.rule}`,
+        borderRadius: 12,
+        padding: '1rem 1.1rem',
+        cursor: 'pointer'
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: '1rem'
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.82rem',
+        fontWeight: 700,
+        color: C.slate
+      }
+    }, "🔧 Ya tengo hosting propio"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.68rem',
+        color: C.mid,
+        fontWeight: 300,
+        lineHeight: 1.5,
+        marginTop: '.2rem'
+      }
+    }, "Instalamos el ZIP de tu web en tu servidor y la dejamos publicada.")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: 'right',
+        flexShrink: 0
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '1.1rem',
+        fontWeight: 800,
+        color: C.purple
+      }
+    }, "150€"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: '.52rem',
+        color: C.mid
+      }
+    }, "pago único")))), /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: '.6rem',
+        color: C.mid,
+        textAlign: 'center',
+        margin: '.3rem 0 0',
+        lineHeight: 1.5
+      }
+    }, "Precios + IVA · Puedes cambiar esta opción desde el presupuesto."))));
+  })(), webPopup && /*#__PURE__*/React.createElement("div", {
     className: "no-print",
     style: {
       position: 'fixed',
