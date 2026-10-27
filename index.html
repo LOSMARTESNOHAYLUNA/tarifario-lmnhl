@@ -26,10 +26,12 @@ const C = {
   mid: '#7a6f85',
   rule: 'rgba(88,45,129,0.1)'
 };
+
+// Compromiso de permanencia. El pago es SIEMPRE mensual; el descuento se aplica a cada cuota.
 const PERIODS = [{
   id: 'm',
   label: 'Mensual',
-  abbr: 'mes',
+  abbr: 'sin compromiso',
   mult: 1,
   disc: 0
 }, {
@@ -47,7 +49,7 @@ const PERIODS = [{
 }, {
   id: 'a',
   label: 'Anual',
-  abbr: 'año',
+  abbr: '12 meses',
   mult: 12,
   disc: 0.20
 }];
@@ -2031,6 +2033,7 @@ function BudgetPanel({
   setPeriod,
   setMultiNeg,
   periodSaving,
+  periodSavingTotal,
   semSaving,
   annualSaving,
   recFinal,
@@ -2042,6 +2045,7 @@ function BudgetPanel({
   const [codeError, setCodeError] = useState(false);
   const isEmpty = items.length === 0;
   const hasRecurring = recSub > 0;
+  const periodSavingMo = periodSaving;
   const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
   const applyCode = () => {
     const raw = codeInput.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -2146,9 +2150,16 @@ function BudgetPanel({
       textTransform: 'uppercase',
       color: C.mid,
       fontWeight: 700,
-      marginBottom: '.5rem'
+      marginBottom: '.15rem'
     }
-  }, "Periodo de facturación"), /*#__PURE__*/React.createElement("div", {
+  }, "Compromiso de permanencia"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: '.6rem',
+      color: C.mid,
+      marginBottom: '.5rem',
+      fontWeight: 300
+    }
+  }, "Pago siempre mensual · a más compromiso, menor cuota"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
@@ -2193,9 +2204,10 @@ function BudgetPanel({
       fontSize: '.64rem',
       color: C.lime,
       fontWeight: 700,
-      textAlign: 'center'
+      textAlign: 'center',
+      lineHeight: 1.5
     }
-  }, "✓ Ahorras ", fmt(periodSaving), " en este periodo"), hasRecurring && per.disc === 0 && /*#__PURE__*/React.createElement("div", {
+  }, "✓ Ahorras ", fmt(periodSavingMo), " en cada cuota · ", fmt(periodSavingTotal), " en ", per.abbr), hasRecurring && per.disc === 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: '.55rem',
       fontSize: '.62rem',
@@ -2203,7 +2215,7 @@ function BudgetPanel({
       textAlign: 'center',
       lineHeight: 1.5
     }
-  }, "💡 Semestral: ahorras ", /*#__PURE__*/React.createElement("strong", null, fmt(semSaving)), " · Anual: ahorras ", /*#__PURE__*/React.createElement("strong", null, fmt(annualSaving))), /*#__PURE__*/React.createElement("label", {
+  }, "💡 Con compromiso semestral ahorras ", /*#__PURE__*/React.createElement("strong", null, fmt(semSaving)), " · anual ", /*#__PURE__*/React.createElement("strong", null, fmt(annualSaving))), /*#__PURE__*/React.createElement("label", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -2287,7 +2299,7 @@ function BudgetPanel({
       fontSize: '.58rem',
       color: C.mid
     }
-  }, item.oneTime ? 'Pago único' : per.label)), /*#__PURE__*/React.createElement("div", {
+  }, item.oneTime ? 'Pago único' : per.mult > 1 ? `Cuota mensual · compromiso ${per.abbr}` : 'Cuota mensual · sin compromiso')), /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       alignItems: 'center',
@@ -2359,7 +2371,7 @@ function BudgetPanel({
       color: C.lime,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Dto. pago ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. compromiso ", per.abbr, " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2551,7 +2563,7 @@ function BudgetPanel({
       color: 'rgba(255,255,255,.35)',
       marginTop: '.2rem'
     }
-  }, "+ IVA · Primer ", per.abbr), recSub > 0 && /*#__PURE__*/React.createElement("div", {
+  }, "+ IVA · Pagos únicos + 1ª cuota mensual"), recSub > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: '.8rem',
       paddingTop: '.8rem',
@@ -2565,7 +2577,7 @@ function BudgetPanel({
       letterSpacing: '.1em',
       marginBottom: '.1rem'
     }
-  }, "🔄 Cuota ", per.label.toLowerCase(), " siguiente"), /*#__PURE__*/React.createElement("div", {
+  }, "🔄 Cuota mensual siguiente", per.mult > 1 ? ` · ${per.abbr} de compromiso` : ''), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '1.2rem',
       fontWeight: 700,
@@ -2605,7 +2617,7 @@ function BudgetPanel({
     style: {
       color: 'rgba(255,255,255,.7)'
     }
-  }, "Pago 1 (hoy):"), " Activas el servicio abonando el primer periodo completo (", per.label.toLowerCase(), ")."), /*#__PURE__*/React.createElement("p", {
+  }, "Pago 1 (hoy):"), " Pagos únicos (web, auditorías, puesta a punto) + la primera cuota mensual."), /*#__PURE__*/React.createElement("p", {
     style: {
       margin: 0
     }
@@ -2613,7 +2625,7 @@ function BudgetPanel({
     style: {
       color: 'rgba(255,255,255,.7)'
     }
-  }, "Pago recurrente:"), " Al vencer el periodo se renueva automáticamente. Cancelación con 30 días de antelación.")))), /*#__PURE__*/React.createElement("button", {
+  }, "Cuotas siguientes:"), " Una cuota al mes", per.mult > 1 ? ` durante el compromiso de ${per.abbr}, con el descuento ya aplicado` : '', ". Renovación automática; cancelación con 30 días de antelación.")))), /*#__PURE__*/React.createElement("button", {
     onClick: () => window.print(),
     style: {
       padding: '.9rem',
@@ -2785,7 +2797,7 @@ function Configurador() {
       const s = SVC.find(x => x.id === id);
       if (!s) return null;
       const bp = s.id === 'web1' && hasSeo ? s.priceWithSeo : s.price;
-      const pp = s.oneTime ? bp : bp * per.mult * (1 - per.disc);
+      const pp = s.oneTime ? bp : bp * (1 - per.disc); // cuota mensual con dto. por compromiso
       return {
         ...s,
         bp,
@@ -2865,8 +2877,10 @@ function Configurador() {
   const ivaFinal = subAfterDiscount * 0.21;
 
   // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
-  const monthlyRecBase = recItems.reduce((a, i) => a + i.pp / (per.mult * (1 - per.disc)), 0); // base mensual tras dtos. de servicio
-  const periodSaving = monthlyRecBase * per.mult * per.disc;
+  const monthlyRecBase = recItems.reduce((a, i) => a + i.pp / (1 - per.disc), 0); // cuota mensual bruta (sin dto. por compromiso)
+  const periodSavingMo = monthlyRecBase * per.disc; // ahorro en cada cuota mensual
+  const periodSaving = periodSavingMo; // (lo que resta en la activación = 1ª mensualidad)
+  const periodSavingTotal = periodSavingMo * per.mult; // ahorro a lo largo del compromiso
   const semSaving = monthlyRecBase * 6 * 0.10;
   const annualSaving = monthlyRecBase * 12 * 0.20;
 
@@ -3112,7 +3126,7 @@ function Configurador() {
       marginBottom: '.25rem',
       fontWeight: 600
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Descuento pago ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Descuento compromiso ", per.abbr, " (−", per.disc * 100, "%) · en cada cuota"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -3153,7 +3167,7 @@ function Configurador() {
       marginBottom: '.2rem',
       fontWeight: 700
     }
-  }, "⚡ Activación total · Primer ", per.abbr), /*#__PURE__*/React.createElement("div", {
+  }, "⚡ Activación total · Pagos únicos + 1ª cuota mensual"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '.6rem',
       color: 'rgba(255,255,255,.65)'
@@ -3164,7 +3178,7 @@ function Configurador() {
       color: 'rgba(255,255,255,.65)',
       marginTop: '.15rem'
     }
-  }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(recFinal), " + IVA")), /*#__PURE__*/React.createElement("div", {
+  }, "Cuota mensual siguiente: ", fmt(recFinal), " + IVA", per.mult > 1 ? ` · compromiso ${per.abbr} · ahorro total ${fmt(periodSavingTotal)}` : '')), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '1.7rem',
       fontWeight: 800,
@@ -4346,6 +4360,7 @@ function Configurador() {
     setPeriod: setPeriod,
     setMultiNeg: setMultiNeg,
     periodSaving: periodSaving,
+    periodSavingTotal: periodSavingTotal,
     semSaving: semSaving,
     annualSaving: annualSaving,
     recFinal: recFinal,

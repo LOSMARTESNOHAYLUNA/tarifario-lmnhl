@@ -6,11 +6,12 @@ const C = {
   offWhite: '#f8f6f2', mid: '#7a6f85', rule: 'rgba(88,45,129,0.1)',
 };
 
+// Compromiso de permanencia. El pago es SIEMPRE mensual; el descuento se aplica a cada cuota.
 const PERIODS = [
-  { id: 'm', label: 'Mensual',    abbr: 'mes',     mult: 1,  disc: 0    },
-  { id: 't', label: 'Trimestral', abbr: '3 meses', mult: 3,  disc: 0    },
-  { id: 's', label: 'Semestral',  abbr: '6 meses', mult: 6,  disc: 0.10 },
-  { id: 'a', label: 'Anual',      abbr: 'año',     mult: 12, disc: 0.20 },
+  { id: 'm', label: 'Mensual',    abbr: 'sin compromiso', mult: 1,  disc: 0    },
+  { id: 't', label: 'Trimestral', abbr: '3 meses',        mult: 3,  disc: 0    },
+  { id: 's', label: 'Semestral',  abbr: '6 meses',        mult: 6,  disc: 0.10 },
+  { id: 'a', label: 'Anual',      abbr: '12 meses',       mult: 12, disc: 0.20 },
 ];
 
 const CATS = [
@@ -651,7 +652,7 @@ function BonusModal({ packId, onClose }) {
 }
 
 // ── BUDGET PANEL ──────────────────────────────────────────────────────────────
-function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase, period, setPeriod, setMultiNeg, periodSaving, semSaving, annualSaving, recFinal, recSub }) {
+function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase, period, setPeriod, setMultiNeg, periodSaving, periodSavingTotal, semSaving, annualSaving, recFinal, recSub }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const [codeOpen, setCodeOpen]       = useState(false);
   const [codeInput, setCodeInput]     = useState('');
@@ -659,6 +660,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
 
   const isEmpty = items.length === 0;
   const hasRecurring = recSub > 0;
+  const periodSavingMo = periodSaving;
 
   const discountAmt = discount
     ? discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)
@@ -703,7 +705,8 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
       </div>
       {/* PERIODO DE FACTURACIÓN */}
       <div style={{ background:'#fff', border:`1px solid ${C.rule}`, padding:'.9rem 1rem' }}>
-        <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.5rem' }}>Periodo de facturación</div>
+        <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.15rem' }}>Compromiso de permanencia</div>
+        <div style={{ fontSize:'.6rem', color:C.mid, marginBottom:'.5rem', fontWeight:300 }}>Pago siempre mensual · a más compromiso, menor cuota</div>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.35rem' }}>
           {PERIODS.map(p => {
             const active = period === p.id;
@@ -716,11 +719,11 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
           })}
         </div>
         {hasRecurring && per.disc > 0 && (
-          <div style={{ marginTop:'.55rem', fontSize:'.64rem', color:C.lime, fontWeight:700, textAlign:'center' }}>✓ Ahorras {fmt(periodSaving)} en este periodo</div>
+          <div style={{ marginTop:'.55rem', fontSize:'.64rem', color:C.lime, fontWeight:700, textAlign:'center', lineHeight:1.5 }}>✓ Ahorras {fmt(periodSavingMo)} en cada cuota · {fmt(periodSavingTotal)} en {per.abbr}</div>
         )}
         {hasRecurring && per.disc === 0 && (
           <div style={{ marginTop:'.55rem', fontSize:'.62rem', color:C.purple, textAlign:'center', lineHeight:1.5 }}>
-            💡 Semestral: ahorras <strong>{fmt(semSaving)}</strong> · Anual: ahorras <strong>{fmt(annualSaving)}</strong>
+            💡 Con compromiso semestral ahorras <strong>{fmt(semSaving)}</strong> · anual <strong>{fmt(annualSaving)}</strong>
           </div>
         )}
         <label style={{ display:'flex', alignItems:'center', gap:'.5rem', cursor:'pointer', color:C.slate, fontSize:'.66rem', marginTop:'.7rem', paddingTop:'.6rem', borderTop:`1px solid ${C.rule}` }}>
@@ -742,7 +745,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
               <div key={item.id} style={{ display:'flex', alignItems:'flex-start', gap:'.5rem', padding:'.65rem 1rem', borderBottom:`1px solid ${C.rule}` }}>
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ fontSize:'.7rem', fontWeight:600, color:C.slate, lineHeight:1.3, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{item.name}</div>
-                  <div style={{ fontSize:'.58rem', color:C.mid }}>{item.oneTime ? 'Pago único' : per.label}</div>
+                  <div style={{ fontSize:'.58rem', color:C.mid }}>{item.oneTime ? 'Pago único' : (per.mult>1 ? `Cuota mensual · compromiso ${per.abbr}` : 'Cuota mensual · sin compromiso')}</div>
                 </div>
                 <div style={{ display:'flex', alignItems:'center', gap:'.4rem', flexShrink:0 }}>
                   <div style={{ fontSize:'.82rem', fontWeight:700, color:C.purple }}>{item.pp===0 ? 'Incluido' : fmt(item.pp)}</div>
@@ -761,7 +764,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                 </div>
               )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
-              {per.disc>0 && periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. pago {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span></div>}
+              {per.disc>0 && periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. compromiso {per.abbr} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span></div>}
               {discount && (
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
                   <span>🎁 {discount.label || 'Descuento especial'}</span>
@@ -831,10 +834,10 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                 );
               })()}
               <div style={{ fontSize:'2rem', fontWeight:800, color:'#fff', letterSpacing:'-.03em', lineHeight:1 }}>{fmt(subAfterDiscount)}</div>
-              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>+ IVA · Primer {per.abbr}</div>
+              <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.35)', marginTop:'.2rem' }}>+ IVA · Pagos únicos + 1ª cuota mensual</div>
               {recSub>0 && (
                 <div style={{ marginTop:'.8rem', paddingTop:'.8rem', borderTop:'1px solid rgba(255,255,255,.15)' }}>
-                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota {per.label.toLowerCase()} siguiente</div>
+                  <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota mensual siguiente{per.mult>1 ? ` · ${per.abbr} de compromiso` : ''}</div>
                   <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recFinal)}</div>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>+ IVA</div>
                 </div>
@@ -844,8 +847,8 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
               </button>
               {showPayInfo && (
                 <div style={{ marginTop:'.6rem', fontSize:'.64rem', color:'rgba(255,255,255,.42)', lineHeight:1.65, fontWeight:300 }}>
-                  <p style={{ margin:'0 0 .4rem' }}><strong style={{ color:'rgba(255,255,255,.7)' }}>Pago 1 (hoy):</strong> Activas el servicio abonando el primer periodo completo ({per.label.toLowerCase()}).</p>
-                  <p style={{ margin:0 }}><strong style={{ color:'rgba(255,255,255,.7)' }}>Pago recurrente:</strong> Al vencer el periodo se renueva automáticamente. Cancelación con 30 días de antelación.</p>
+                  <p style={{ margin:'0 0 .4rem' }}><strong style={{ color:'rgba(255,255,255,.7)' }}>Pago 1 (hoy):</strong> Pagos únicos (web, auditorías, puesta a punto) + la primera cuota mensual.</p>
+                  <p style={{ margin:0 }}><strong style={{ color:'rgba(255,255,255,.7)' }}>Cuotas siguientes:</strong> Una cuota al mes{per.mult>1 ? ` durante el compromiso de ${per.abbr}, con el descuento ya aplicado` : ''}. Renovación automática; cancelación con 30 días de antelación.</p>
                 </div>
               )}
             </div>
@@ -950,7 +953,7 @@ export default function Configurador() {
       const s  = SVC.find(x => x.id === id);
       if (!s) return null;
       const bp = s.id==='web1' && hasSeo ? s.priceWithSeo : s.price;
-      const pp = s.oneTime ? bp : bp * per.mult * (1 - per.disc);
+      const pp = s.oneTime ? bp : bp * (1 - per.disc); // cuota mensual con dto. por compromiso
       return { ...s, bp, pp };
     }).filter(Boolean);
 
@@ -1009,8 +1012,10 @@ export default function Configurador() {
   const ivaFinal         = subAfterDiscount * 0.21;
 
   // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
-  const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (per.mult * (1 - per.disc))), 0); // base mensual tras dtos. de servicio
-  const periodSaving   = monthlyRecBase * per.mult * per.disc;
+  const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (1 - per.disc)), 0); // cuota mensual bruta (sin dto. por compromiso)
+  const periodSavingMo = monthlyRecBase * per.disc;              // ahorro en cada cuota mensual
+  const periodSaving   = periodSavingMo;                          // (lo que resta en la activación = 1ª mensualidad)
+  const periodSavingTotal = periodSavingMo * per.mult;            // ahorro a lo largo del compromiso
   const semSaving      = monthlyRecBase * 6 * 0.10;
   const annualSaving   = monthlyRecBase * 12 * 0.20;
 
@@ -1135,7 +1140,7 @@ export default function Configurador() {
           )}
           {per.disc > 0 && (
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
-              <span>Descuento pago {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span>
+              <span>Descuento compromiso {per.abbr} (−{per.disc*100}%) · en cada cuota</span><span>−{fmt(periodSaving)}</span>
             </div>
           )}
           {discount && (
@@ -1150,11 +1155,11 @@ export default function Configurador() {
 
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', background:C.purple, padding:'.85rem 1rem', WebkitPrintColorAdjust:'exact', printColorAdjust:'exact' }}>
             <div>
-              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.2rem', fontWeight:700 }}>⚡ Activación total · Primer {per.abbr}</div>
+              <div style={{ fontSize:'.55rem', letterSpacing:'.14em', textTransform:'uppercase', color:C.lime, marginBottom:'.2rem', fontWeight:700 }}>⚡ Activación total · Pagos únicos + 1ª cuota mensual</div>
               <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)' }}>+ IVA (21%): {fmt(ivaFinal)}</div>
               {recSub > 0 && (
                 <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)', marginTop:'.15rem' }}>
-                  Cuota {per.label.toLowerCase()} siguiente: {fmt(recFinal)} + IVA
+                  Cuota mensual siguiente: {fmt(recFinal)} + IVA{per.mult>1 ? ` · compromiso ${per.abbr} · ahorro total ${fmt(periodSavingTotal)}` : ''}
                 </div>
               )}
             </div>
@@ -1484,7 +1489,7 @@ export default function Configurador() {
           )}
         </div>
         <div className="no-print" style={{ padding:'1.5rem', position:'sticky', top:42, maxHeight:'calc(100vh - 42px)', overflowY:'auto' }}>
-          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} period={period} setPeriod={setPeriod} setMultiNeg={setMultiNeg} periodSaving={periodSaving} semSaving={semSaving} annualSaving={annualSaving} recFinal={recFinal} recSub={recSub} />
+          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} period={period} setPeriod={setPeriod} setMultiNeg={setMultiNeg} periodSaving={periodSaving} periodSavingTotal={periodSavingTotal} semSaving={semSaving} annualSaving={annualSaving} recFinal={recFinal} recSub={recSub} />
         </div>
       </div>
     </div>
