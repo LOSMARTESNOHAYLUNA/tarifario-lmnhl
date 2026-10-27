@@ -992,7 +992,7 @@ export default function Configurador() {
               const disc = Math.min(i * 0.20, 0.80); // max 80% discount
               total += ex.price * (1 - disc);
             }
-            extraItems.push({ id:ex.id, name:label, pp:Math.round(total), oneTime:true, bc:s.bc, inc:[] });
+            extraItems.push({ id:ex.id, name:label, pp:Math.round(total), oneTime:true, bc:s.bc, inc:[], hidden:true }); // extras no cuentan como módulo
           }
         });
       }
@@ -1011,7 +1011,8 @@ export default function Configurador() {
   // Module combination discounts — gifted services don't count as paid modules
   const giftedSvc = discount?.svcId ? SVC.find(s => s.id === discount.svcId) : null;
   const giftedIsRecurring = giftedSvc && !giftedSvc.oneTime;
-  const recurringCount = items.filter(i => !i.oneTime && !i.hidden).length - (giftedIsRecurring ? 1 : 0);
+  // Cuentan como módulo todos los servicios contratados (mensuales y de pago único); no cuentan extras, hosting/instalación ni regalos
+  const recurringCount = items.filter(i => !i.hidden && i.pp > 0).length - (giftedSvc ? 1 : 0);
   const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
   const moduloBonus   = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑'
                       : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨'
@@ -1022,7 +1023,7 @@ export default function Configurador() {
   const recSub         = recItems.reduce((a,i) => a + i.pp, 0);           // recurrente del periodo, ya con dto. de periodo
   const oneOffSub      = items.filter(i => i.oneTime).reduce((a,i) => a + i.pp, 0);
   const subBase        = recSub + oneOffSub;
-  const moduloAmt      = recSub * (moduloDiscPct / 100);                   // solo sobre recurrentes
+  const moduloAmt      = subBase * (moduloDiscPct / 100);                  // sobre el conjunto (mensuales + pagos únicos)
   const sub            = subBase - moduloAmt;
   const subM           = multiNeg ? sub * .95 : sub;
   const iva            = subM * .21;
@@ -1043,7 +1044,7 @@ export default function Configurador() {
   const annualSaving   = savingAt(12, 0.20) * 12;
 
   // Cuota siguiente: mismo tratamiento que la activación (sin pagos únicos)
-  const recAfterModulo = recSub - moduloAmt;
+  const recAfterModulo = recSub * (1 - moduloDiscPct / 100);
   const recM           = multiNeg ? recAfterModulo * .95 : recAfterModulo;
   const giftedRecPP    = (giftedIsRecurring && items.find(i => i.id === giftedSvc.id)) ? items.find(i => i.id === giftedSvc.id).pp : 0;
   const recFinal       = discount
