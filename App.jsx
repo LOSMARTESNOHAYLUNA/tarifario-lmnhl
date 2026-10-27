@@ -35,7 +35,7 @@ const SVC = [
   { id:'ad3', cat:'ads', bc:C.lime, name:'💼 Campañas LINKEDIN ADS', sub:'', desc:'El canal por excelencia para venta B2B y servicios corporativos. 🤝', inc:[], price:447, hasSeo:false, oneTime:false },
   { id:'ad4', cat:'ads', badge:'IMPRESCINDIBLE 🚀', badge2:'SÚPER TOP 🚀', bc:C.lime, name:'🚀 Social Booster', sub:'(Acelerador)', desc:'Es la herramienta definitiva para que tu cuenta no esté estancada. 📈 Creamos una estrategia publicitaria de "Perfil de Tráfico" para:', inc:['Atraer seguidores reales interesados en tu sector.','Aumentar las visitas diarias a tu perfil e historias.','Multiplicar el alcance de tus publicaciones orgánicas.'], note:'(Inversión publicitaria en Meta NO incluida)', price:97, hasSeo:false, oneTime:false },
   // SEO
-  { id:'seo1', cat:'seo', bc:C.lime, commitment:12, name:'🗺️ SEO Local', sub:'(Radio 2km)', desc:'Ideal para negocios físicos que quieren dominar su barrio. 📍', inc:['Keyword Research Local: Buscamos cómo te encuentran tus vecinos.','Optimización GBP: Gestión total de tu ficha de Google Maps.','Gestión de Reseñas: Estrategia para mejorar tu reputación.','1 Contenido Geolocalizado/mes: Artículos que atraen tráfico de tu zona.','Informe Mensual: Seguimiento de 10-20 palabras clave.'], price:497, hasSeo:true, oneTime:false },
+  { id:'seo1', cat:'seo', bc:C.lime, commitment:6, name:'🗺️ SEO Local', sub:'(Radio 2km)', desc:'Ideal para negocios físicos que quieren dominar su barrio. 📍', inc:['Keyword Research Local: Buscamos cómo te encuentran tus vecinos.','Optimización GBP: Gestión total de tu ficha de Google Maps.','Gestión de Reseñas: Estrategia para mejorar tu reputación.','1 Contenido Geolocalizado/mes: Artículos que atraen tráfico de tu zona.','Informe Mensual: Seguimiento de 10-20 palabras clave.'], price:497, hasSeo:true, oneTime:false },
   { id:'seo2', cat:'seo', bc:C.lime, commitment:12, name:'🌆 SEO Ciudad', sub:'', desc:'Para empresas que quieren liderar en toda su ciudad. 🏙️', inc:['Auditoría Técnica Completa: Revisión de la "salud" de tu web.','On-Page Avanzado: Optimizamos tus páginas principales para Google.','1 Artículo/mes: Contenido estratégico para posicionar servicios.','1 Landing de Servicio+Barrio: Página específica para captar en zonas clave.','Schema Geo: Código técnico para que Google entienda tu ubicación exacta.','Linkbuilding Local: Enlaces desde sitios de tu ciudad para ganar fuerza.','Seguimiento de 30-50+ Keywords.'], price:797, hasSeo:true, oneTime:false },
   { id:'seo3', cat:'seo', bc:C.lime, commitment:12, name:'🏳️ SEO Nacional', sub:'', desc:'Estrategia de alto impacto para competir en todo el país. 🌍', inc:['Todo lo incluido en SEO Ciudad.','2 Contenidos Estratégicos/mes (+1.000 palabras cada uno).','PR Digital: Aparición en medios y periódicos nacionales (hasta 50). ✅ Incluido.','Estudio de Linkbuilding de Autoridad: Análisis y planificación de enlaces de alta calidad. La ejecución y coste de los enlaces se presupuesta aparte según el perfil de enlazado necesario.','Análisis de Competencia: Vigilamos qué hace tu competencia nacional.','Reporting de Conversiones: Informes centrados en ventas, no solo visitas.','Seguimiento de 50-100+ Keywords.'], price:1297, hasSeo:true, oneTime:false },
   { id:'gbp_tune', cat:'seo', bc:C.purple, badge:'INTERVENCIÓN PUNTUAL 🔧', name:'📍 Puesta a Punto Ficha de Google', sub:'(Auditoría + Solución · Sin cuota mensual)', desc:'Para fichas de Google que ya existen pero no rinden: traspasos, duplicados, cambios de nombre, datos contradictorios o fotos de la etapa anterior. Diagnóstico y puesta en marcha de las soluciones en una sola intervención. 🎯', incLabel:'INCLUYE:', inc:[
@@ -46,7 +46,7 @@ const SVC = [
     'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.',
     'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.',
     'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.',
-  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si en los 30 días siguientes contratas SEO Local, este importe se descuenta del primer mes.', price:497, hasSeo:false, oneTime:true },
+  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si contratas SEO Local con compromiso de 6 meses, esta puesta a punto te sale gratis.', price:497, hasSeo:false, oneTime:true },
   // WEB Y OTROS
   { id:'promo_web', cat:'web', bc:C.lime, badge:'PRECIO CERRADO · 600€ 🏪', name:'🏪 Web Corporativa para PYMEs', sub:'(Tu web profesional. Lista en 14 días.)', desc:'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯', incLabel:'INCLUYE:', inc:[
     '3 páginas: home, servicios y contacto.',
@@ -947,7 +947,12 @@ export default function Configurador() {
     });
 
     const hasPackOrAds = ['pk1','pk2','pk3','pk4','pk5','ad1','ad2','ad3','seo1','seo2','seo3'].some(k => selected[k]);
-    const finalItems = svcItems.map(i => (i.id==='promo_hosting' && hasPackOrAds) ? { ...i, pp:0, name:i.name+' · Incluido 🎁' } : i);
+    const seoLocal6m = selected['seo1'] && (per.mult >= 6);
+    const finalItems = svcItems.map(i => {
+      if (i.id==='promo_hosting' && hasPackOrAds) return { ...i, pp:0, name:i.name+' · Incluido 🎁' };
+      if (i.id==='gbp_tune' && seoLocal6m)       return { ...i, pp:0, name:i.name+' · Incluido con SEO Local 6 meses 🎁' };
+      return i;
+    });
     return [...finalItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
 

@@ -203,7 +203,7 @@ const SVC = [
   id: 'seo1',
   cat: 'seo',
   bc: C.lime,
-  commitment: 12,
+  commitment: 6,
   name: '🗺️ SEO Local',
   sub: '(Radio 2km)',
   desc: 'Ideal para negocios físicos que quieren dominar su barrio. 📍',
@@ -245,7 +245,7 @@ const SVC = [
   desc: 'Para fichas de Google que ya existen pero no rinden: traspasos, duplicados, cambios de nombre, datos contradictorios o fotos de la etapa anterior. Diagnóstico y puesta en marcha de las soluciones en una sola intervención. 🎯',
   incLabel: 'INCLUYE:',
   inc: ['Diagnóstico completo de la ficha con acceso de administrador: duplicados, verificación, categorías y datos.', 'Gestión con el soporte de Google para fichas duplicadas, cambio de titularidad o nueva verificación.', 'Optimización de la ficha: categorías, servicios con precios, descripción, horarios y botón de reservas.', 'Fotos: retirada de las del anterior propietario, logo, portada y subida de fotos actuales.', 'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.', 'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.', 'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.'],
-  note: 'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si en los 30 días siguientes contratas SEO Local, este importe se descuenta del primer mes.',
+  note: 'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si contratas SEO Local con compromiso de 6 meses, esta puesta a punto te sale gratis.',
   price: 497,
   hasSeo: false,
   oneTime: true
@@ -2713,11 +2713,20 @@ function Configurador() {
       }
     });
     const hasPackOrAds = ['pk1', 'pk2', 'pk3', 'pk4', 'pk5', 'ad1', 'ad2', 'ad3', 'seo1', 'seo2', 'seo3'].some(k => selected[k]);
-    const finalItems = svcItems.map(i => i.id === 'promo_hosting' && hasPackOrAds ? {
-      ...i,
-      pp: 0,
-      name: i.name + ' · Incluido 🎁'
-    } : i);
+    const seoLocal6m = selected['seo1'] && per.mult >= 6;
+    const finalItems = svcItems.map(i => {
+      if (i.id === 'promo_hosting' && hasPackOrAds) return {
+        ...i,
+        pp: 0,
+        name: i.name + ' · Incluido 🎁'
+      };
+      if (i.id === 'gbp_tune' && seoLocal6m) return {
+        ...i,
+        pp: 0,
+        name: i.name + ' · Incluido con SEO Local 6 meses 🎁'
+      };
+      return i;
+    });
     return [...finalItems, ...extraItems];
   }, [selected, extrasSelected, period, hasSeo, per]);
 
