@@ -7,6 +7,16 @@ const C = {
 };
 
 // Compromiso de permanencia. El pago es SIEMPRE mensual; el descuento se aplica a cada cuota.
+const WEB_DISC_IDS = ['seo1','seo2','seo3','ad1','ad2']; // servicios con dto. especial por contratar la Web PYMEs
+// Dto. aplicable a la cuota mensual de un servicio según compromiso y si hay web contratada
+function discFor(id, mult, hasWeb, baseDisc) {
+  if (hasWeb && WEB_DISC_IDS.includes(id)) {
+    if (mult >= 12) return 0.30;
+    if (mult >= 6)  return 0.25;
+    return 0;
+  }
+  return baseDisc;
+}
 const PERIODS = [
   { id: 'm', label: 'Mensual',    abbr: 'sin compromiso', mult: 1,  disc: 0    },
   { id: 't', label: 'Trimestral', abbr: '3 meses',        mult: 3,  disc: 0    },
@@ -59,7 +69,7 @@ const SVC = [
     'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.',
     'ZIP con todos los archivos · Son tuyos.',
     '30 días de soporte post-entrega.',
-  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 25% de descuento en SEO y campañas durante los primeros 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
+  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web: −25% en SEO y campañas con compromiso de 6 meses, −30% con 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
   { id:'promo_hosting', cat:'web', hidden:true, bc:C.lime, name:'🌐 Dominio + Hosting · Web PYMEs', sub:'Mantenimiento técnico incluido · Sin permanencia', desc:'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.', inc:[], price:29, hasSeo:false, oneTime:false },
   { id:'promo_install', cat:'web', hidden:true, bc:C.lime, name:'🔧 Instalación en hosting propio', sub:'Web PYMEs · Pago único', desc:'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.', inc:[], price:150, hasSeo:false, oneTime:true },
   { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
@@ -718,10 +728,10 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
             );
           })}
         </div>
-        {hasRecurring && per.disc > 0 && (
+        {hasRecurring && periodSaving > 0 && (
           <div style={{ marginTop:'.55rem', fontSize:'.64rem', color:C.lime, fontWeight:700, textAlign:'center', lineHeight:1.5 }}>✓ Ahorras {fmt(periodSavingMo)} en cada cuota · {fmt(periodSavingTotal)} en {per.abbr}</div>
         )}
-        {hasRecurring && per.disc === 0 && (
+        {hasRecurring && periodSaving === 0 && (
           <div style={{ marginTop:'.55rem', fontSize:'.62rem', color:C.purple, textAlign:'center', lineHeight:1.5 }}>
             💡 Con compromiso semestral ahorras <strong>{fmt(semSaving)}</strong> · anual <strong>{fmt(annualSaving)}</strong>
           </div>
@@ -764,7 +774,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                 </div>
               )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
-              {per.disc>0 && periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. compromiso {per.abbr} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span></div>}
+              {periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web' : ` (−${per.disc*100}%)`}</span><span>−{fmt(periodSaving)}</span></div>}
               {discount && (
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
                   <span>🎁 {discount.label || 'Descuento especial'}</span>
@@ -953,8 +963,10 @@ export default function Configurador() {
       const s  = SVC.find(x => x.id === id);
       if (!s) return null;
       const bp = s.id==='web1' && hasSeo ? s.priceWithSeo : s.price;
-      const pp = s.oneTime ? bp : bp * (1 - per.disc); // cuota mensual con dto. por compromiso
-      return { ...s, bp, pp };
+      const effDisc = s.oneTime ? 0 : discFor(s.id, per.mult, !!selected['promo_web'], per.disc);
+      const pp = s.oneTime ? bp : bp * (1 - effDisc); // cuota mensual con dto. por compromiso (o por web)
+      const webDisc = !s.oneTime && selected['promo_web'] && WEB_DISC_IDS.includes(s.id) && effDisc > 0;
+      return { ...s, bp, pp, effDisc, webDisc, name: webDisc ? `${s.name} · −${Math.round(effDisc*100)}% por tu web (${per.abbr}) 🎁` : s.name };
     }).filter(Boolean);
 
     // Add selected extras as line items
@@ -982,7 +994,6 @@ export default function Configurador() {
     const finalItems = svcItems.map(i => {
       if (i.id==='promo_hosting' && hasPackOrAds) return { ...i, pp:0, name:i.name+' · Incluido 🎁' };
       if (i.id==='gbp_tune' && seoLocal6m)       return { ...i, pp:0, name:i.name+' · Incluido con SEO Local 6 meses 🎁' };
-      if (['seo1','seo2','seo3','ad1','ad2'].includes(i.id) && selected['promo_web']) return { ...i, pp: i.pp * 0.75, webDisc:true, name:i.name+' · −25% por tu web 🎁' };
       return i;
     });
     return [...finalItems, ...extraItems];
@@ -1012,12 +1023,14 @@ export default function Configurador() {
   const ivaFinal         = subAfterDiscount * 0.21;
 
   // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
-  const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (1 - per.disc)), 0); // cuota mensual bruta (sin dto. por compromiso)
-  const periodSavingMo = monthlyRecBase * per.disc;              // ahorro en cada cuota mensual
-  const periodSaving   = periodSavingMo;                          // (lo que resta en la activación = 1ª mensualidad)
-  const periodSavingTotal = periodSavingMo * per.mult;            // ahorro a lo largo del compromiso
-  const semSaving      = monthlyRecBase * 6 * 0.10;
-  const annualSaving   = monthlyRecBase * 12 * 0.20;
+  const hasWeb         = !!selected['promo_web'];
+  const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))), 0); // cuota mensual bruta
+  const periodSavingMo = recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))) * (i.effDisc || 0), 0); // ahorro en cada cuota
+  const periodSaving   = periodSavingMo;
+  const periodSavingTotal = periodSavingMo * per.mult;
+  const savingAt = (mult, baseDisc) => recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))) * discFor(i.id, mult, hasWeb, baseDisc), 0);
+  const semSaving      = savingAt(6, 0.10) * 6;
+  const annualSaving   = savingAt(12, 0.20) * 12;
 
   // Cuota siguiente: mismo tratamiento que la activación (sin pagos únicos)
   const recAfterModulo = recSub - moduloAmt;
@@ -1138,9 +1151,9 @@ export default function Configurador() {
               <span>Descuento 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span>
             </div>
           )}
-          {per.disc > 0 && (
+          {periodSaving > 0 && (
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
-              <span>Descuento compromiso {per.abbr} (−{per.disc*100}%) · en cada cuota</span><span>−{fmt(periodSaving)}</span>
+              <span>Descuento compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web' : ` (−${per.disc*100}%)`} · en cada cuota</span><span>−{fmt(periodSaving)}</span>
             </div>
           )}
           {discount && (
