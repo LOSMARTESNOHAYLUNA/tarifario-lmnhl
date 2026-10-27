@@ -46,7 +46,7 @@ const SVC = [
     'Reseñas: respuesta a las reseñas antiguas y denuncia de las que perjudiquen.',
     'Plataformas y directorios externos: actualización o reclamación de perfiles antiguos y plan para renombrar o retirar redes sociales con el nombre anterior.',
     'Informe final y llamada de 30 minutos con lo realizado y los siguientes pasos.',
-  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si contratas SEO Local con compromiso de 6 meses, esta puesta a punto te sale gratis.', price:497, hasSeo:false, oneTime:true },
+  ], note:'Plazo estimado: 2–4 semanas (los tiempos de Google no dependen de nosotros). Si contratas SEO Local con compromiso de 6 meses, esta puesta a punto te sale gratis.', price:597, hasSeo:false, oneTime:true },
   // WEB Y OTROS
   { id:'promo_web', cat:'web', bc:C.lime, badge:'PRECIO CERRADO · 600€ 🏪', name:'🏪 Web Corporativa para PYMEs', sub:'(Tu web profesional. Lista en 14 días.)', desc:'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯', incLabel:'INCLUYE:', inc:[
     '3 páginas: home, servicios y contacto.',
