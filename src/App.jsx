@@ -951,6 +951,7 @@ export default function Configurador() {
     const finalItems = svcItems.map(i => {
       if (i.id==='promo_hosting' && hasPackOrAds) return { ...i, pp:0, name:i.name+' · Incluido 🎁' };
       if (i.id==='gbp_tune' && seoLocal6m)       return { ...i, pp:0, name:i.name+' · Incluido con SEO Local 6 meses 🎁' };
+      if (i.id==='seo1' && selected['promo_web']) return { ...i, pp: i.pp * 0.8, name:i.name+' · −20% por tu web 🎁' };
       return i;
     });
     return [...finalItems, ...extraItems];
