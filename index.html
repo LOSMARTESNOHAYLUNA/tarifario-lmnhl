@@ -2026,15 +2026,22 @@ function BudgetPanel({
   moduloDiscPct,
   moduloAmt,
   moduloBonus,
-  subBase
+  subBase,
+  period,
+  setPeriod,
+  setMultiNeg,
+  periodSaving,
+  semSaving,
+  annualSaving,
+  recFinal,
+  recSub
 }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [codeInput, setCodeInput] = useState('');
   const [codeError, setCodeError] = useState(false);
   const isEmpty = items.length === 0;
-  const recSub = items.filter(i => !i.oneTime).reduce((a, i) => a + i.pp, 0);
-  const recSubFinal = multiNeg ? recSub * .95 : recSub;
+  const hasRecurring = recSub > 0;
   const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
   const applyCode = () => {
     const raw = codeInput.trim().toLowerCase().replace(/\s+/g, ' ');
@@ -2126,7 +2133,107 @@ function BudgetPanel({
       fontSize: '.6rem',
       fontFamily: 'inherit'
     }
-  }, "Limpiar ×"))), isEmpty ? /*#__PURE__*/React.createElement("div", {
+  }, "Limpiar ×"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: '#fff',
+      border: `1px solid ${C.rule}`,
+      padding: '.9rem 1rem'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: '.55rem',
+      letterSpacing: '.16em',
+      textTransform: 'uppercase',
+      color: C.mid,
+      fontWeight: 700,
+      marginBottom: '.5rem'
+    }
+  }, "Periodo de facturación"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: '1fr 1fr',
+      gap: '.35rem'
+    }
+  }, PERIODS.map(p => {
+    const active = period === p.id;
+    return /*#__PURE__*/React.createElement("button", {
+      key: p.id,
+      onClick: () => setPeriod(p.id),
+      style: {
+        position: 'relative',
+        padding: '.55rem .5rem',
+        fontSize: '.62rem',
+        fontFamily: 'inherit',
+        letterSpacing: '.06em',
+        textTransform: 'uppercase',
+        fontWeight: 700,
+        cursor: 'pointer',
+        border: `2px solid ${active ? C.purple : p.disc > 0 ? C.lime : C.rule}`,
+        background: active ? C.purple : p.disc > 0 ? 'rgba(135,178,41,.06)' : '#fff',
+        color: active ? '#fff' : C.slate,
+        borderRadius: 6,
+        transition: 'all .15s'
+      }
+    }, p.label, p.disc > 0 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        position: 'absolute',
+        top: -8,
+        right: 6,
+        background: active ? C.lime : C.pink,
+        color: active ? C.slate : '#fff',
+        padding: '.08rem .35rem',
+        fontSize: '.5rem',
+        borderRadius: 3,
+        fontWeight: 800
+      }
+    }, "−", p.disc * 100, "%"));
+  })), hasRecurring && per.disc > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: '.55rem',
+      fontSize: '.64rem',
+      color: C.lime,
+      fontWeight: 700,
+      textAlign: 'center'
+    }
+  }, "✓ Ahorras ", fmt(periodSaving), " en este periodo"), hasRecurring && per.disc === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: '.55rem',
+      fontSize: '.62rem',
+      color: C.purple,
+      textAlign: 'center',
+      lineHeight: 1.5
+    }
+  }, "💡 Semestral: ahorras ", /*#__PURE__*/React.createElement("strong", null, fmt(semSaving)), " · Anual: ahorras ", /*#__PURE__*/React.createElement("strong", null, fmt(annualSaving))), /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '.5rem',
+      cursor: 'pointer',
+      color: C.slate,
+      fontSize: '.66rem',
+      marginTop: '.7rem',
+      paddingTop: '.6rem',
+      borderTop: `1px solid ${C.rule}`
+    }
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "checkbox",
+    checked: multiNeg,
+    onChange: e => setMultiNeg(e.target.checked),
+    style: {
+      accentColor: C.purple,
+      width: 14,
+      height: 14
+    }
+  }), "¿Segundo negocio con nosotros?", /*#__PURE__*/React.createElement("span", {
+    style: {
+      background: C.lime,
+      color: C.slate,
+      padding: '.1rem .4rem',
+      fontSize: '.54rem',
+      fontWeight: 700,
+      marginLeft: 'auto'
+    }
+  }, "−5% extra"))), isEmpty ? /*#__PURE__*/React.createElement("div", {
     style: {
       background: '#fff',
       border: `1px solid ${C.rule}`,
@@ -2227,7 +2334,7 @@ function BudgetPanel({
       color: C.mid,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase + periodSaving))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2244,7 +2351,7 @@ function BudgetPanel({
       color: C.lime,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Dto. 2º negocio (−5%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(sub * .05))), per.disc > 0 && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. 2º negocio (−5%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(sub * .05))), per.disc > 0 && periodSaving > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2252,7 +2359,7 @@ function BudgetPanel({
       color: C.lime,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Dto. ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "✓ aplicado")), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. pago ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2464,7 +2571,7 @@ function BudgetPanel({
       fontWeight: 700,
       color: 'rgba(255,255,255,.65)'
     }
-  }, fmt(recSubFinal)), /*#__PURE__*/React.createElement("div", {
+  }, fmt(recFinal)), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '.55rem',
       color: 'rgba(255,255,255,.25)'
@@ -2725,9 +2832,10 @@ function Configurador() {
         pp: 0,
         name: i.name + ' · Incluido con SEO Local 6 meses 🎁'
       };
-      if (i.id === 'seo1' && selected['promo_web']) return {
+      if (['seo1', 'seo2', 'seo3', 'ad1', 'ad2'].includes(i.id) && selected['promo_web']) return {
         ...i,
         pp: i.pp * 0.8,
+        webDisc: true,
         name: i.name + ' · −20% por tu web 🎁'
       };
       return i;
@@ -2742,19 +2850,32 @@ function Configurador() {
   const moduloDiscPct = recurringCount >= 4 ? 15 : recurringCount === 3 ? 10 : recurringCount === 2 ? 5 : 0;
   const moduloBonus = recurringCount >= 4 ? 'Bonus del Pack Imperio incluido 👑' : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨' : null;
 
-  // Apply discounts in order: period (in pp) → modulo → multiNeg → código
-  const subBase = items.reduce((a, i) => a + i.pp, 0);
-  const moduloAmt = subBase * (moduloDiscPct / 100);
-  const subAfterModulo = subBase - moduloAmt;
-  const sub = subAfterModulo;
+  // Apply discounts in order: período (en pp) → combinación de módulos (solo recurrentes) → 2º negocio → código
+  const recItems = items.filter(i => !i.oneTime);
+  const recSub = recItems.reduce((a, i) => a + i.pp, 0); // recurrente del periodo, ya con dto. de periodo
+  const oneOffSub = items.filter(i => i.oneTime).reduce((a, i) => a + i.pp, 0);
+  const subBase = recSub + oneOffSub;
+  const moduloAmt = recSub * (moduloDiscPct / 100); // solo sobre recurrentes
+  const sub = subBase - moduloAmt;
   const subM = multiNeg ? sub * .95 : sub;
   const iva = subM * .21;
   const tot = subM + iva;
-  const recSub = items.filter(i => !i.oneTime).reduce((a, i) => a + i.pp, 0);
   const discountAmt = discount ? discount.type === 'pct' ? subM * (discount.value / 100) : Math.min(discount.value, subM) : 0;
   const subAfterDiscount = subM - discountAmt;
   const ivaFinal = subAfterDiscount * 0.21;
-  const recTot = (multiNeg ? recSub * .95 : recSub) * 1.21;
+
+  // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
+  const monthlyRecBase = recItems.reduce((a, i) => a + i.pp / (per.mult * (1 - per.disc)), 0); // base mensual tras dtos. de servicio
+  const periodSaving = monthlyRecBase * per.mult * per.disc;
+  const semSaving = monthlyRecBase * 6 * 0.10;
+  const annualSaving = monthlyRecBase * 12 * 0.20;
+
+  // Cuota siguiente: mismo tratamiento que la activación (sin pagos únicos)
+  const recAfterModulo = recSub - moduloAmt;
+  const recM = multiNeg ? recAfterModulo * .95 : recAfterModulo;
+  const giftedRecPP = giftedIsRecurring && items.find(i => i.id === giftedSvc.id) ? items.find(i => i.id === giftedSvc.id).pp : 0;
+  const recFinal = discount ? discount.type === 'pct' ? recM * (1 - discount.value / 100) : discount.svcId ? Math.max(0, recM - giftedRecPP) : recM : recM;
+  const recTot = recFinal * 1.21;
   const shown = cat === 'all' ? SVC.filter(s => !s.hidden) : SVC.filter(s => s.cat === cat && !s.hidden);
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -2964,7 +3085,7 @@ function Configurador() {
       marginBottom: '.25rem',
       fontWeight: 500
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Base imponible"), /*#__PURE__*/React.createElement("span", null, fmt(subBase + periodSaving))), moduloDiscPct > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2991,7 +3112,7 @@ function Configurador() {
       marginBottom: '.25rem',
       fontWeight: 600
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Descuento ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "aplicado")), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Descuento pago ", per.label.toLowerCase(), " (−", per.disc * 100, "%)"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -3043,7 +3164,7 @@ function Configurador() {
       color: 'rgba(255,255,255,.65)',
       marginTop: '.15rem'
     }
-  }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(multiNeg ? recSub * .95 : recSub), " + IVA")), /*#__PURE__*/React.createElement("div", {
+  }, "Cuota ", per.label.toLowerCase(), " siguiente: ", fmt(recFinal), " + IVA")), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: '1.7rem',
       fontWeight: 800,
@@ -4220,7 +4341,15 @@ function Configurador() {
     moduloDiscPct: moduloDiscPct,
     moduloAmt: moduloAmt,
     moduloBonus: moduloBonus,
-    subBase: subBase
+    subBase: subBase,
+    period: period,
+    setPeriod: setPeriod,
+    setMultiNeg: setMultiNeg,
+    periodSaving: periodSaving,
+    semSaving: semSaving,
+    annualSaving: annualSaving,
+    recFinal: recFinal,
+    recSub: recSub
   }))));
 }
 

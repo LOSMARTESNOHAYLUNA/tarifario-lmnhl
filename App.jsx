@@ -651,15 +651,14 @@ function BonusModal({ packId, onClose }) {
 }
 
 // ── BUDGET PANEL ──────────────────────────────────────────────────────────────
-function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase }) {
+function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClear, onToggle, discount, setDiscount, subAfterDiscount, ivaFinal, moduloDiscPct, moduloAmt, moduloBonus, subBase, period, setPeriod, setMultiNeg, periodSaving, semSaving, annualSaving, recFinal, recSub }) {
   const [showPayInfo, setShowPayInfo] = useState(false);
   const [codeOpen, setCodeOpen]       = useState(false);
   const [codeInput, setCodeInput]     = useState('');
   const [codeError, setCodeError]     = useState(false);
 
   const isEmpty = items.length === 0;
-  const recSub = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
-  const recSubFinal = multiNeg ? recSub*.95 : recSub;
+  const hasRecurring = recSub > 0;
 
   const discountAmt = discount
     ? discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)
@@ -702,6 +701,35 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
           {!isEmpty && <button onClick={onClear} style={{ background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,.3)', fontSize:'.6rem', fontFamily:'inherit' }}>Limpiar ×</button>}
         </div>
       </div>
+      {/* PERIODO DE FACTURACIÓN */}
+      <div style={{ background:'#fff', border:`1px solid ${C.rule}`, padding:'.9rem 1rem' }}>
+        <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.5rem' }}>Periodo de facturación</div>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'.35rem' }}>
+          {PERIODS.map(p => {
+            const active = period === p.id;
+            return (
+              <button key={p.id} onClick={() => setPeriod(p.id)} style={{ position:'relative', padding:'.55rem .5rem', fontSize:'.62rem', fontFamily:'inherit', letterSpacing:'.06em', textTransform:'uppercase', fontWeight:700, cursor:'pointer', border:`2px solid ${active ? C.purple : (p.disc>0 ? C.lime : C.rule)}`, background: active ? C.purple : (p.disc>0 ? 'rgba(135,178,41,.06)' : '#fff'), color: active ? '#fff' : C.slate, borderRadius:6, transition:'all .15s' }}>
+                {p.label}
+                {p.disc > 0 && <span style={{ position:'absolute', top:-8, right:6, background: active ? C.lime : C.pink, color: active ? C.slate : '#fff', padding:'.08rem .35rem', fontSize:'.5rem', borderRadius:3, fontWeight:800 }}>−{p.disc*100}%</span>}
+              </button>
+            );
+          })}
+        </div>
+        {hasRecurring && per.disc > 0 && (
+          <div style={{ marginTop:'.55rem', fontSize:'.64rem', color:C.lime, fontWeight:700, textAlign:'center' }}>✓ Ahorras {fmt(periodSaving)} en este periodo</div>
+        )}
+        {hasRecurring && per.disc === 0 && (
+          <div style={{ marginTop:'.55rem', fontSize:'.62rem', color:C.purple, textAlign:'center', lineHeight:1.5 }}>
+            💡 Semestral: ahorras <strong>{fmt(semSaving)}</strong> · Anual: ahorras <strong>{fmt(annualSaving)}</strong>
+          </div>
+        )}
+        <label style={{ display:'flex', alignItems:'center', gap:'.5rem', cursor:'pointer', color:C.slate, fontSize:'.66rem', marginTop:'.7rem', paddingTop:'.6rem', borderTop:`1px solid ${C.rule}` }}>
+          <input type="checkbox" checked={multiNeg} onChange={e => setMultiNeg(e.target.checked)} style={{ accentColor:C.purple, width:14, height:14 }} />
+          ¿Segundo negocio con nosotros?
+          <span style={{ background:C.lime, color:C.slate, padding:'.1rem .4rem', fontSize:'.54rem', fontWeight:700, marginLeft:'auto' }}>−5% extra</span>
+        </label>
+      </div>
+
       {isEmpty ? (
         <div style={{ background:'#fff', border:`1px solid ${C.rule}`, padding:'2.5rem 1.2rem', textAlign:'center' }}>
           <div style={{ fontSize:'2.2rem', marginBottom:'.8rem' }}>👆</div>
@@ -725,7 +753,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
           </div>
           <div style={{ background:'#fff', border:`1px solid ${C.rule}` }}>
             <div style={{ padding:'1rem 1.2rem' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subBase)}</span></div>
+              <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.7rem', color:C.mid, marginBottom:'.3rem' }}><span>Base imponible</span><span>{fmt(subBase + periodSaving)}</span></div>
               {moduloDiscPct > 0 && (
                 <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem', fontWeight:600 }}>
                   <span>Dto. combinación {moduloDiscPct === 5 ? '2' : moduloDiscPct === 10 ? '3' : '4+'} módulos (−{moduloDiscPct}%)</span>
@@ -733,7 +761,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                 </div>
               )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
-              {per.disc>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>✓ aplicado</span></div>}
+              {per.disc>0 && periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. pago {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span></div>}
               {discount && (
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
                   <span>🎁 {discount.label || 'Descuento especial'}</span>
@@ -807,7 +835,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
               {recSub>0 && (
                 <div style={{ marginTop:'.8rem', paddingTop:'.8rem', borderTop:'1px solid rgba(255,255,255,.15)' }}>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.35)', textTransform:'uppercase', letterSpacing:'.1em', marginBottom:'.1rem' }}>🔄 Cuota {per.label.toLowerCase()} siguiente</div>
-                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recSubFinal)}</div>
+                  <div style={{ fontSize:'1.2rem', fontWeight:700, color:'rgba(255,255,255,.65)' }}>{fmt(recFinal)}</div>
                   <div style={{ fontSize:'.55rem', color:'rgba(255,255,255,.25)' }}>+ IVA</div>
                 </div>
               )}
@@ -951,7 +979,7 @@ export default function Configurador() {
     const finalItems = svcItems.map(i => {
       if (i.id==='promo_hosting' && hasPackOrAds) return { ...i, pp:0, name:i.name+' · Incluido 🎁' };
       if (i.id==='gbp_tune' && seoLocal6m)       return { ...i, pp:0, name:i.name+' · Incluido con SEO Local 6 meses 🎁' };
-      if (i.id==='seo1' && selected['promo_web']) return { ...i, pp: i.pp * 0.8, name:i.name+' · −20% por tu web 🎁' };
+      if (['seo1','seo2','seo3','ad1','ad2'].includes(i.id) && selected['promo_web']) return { ...i, pp: i.pp * 0.8, webDisc:true, name:i.name+' · −20% por tu web 🎁' };
       return i;
     });
     return [...finalItems, ...extraItems];
@@ -966,19 +994,34 @@ export default function Configurador() {
                       : recurringCount === 3 ? 'Diseño gráfico ilimitado incluido 🎨'
                       : null;
 
-  // Apply discounts in order: period (in pp) → modulo → multiNeg → código
-  const subBase        = items.reduce((a,i) => a + i.pp, 0);
-  const moduloAmt      = subBase * (moduloDiscPct / 100);
-  const subAfterModulo = subBase - moduloAmt;
-  const sub            = subAfterModulo;
+  // Apply discounts in order: período (en pp) → combinación de módulos (solo recurrentes) → 2º negocio → código
+  const recItems       = items.filter(i => !i.oneTime);
+  const recSub         = recItems.reduce((a,i) => a + i.pp, 0);           // recurrente del periodo, ya con dto. de periodo
+  const oneOffSub      = items.filter(i => i.oneTime).reduce((a,i) => a + i.pp, 0);
+  const subBase        = recSub + oneOffSub;
+  const moduloAmt      = recSub * (moduloDiscPct / 100);                   // solo sobre recurrentes
+  const sub            = subBase - moduloAmt;
   const subM           = multiNeg ? sub * .95 : sub;
   const iva            = subM * .21;
   const tot            = subM + iva;
-  const recSub         = items.filter(i=>!i.oneTime).reduce((a,i) => a+i.pp, 0);
   const discountAmt      = discount ? (discount.type==='pct' ? subM*(discount.value/100) : Math.min(discount.value, subM)) : 0;
   const subAfterDiscount = subM - discountAmt;
   const ivaFinal         = subAfterDiscount * 0.21;
-  const recTot = (multiNeg ? recSub*.95 : recSub)*1.21;
+
+  // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
+  const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (per.mult * (1 - per.disc))), 0); // base mensual tras dtos. de servicio
+  const periodSaving   = monthlyRecBase * per.mult * per.disc;
+  const semSaving      = monthlyRecBase * 6 * 0.10;
+  const annualSaving   = monthlyRecBase * 12 * 0.20;
+
+  // Cuota siguiente: mismo tratamiento que la activación (sin pagos únicos)
+  const recAfterModulo = recSub - moduloAmt;
+  const recM           = multiNeg ? recAfterModulo * .95 : recAfterModulo;
+  const giftedRecPP    = (giftedIsRecurring && items.find(i => i.id === giftedSvc.id)) ? items.find(i => i.id === giftedSvc.id).pp : 0;
+  const recFinal       = discount
+    ? (discount.type==='pct' ? recM * (1 - discount.value/100) : discount.svcId ? Math.max(0, recM - giftedRecPP) : recM)
+    : recM;
+  const recTot = recFinal * 1.21;
   const shown  = cat==='all' ? SVC.filter(s=>!s.hidden) : SVC.filter(s => s.cat===cat && !s.hidden);
 
   return (
@@ -1077,7 +1120,7 @@ export default function Configurador() {
           <div style={{ fontSize:'.55rem', letterSpacing:'.16em', textTransform:'uppercase', color:C.mid, fontWeight:700, marginBottom:'.6rem' }}>Resumen Económico · Precios + IVA no incluido</div>
 
           <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.72rem', color:C.slate, marginBottom:'.25rem', fontWeight:500 }}>
-            <span>Base imponible</span><span>{fmt(subBase)}</span>
+            <span>Base imponible</span><span>{fmt(subBase + periodSaving)}</span>
           </div>
           {moduloDiscPct > 0 && (
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
@@ -1092,7 +1135,7 @@ export default function Configurador() {
           )}
           {per.disc > 0 && (
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
-              <span>Descuento {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>aplicado</span>
+              <span>Descuento pago {per.label.toLowerCase()} (−{per.disc*100}%)</span><span>−{fmt(periodSaving)}</span>
             </div>
           )}
           {discount && (
@@ -1111,7 +1154,7 @@ export default function Configurador() {
               <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)' }}>+ IVA (21%): {fmt(ivaFinal)}</div>
               {recSub > 0 && (
                 <div style={{ fontSize:'.6rem', color:'rgba(255,255,255,.65)', marginTop:'.15rem' }}>
-                  Cuota {per.label.toLowerCase()} siguiente: {fmt(multiNeg ? recSub*.95 : recSub)} + IVA
+                  Cuota {per.label.toLowerCase()} siguiente: {fmt(recFinal)} + IVA
                 </div>
               )}
             </div>
@@ -1441,7 +1484,7 @@ export default function Configurador() {
           )}
         </div>
         <div className="no-print" style={{ padding:'1.5rem', position:'sticky', top:42, maxHeight:'calc(100vh - 42px)', overflowY:'auto' }}>
-          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} />
+          <BudgetPanel items={items} sub={sub} subM={subM} iva={iva} tot={tot} recTot={recTot} multiNeg={multiNeg} per={per} onClear={() => setSelected({})} onToggle={toggle} discount={discount} setDiscount={setDiscount} subAfterDiscount={subAfterDiscount} ivaFinal={ivaFinal} moduloDiscPct={moduloDiscPct} moduloAmt={moduloAmt} moduloBonus={moduloBonus} subBase={subBase} period={period} setPeriod={setPeriod} setMultiNeg={setMultiNeg} periodSaving={periodSaving} semSaving={semSaving} annualSaving={annualSaving} recFinal={recFinal} recSub={recSub} />
         </div>
       </div>
     </div>
