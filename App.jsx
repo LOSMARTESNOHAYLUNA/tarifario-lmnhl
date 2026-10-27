@@ -11,13 +11,14 @@ const WEB_SEO_IDS = ['seo1','seo2','seo3'];      // SEO: con web, 6 meses −25%
 const WEB_ADS_IDS = ['ad1','ad2','ad3'];         // Campañas (Meta, Google, LinkedIn): con web, 6 o 12 meses −20%
 const WEB_DISC_IDS = [...WEB_SEO_IDS, ...WEB_ADS_IDS];
 // Dto. aplicable a la cuota mensual de un servicio según compromiso y si hay web contratada
-function discFor(id, mult, hasWeb, baseDisc) {
+// hasWeb: Web PYMEs (600€) o Pack Diseño Web · hasLanding: Pack Landing Page
+function discFor(id, mult, hasWeb, baseDisc, hasLanding) {
   if (hasWeb && WEB_SEO_IDS.includes(id)) {
     if (mult >= 12) return 0.30;
     if (mult >= 6)  return 0.25;
     return 0;
   }
-  if (hasWeb && WEB_ADS_IDS.includes(id)) {
+  if ((hasWeb || hasLanding) && WEB_ADS_IDS.includes(id)) {
     return mult >= 6 ? 0.20 : 0;
   }
   return baseDisc;
@@ -98,7 +99,7 @@ const SVC = [
     'Página de Contacto con formulario integrado.',
     'Una página adicional a elegir: galería, zona privada, servicios u otra según necesidad.',
   ], price:1190, hasSeo:false, oneTime:true },
-  { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], price:700, hasSeo:false, oneTime:true },
+  { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], note:'Landing + campaña publicitaria con compromiso de 6 o 12 meses: −20% en cada cuota de la campaña.', price:700, hasSeo:false, oneTime:true },
   { id:'web2', cat:'consulting', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
   { id:'web3', cat:'consulting', bc:C.lime, name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
   { id:'web4', cat:'web', bc:C.purple, name:'⚙️ CRM Lidera tu Negocio', sub:'', desc:'Tu centro de mando. Gestiona leads, ventas y WhatsApp desde un solo sitio. 🎯', inc:[], crmLink:true, price:729, hasSeo:false, oneTime:false },
@@ -779,7 +780,7 @@ function BudgetPanel({ items, sub, subM, iva, tot, recTot, multiNeg, per, onClea
                 </div>
               )}
               {multiNeg && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. 2º negocio (−5%)</span><span>−{fmt(sub*.05)}</span></div>}
-              {periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web' : ` (−${per.disc*100}%)`}</span><span>−{fmt(periodSaving)}</span></div>}
+              {periodSaving>0 && <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.3rem' }}><span>Dto. compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web/landing' : ` (−${per.disc*100}%)`}</span><span>−{fmt(periodSaving)}</span></div>}
               {discount && (
                 <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:'.68rem', color:C.pink, marginBottom:'.3rem' }}>
                   <span>🎁 {discount.label || 'Descuento especial'}</span>
@@ -968,10 +969,13 @@ export default function Configurador() {
       const s  = SVC.find(x => x.id === id);
       if (!s) return null;
       const bp = s.id==='web1' && hasSeo ? s.priceWithSeo : s.price;
-      const effDisc = s.oneTime ? 0 : discFor(s.id, per.mult, !!selected['promo_web'], per.disc);
-      const pp = s.oneTime ? bp : bp * (1 - effDisc); // cuota mensual con dto. por compromiso (o por web)
-      const webDisc = !s.oneTime && selected['promo_web'] && WEB_DISC_IDS.includes(s.id) && effDisc > 0;
-      return { ...s, bp, pp, effDisc, webDisc, name: webDisc ? `${s.name} · −${Math.round(effDisc*100)}% por tu web (${per.abbr}) 🎁` : s.name };
+      const hasWebSel = !!(selected['promo_web'] || selected['web1']);
+      const hasLpSel  = !!selected['lp1'];
+      const effDisc = s.oneTime ? 0 : discFor(s.id, per.mult, hasWebSel, per.disc, hasLpSel);
+      const pp = s.oneTime ? bp : bp * (1 - effDisc); // cuota mensual con dto. por compromiso (o por web/landing)
+      const webDisc = !s.oneTime && WEB_DISC_IDS.includes(s.id) && effDisc > 0 && (hasWebSel || (hasLpSel && WEB_ADS_IDS.includes(s.id)));
+      const why = hasWebSel ? 'por tu web' : 'por tu landing';
+      return { ...s, bp, pp, effDisc, webDisc, name: webDisc ? `${s.name} · −${Math.round(effDisc*100)}% ${why} (${per.abbr}) 🎁` : s.name };
     }).filter(Boolean);
 
     // Add selected extras as line items
@@ -1028,12 +1032,13 @@ export default function Configurador() {
   const ivaFinal         = subAfterDiscount * 0.21;
 
   // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
-  const hasWeb         = !!selected['promo_web'];
+  const hasWeb         = !!(selected['promo_web'] || selected['web1']);
+  const hasLanding     = !!selected['lp1'];
   const monthlyRecBase = recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))), 0); // cuota mensual bruta
   const periodSavingMo = recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))) * (i.effDisc || 0), 0); // ahorro en cada cuota
   const periodSaving   = periodSavingMo;
   const periodSavingTotal = periodSavingMo * per.mult;
-  const savingAt = (mult, baseDisc) => recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))) * discFor(i.id, mult, hasWeb, baseDisc), 0);
+  const savingAt = (mult, baseDisc) => recItems.reduce((a,i) => a + (i.pp / (1 - (i.effDisc || 0))) * discFor(i.id, mult, hasWeb, baseDisc, hasLanding), 0);
   const semSaving      = savingAt(6, 0.10) * 6;
   const annualSaving   = savingAt(12, 0.20) * 12;
 
@@ -1158,7 +1163,7 @@ export default function Configurador() {
           )}
           {periodSaving > 0 && (
             <div style={{ display:'flex', justifyContent:'space-between', fontSize:'.68rem', color:C.lime, marginBottom:'.25rem', fontWeight:600 }}>
-              <span>Descuento compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web' : ` (−${per.disc*100}%)`} · en cada cuota</span><span>−{fmt(periodSaving)}</span>
+              <span>Descuento compromiso {per.abbr}{items.some(i=>i.webDisc) ? ' · con tu web/landing' : ` (−${per.disc*100}%)`} · en cada cuota</span><span>−{fmt(periodSaving)}</span>
             </div>
           )}
           {discount && (

@@ -32,13 +32,14 @@ const WEB_SEO_IDS = ['seo1', 'seo2', 'seo3']; // SEO: con web, 6 meses −25% ·
 const WEB_ADS_IDS = ['ad1', 'ad2', 'ad3']; // Campañas (Meta, Google, LinkedIn): con web, 6 o 12 meses −20%
 const WEB_DISC_IDS = [...WEB_SEO_IDS, ...WEB_ADS_IDS];
 // Dto. aplicable a la cuota mensual de un servicio según compromiso y si hay web contratada
-function discFor(id, mult, hasWeb, baseDisc) {
+// hasWeb: Web PYMEs (600€) o Pack Diseño Web · hasLanding: Pack Landing Page
+function discFor(id, mult, hasWeb, baseDisc, hasLanding) {
   if (hasWeb && WEB_SEO_IDS.includes(id)) {
     if (mult >= 12) return 0.30;
     if (mult >= 6) return 0.25;
     return 0;
   }
-  if (hasWeb && WEB_ADS_IDS.includes(id)) {
+  if ((hasWeb || hasLanding) && WEB_ADS_IDS.includes(id)) {
     return mult >= 6 ? 0.20 : 0;
   }
   return baseDisc;
@@ -363,6 +364,7 @@ const SVC = [
   desc: 'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯',
   incLabel: 'INCLUYE:',
   inc: ['Diseño personalizado de una página de alta conversión.', 'Copywriting orientado a la acción y la venta.', 'Formulario de captación de leads integrado.', 'SEO ON-PAGE básico y optimización de velocidad.', 'Integración con Google Analytics y píxel de seguimiento.', 'Adaptación completa a móvil y tablet.'],
+  note: 'Landing + campaña publicitaria con compromiso de 6 o 12 meses: −20% en cada cuota de la campaña.',
   price: 700,
   hasSeo: false,
   oneTime: true
@@ -2386,7 +2388,7 @@ function BudgetPanel({
       color: C.lime,
       marginBottom: '.3rem'
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Dto. compromiso ", per.abbr, items.some(i => i.webDisc) ? ' · con tu web' : ` (−${per.disc * 100}%)`), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Dto. compromiso ", per.abbr, items.some(i => i.webDisc) ? ' · con tu web/landing' : ` (−${per.disc * 100}%)`), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -2812,16 +2814,19 @@ function Configurador() {
       const s = SVC.find(x => x.id === id);
       if (!s) return null;
       const bp = s.id === 'web1' && hasSeo ? s.priceWithSeo : s.price;
-      const effDisc = s.oneTime ? 0 : discFor(s.id, per.mult, !!selected['promo_web'], per.disc);
-      const pp = s.oneTime ? bp : bp * (1 - effDisc); // cuota mensual con dto. por compromiso (o por web)
-      const webDisc = !s.oneTime && selected['promo_web'] && WEB_DISC_IDS.includes(s.id) && effDisc > 0;
+      const hasWebSel = !!(selected['promo_web'] || selected['web1']);
+      const hasLpSel = !!selected['lp1'];
+      const effDisc = s.oneTime ? 0 : discFor(s.id, per.mult, hasWebSel, per.disc, hasLpSel);
+      const pp = s.oneTime ? bp : bp * (1 - effDisc); // cuota mensual con dto. por compromiso (o por web/landing)
+      const webDisc = !s.oneTime && WEB_DISC_IDS.includes(s.id) && effDisc > 0 && (hasWebSel || hasLpSel && WEB_ADS_IDS.includes(s.id));
+      const why = hasWebSel ? 'por tu web' : 'por tu landing';
       return {
         ...s,
         bp,
         pp,
         effDisc,
         webDisc,
-        name: webDisc ? `${s.name} · −${Math.round(effDisc * 100)}% por tu web (${per.abbr}) 🎁` : s.name
+        name: webDisc ? `${s.name} · −${Math.round(effDisc * 100)}% ${why} (${per.abbr}) 🎁` : s.name
       };
     }).filter(Boolean);
 
@@ -2891,12 +2896,13 @@ function Configurador() {
   const ivaFinal = subAfterDiscount * 0.21;
 
   // Ahorro por periodo (vs. pago mensual) y nudges a semestral/anual
-  const hasWeb = !!selected['promo_web'];
+  const hasWeb = !!(selected['promo_web'] || selected['web1']);
+  const hasLanding = !!selected['lp1'];
   const monthlyRecBase = recItems.reduce((a, i) => a + i.pp / (1 - (i.effDisc || 0)), 0); // cuota mensual bruta
   const periodSavingMo = recItems.reduce((a, i) => a + i.pp / (1 - (i.effDisc || 0)) * (i.effDisc || 0), 0); // ahorro en cada cuota
   const periodSaving = periodSavingMo;
   const periodSavingTotal = periodSavingMo * per.mult;
-  const savingAt = (mult, baseDisc) => recItems.reduce((a, i) => a + i.pp / (1 - (i.effDisc || 0)) * discFor(i.id, mult, hasWeb, baseDisc), 0);
+  const savingAt = (mult, baseDisc) => recItems.reduce((a, i) => a + i.pp / (1 - (i.effDisc || 0)) * discFor(i.id, mult, hasWeb, baseDisc, hasLanding), 0);
   const semSaving = savingAt(6, 0.10) * 6;
   const annualSaving = savingAt(12, 0.20) * 12;
 
@@ -3142,7 +3148,7 @@ function Configurador() {
       marginBottom: '.25rem',
       fontWeight: 600
     }
-  }, /*#__PURE__*/React.createElement("span", null, "Descuento compromiso ", per.abbr, items.some(i => i.webDisc) ? ' · con tu web' : ` (−${per.disc * 100}%)`, " · en cada cuota"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, "Descuento compromiso ", per.abbr, items.some(i => i.webDisc) ? ' · con tu web/landing' : ` (−${per.disc * 100}%)`, " · en cada cuota"), /*#__PURE__*/React.createElement("span", null, "−", fmt(periodSaving))), discount && /*#__PURE__*/React.createElement("div", {
     style: {
       display: 'flex',
       justifyContent: 'space-between',
