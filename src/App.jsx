@@ -58,7 +58,7 @@ const SVC = [
     'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.',
     'ZIP con todos los archivos · Son tuyos.',
     '30 días de soporte post-entrega.',
-  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 20% de descuento en SEO y campañas durante los primeros 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
+  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web, 25% de descuento en SEO y campañas durante los primeros 12 meses.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
   { id:'promo_hosting', cat:'web', hidden:true, bc:C.lime, name:'🌐 Dominio + Hosting · Web PYMEs', sub:'Mantenimiento técnico incluido · Sin permanencia', desc:'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.', inc:[], price:29, hasSeo:false, oneTime:false },
   { id:'promo_install', cat:'web', hidden:true, bc:C.lime, name:'🔧 Instalación en hosting propio', sub:'Web PYMEs · Pago único', desc:'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.', inc:[], price:150, hasSeo:false, oneTime:true },
   { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
@@ -979,7 +979,7 @@ export default function Configurador() {
     const finalItems = svcItems.map(i => {
       if (i.id==='promo_hosting' && hasPackOrAds) return { ...i, pp:0, name:i.name+' · Incluido 🎁' };
       if (i.id==='gbp_tune' && seoLocal6m)       return { ...i, pp:0, name:i.name+' · Incluido con SEO Local 6 meses 🎁' };
-      if (['seo1','seo2','seo3','ad1','ad2'].includes(i.id) && selected['promo_web']) return { ...i, pp: i.pp * 0.8, webDisc:true, name:i.name+' · −20% por tu web 🎁' };
+      if (['seo1','seo2','seo3','ad1','ad2'].includes(i.id) && selected['promo_web']) return { ...i, pp: i.pp * 0.75, webDisc:true, name:i.name+' · −25% por tu web 🎁' };
       return i;
     });
     return [...finalItems, ...extraItems];
