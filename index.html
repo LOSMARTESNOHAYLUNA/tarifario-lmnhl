@@ -29,7 +29,7 @@ const C = {
 
 // Compromiso de permanencia. El pago es SIEMPRE mensual; el descuento se aplica a cada cuota.
 const WEB_SEO_IDS = ['seo1', 'seo2', 'seo3']; // SEO: con web, 6 meses −25% · 12 meses −30%
-const WEB_ADS_IDS = ['ad1', 'ad2', 'ad3']; // Campañas (Meta, Google, LinkedIn): con web, 6 o 12 meses −20%
+const WEB_ADS_IDS = ['ad1', 'ad2', 'ad3']; // Campañas (Meta, Google, LinkedIn): con web o landing, desde 3 meses −20%
 const WEB_DISC_IDS = [...WEB_SEO_IDS, ...WEB_ADS_IDS];
 // Dto. aplicable a la cuota mensual de un servicio según compromiso y si hay web contratada
 // hasWeb: Web PYMEs (600€) o Pack Diseño Web · hasLanding: Pack Landing Page
@@ -40,7 +40,7 @@ function discFor(id, mult, hasWeb, baseDisc, hasLanding) {
     return 0;
   }
   if ((hasWeb || hasLanding) && WEB_ADS_IDS.includes(id)) {
-    return mult >= 6 ? 0.20 : 0;
+    return mult >= 3 ? 0.20 : 0; // campañas: −20% desde 3 meses de compromiso
   }
   return baseDisc;
 }
@@ -279,7 +279,7 @@ const SVC = [
   desc: 'Para negocios sin web, con web antigua o con una web que no convierte. Precio cerrado, sin sorpresas, y los archivos siempre son tuyos. Mercado habitual: 1.800–3.000€. 🎯',
   incLabel: 'INCLUYE:',
   inc: ['3 páginas: home, servicios y contacto.', 'Diseño personalizado a medida. Sin plantillas genéricas.', 'Adaptada a móvil y tablet.', 'WhatsApp + formulario de contacto integrados.', 'SEO local básico configurado.', 'Páginas legales: aviso legal, privacidad y cookies.', 'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.', 'ZIP con todos los archivos · Son tuyos.', '30 días de soporte post-entrega.'],
-  note: 'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web (compromiso 6 o 12 meses): SEO −25% / −30% y campañas −20% en cada cuota.',
+  note: 'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web: SEO −25% (6 meses) / −30% (12 meses) y campañas −20% desde 3 meses de compromiso, en cada cuota.',
   link: 'https://losmartesnohayluna.com/promo-web/',
   price: 600,
   hasSeo: false,
@@ -364,7 +364,7 @@ const SVC = [
   desc: 'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯',
   incLabel: 'INCLUYE:',
   inc: ['Diseño personalizado de una página de alta conversión.', 'Copywriting orientado a la acción y la venta.', 'Formulario de captación de leads integrado.', 'SEO ON-PAGE básico y optimización de velocidad.', 'Integración con Google Analytics y píxel de seguimiento.', 'Adaptación completa a móvil y tablet.'],
-  note: 'Landing + campaña publicitaria con compromiso de 6 o 12 meses: −20% en cada cuota de la campaña.',
+  note: 'Landing + campaña publicitaria con compromiso de 3, 6 o 12 meses: −20% en cada cuota de la campaña.',
   price: 700,
   hasSeo: false,
   oneTime: true

@@ -8,7 +8,7 @@ const C = {
 
 // Compromiso de permanencia. El pago es SIEMPRE mensual; el descuento se aplica a cada cuota.
 const WEB_SEO_IDS = ['seo1','seo2','seo3'];      // SEO: con web, 6 meses −25% · 12 meses −30%
-const WEB_ADS_IDS = ['ad1','ad2','ad3'];         // Campañas (Meta, Google, LinkedIn): con web, 6 o 12 meses −20%
+const WEB_ADS_IDS = ['ad1','ad2','ad3'];         // Campañas (Meta, Google, LinkedIn): con web o landing, desde 3 meses −20%
 const WEB_DISC_IDS = [...WEB_SEO_IDS, ...WEB_ADS_IDS];
 // Dto. aplicable a la cuota mensual de un servicio según compromiso y si hay web contratada
 // hasWeb: Web PYMEs (600€) o Pack Diseño Web · hasLanding: Pack Landing Page
@@ -19,7 +19,7 @@ function discFor(id, mult, hasWeb, baseDisc, hasLanding) {
     return 0;
   }
   if ((hasWeb || hasLanding) && WEB_ADS_IDS.includes(id)) {
-    return mult >= 6 ? 0.20 : 0;
+    return mult >= 3 ? 0.20 : 0;   // campañas: −20% desde 3 meses de compromiso
   }
   return baseDisc;
 }
@@ -75,7 +75,7 @@ const SVC = [
     'Diagnóstico digital de tu negocio (valorado en 150€) · Solo 10 plazas.',
     'ZIP con todos los archivos · Son tuyos.',
     '30 días de soporte post-entrega.',
-  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web (compromiso 6 o 12 meses): SEO −25% / −30% y campañas −20% en cada cuota.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
+  ], note:'Al añadirla eliges: instalación en tu hosting propio (150€) o dominio + hosting con nosotros (29€/mes, gratis con un Pack Base, SEO o publicidad). Por contratar la web: SEO −25% (6 meses) / −30% (12 meses) y campañas −20% desde 3 meses de compromiso, en cada cuota.', link:'https://losmartesnohayluna.com/promo-web/', price:600, hasSeo:false, oneTime:true },
   { id:'promo_hosting', cat:'web', hidden:true, bc:C.lime, name:'🌐 Dominio + Hosting · Web PYMEs', sub:'Mantenimiento técnico incluido · Sin permanencia', desc:'Alojamiento, dominio, SSL, actualizaciones y copias de seguridad de tu web corporativa. Gratis mientras tengas un Pack Base, un pack de SEO o una campaña de publicidad activa.', inc:[], price:29, hasSeo:false, oneTime:false },
   { id:'promo_install', cat:'web', hidden:true, bc:C.lime, name:'🔧 Instalación en hosting propio', sub:'Web PYMEs · Pago único', desc:'Instalamos el ZIP de tu web en tu propio servidor y la dejamos publicada.', inc:[], price:150, hasSeo:false, oneTime:true },
   { id:'web1', cat:'web', bc:C.purple, name:'💻 Pack Diseño Web + Extras', sub:'', desc:'Tu sede digital abierta 24/7. Diseño enfocado a conversión. 🎨 HOME + CONTACTO + 2 Páginas a elegir + BLOG.', incLabel:'INCLUYE:', inc:[
@@ -99,7 +99,7 @@ const SVC = [
     'Página de Contacto con formulario integrado.',
     'Una página adicional a elegir: galería, zona privada, servicios u otra según necesidad.',
   ], price:1190, hasSeo:false, oneTime:true },
-  { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], note:'Landing + campaña publicitaria con compromiso de 6 o 12 meses: −20% en cada cuota de la campaña.', price:700, hasSeo:false, oneTime:true },
+  { id:'lp1',  cat:'web', bc:C.lime,   name:'🖥️ Pack Landing Page', sub:'', desc:'Una página de aterrizaje diseñada para convertir. Ideal para lanzar un servicio, una oferta o una campaña concreta. 🎯', incLabel:'INCLUYE:', inc:['Diseño personalizado de una página de alta conversión.','Copywriting orientado a la acción y la venta.','Formulario de captación de leads integrado.','SEO ON-PAGE básico y optimización de velocidad.','Integración con Google Analytics y píxel de seguimiento.','Adaptación completa a móvil y tablet.'], note:'Landing + campaña publicitaria con compromiso de 3, 6 o 12 meses: −20% en cada cuota de la campaña.', price:700, hasSeo:false, oneTime:true },
   { id:'web2', cat:'consulting', badge:'RECOMENDADO 🚀', bc:C.purple, name:'🚀 Plan Estratégico de Marketing', sub:'', desc:'El mapa de ruta completo para tu negocio. 🗺️', inc:['Auditoría Previa: Dónde estás y hacia dónde vas.','Análisis Competitivo: Qué hace tu competencia y cómo superarla.','Keyword Research: Qué busca tu cliente ideal.','Plan de Contenidos y Paid Media: Estrategia de canales.','Embudo de Conversión: Cómo convertir visitas en ventas.','Presupuesto Desglosado y Timeline (6-12 meses).'], price:1500, hasSeo:false, oneTime:true },
   { id:'web3', cat:'consulting', bc:C.lime, name:'🤝 Acompañamiento Estratégico', sub:'', desc:'Tu director de marketing externo. 🧠', inc:['2 Sesiones Mensuales de Estrategia.','Seguimiento de KPIs y Objetivos.','Ajuste Continuo de Estrategia.','Supervisión de Campañas y Proveedores.','Reporting Detallado de Negocio.'], price:800, hasSeo:false, oneTime:false },
   { id:'web4', cat:'web', bc:C.purple, name:'⚙️ CRM Lidera tu Negocio', sub:'', desc:'Tu centro de mando. Gestiona leads, ventas y WhatsApp desde un solo sitio. 🎯', inc:[], crmLink:true, price:729, hasSeo:false, oneTime:false },
